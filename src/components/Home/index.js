@@ -1,9 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import ReactRouterPropTypes from "react-router-prop-types";
 import logo from "../../assets/xy-logo.png";
-import homeposter from "../../assets/mainHome.jpg";
+import poster from "../../assets/mainHome.jpg";
 
-export default function Home() {
+export default function Home({ history }) {
+  const handleClick = () => {
+    history.push("/lobby");
+  };
+
   return (
     <Wrapper>
       <GameIntro>
@@ -13,8 +18,10 @@ export default function Home() {
           </h1>
           <p className="game-intro">Win as much as you can</p>
         </div>
-        <Poster src={homeposter} alt="game-poster" />
-        <Button type="button">Start</Button>
+        <Poster src={poster} alt="game-poster" />
+        <Button type="button" onClick={handleClick}>
+          Start
+        </Button>
       </GameIntro>
     </Wrapper>
   );
@@ -77,3 +84,7 @@ const Poster = styled.img`
   height: 50%;
   border-radius: 1.2rem;
 `;
+
+Home.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+};
