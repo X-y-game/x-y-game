@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "../Home";
-import Game from "../../pages/Ingame/ingame";
-import WaitingRoom from "../../pages/Ingame/waiting";
+import Waiting from "../Waiting";
+import InGame from "../Ingame";
 
 export default function App() {
   return (
@@ -11,10 +11,10 @@ export default function App() {
         <Home />
       </Route>
       <Route exact path="/waiting">
-        <WaitingRoom />
+        <Waiting />
       </Route>
       <Route exact path="/game">
-        <Game />
+        <InGame />
       </Route>
     </Switch>
   );
