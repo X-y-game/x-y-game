@@ -6,7 +6,7 @@ export default function Channel() {
   return (
     <ChannelBody>
       <ChannelPage>
-        <TitleH2>채널을 선택하세요</TitleH2>
+        <Title>채널을 선택하세요</Title>
         <WrapChannelUL>
           <List id="1" text="1 채널" />
           <List id="2" text="2 채널" />
@@ -25,22 +25,20 @@ export default function Channel() {
 }
 
 const ChannelBody = styled.div`
-  background-color: #eee;
+  background-color: #e0dede;
 `;
 
 const ChannelPage = styled.div`
-  width: 50%;
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
-  background-color: #fff;
 `;
 
-const TitleH2 = styled.h2`
-  font-size: 42px;
+const Title = styled.h2`
+  font-size: 2em;
   text-align: center;
   padding-bottom: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   border-bottom: 1px solid #000;
 `;
 
@@ -54,12 +52,12 @@ const WrapChannelUL = styled.ul`
   li {
     width: 100%;
     padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 5px;
+    background-color: #fbf2f2;
     cursor: pointer;
     transition: 0.2s;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
   li:hover {
-    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 `;
