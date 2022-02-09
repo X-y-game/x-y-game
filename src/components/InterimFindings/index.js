@@ -88,14 +88,31 @@ export default function InterimFindings() {
             <span>100</span>
           </div>
         </div>
+        <div className="wrapRound">
+          <p>5R</p>
+          <div className="team one">
+            <span>X</span>
+            <span>100</span>
+          </div>
+          <div className="team two">
+            <span>X</span>
+            <span>100</span>
+          </div>
+          <div className="team three">
+            <span>X</span>
+            <span>100</span>
+          </div>
+          <div className="team four">
+            <span>X</span>
+            <span>100</span>
+          </div>
+        </div>
       </WrapResult>
     </ModalDiv>
   );
 }
 
 const ModalDiv = styled.div`
-  width: 90vw;
-  height: 90vh;
   background-color: #e0e0e0;
   border-radius: 5px;
   display: flex;
@@ -105,22 +122,24 @@ const ModalDiv = styled.div`
   margin: 0 auto;
   overflow: scroll;
   p {
-    font-size: 24px;
+    font-size: 1em;
     font-weight: bold;
   }
 `;
 
 const WrapResult = styled.div`
   display: flex;
+  height: 216px;
   flex-direction: column;
   padding: 10px;
   margin-top: 5px;
   background-color: #ffeae2;
   gap: 5px;
+  overflow: scroll;
   .teamtext {
     display: flex;
     width: 80%;
-    margin: 0 80px 0 75px;
+    margin-left: 40px;
     justify-content: space-between;
   }
   .wrapRound {
@@ -128,10 +147,11 @@ const WrapResult = styled.div`
     align-items: center;
     .team {
       display: flex;
-      width: 100%;
-      padding: 15px;
-      margin: 10px;
       justify-content: space-between;
+      width: 100%;
+      margin: 10px;
+      padding: 0 5px;
+      box-sizing: border-box;
       background-color: #c3e8fb;
       font-size: 20px;
       font-weight: bold;
