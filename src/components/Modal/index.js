@@ -32,8 +32,6 @@ export default function Modal() {
 }
 
 const ModalDiv = styled.div`
-  width: 90vw;
-  height: 90vh;
   background-color: #e0e0e0;
   border-radius: 5px;
   display: flex;
@@ -50,29 +48,30 @@ const ModalDiv = styled.div`
 
 const WrapResult = styled.div`
   display: flex;
-  height: 80%;
   flex-direction: row;
-  padding: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
   gap: 20px;
   .teamResult {
-    width: 25%;
+    width: 40%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #ffeae2;
-    padding: 20px;
+    padding: 10px;
     gap: 20px;
   }
   .selectCard {
     display: flex;
-    width: 100%;
-    height: 100%;
+    width: 50%;
     background-color: #c3e8fb;
     justify-content: center;
     align-items: center;
-    font-size: 80px;
+    font-size: 2em;
   }
   .yCard {
     background-color: #ffb7b7;
