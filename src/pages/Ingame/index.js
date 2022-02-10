@@ -15,19 +15,27 @@ export default function Game() {
       <Teams>
         <Team>
           <TeamName>1</TeamName>
-          <SelectedCard>X</SelectedCard>
+          <SelectedCard>
+            <Card className="selected-card">X</Card>
+          </SelectedCard>
         </Team>
         <Team>
           <TeamName>2</TeamName>
-          <SelectedCard>?</SelectedCard>
+          <SelectedCard>
+            <Card className="enemy-card">?</Card>
+          </SelectedCard>
         </Team>
         <Team>
           <TeamName>3</TeamName>
-          <SelectedCard>?</SelectedCard>
+          <SelectedCard>
+            <Card className="enemy-card">X</Card>
+          </SelectedCard>
         </Team>
         <Team>
           <TeamName>4</TeamName>
-          <SelectedCard>?</SelectedCard>
+          <SelectedCard>
+            <Card className="enemy-card">X</Card>
+          </SelectedCard>
         </Team>
       </Teams>
       <Cards>
@@ -37,7 +45,7 @@ export default function Game() {
       <Footer>
         <li>현재 점수 : 100</li>
         <li>
-          <button type="button">다음 라운드로</button>
+          <button type="button">선택완료</button>
         </li>
       </Footer>
     </InGame>
@@ -45,8 +53,9 @@ export default function Game() {
 }
 
 const InGame = styled.div`
+  height: 100%;
   padding: 40px;
-  background-color: whitesmoke;
+  background-color: #e0dede;
   text-align: center;
 `;
 
@@ -54,15 +63,15 @@ const Header = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 700;
 
   li:first-child {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   span {
-    margin: 2px;
+    margin: 3px;
     cursor: pointer;
   }
 `;
@@ -70,34 +79,41 @@ const Header = styled.ul`
 const Teams = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 40px 0;
+  padding: 20px 0;
 `;
 
 const Team = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
-  height: 120px;
-  background-color: powderblue;
-  padding: 20px;
+  justify-content: space-around;
+  height: 80px;
+  background-color: #c1d0fb;
+  padding: 10px;
   margin: 10px;
   border-radius: 10px;
 `;
 
 const TeamName = styled.li`
-  font-size: 24px;
-  margin-bottom: 5px;
+  font-size: 18px;
 `;
 
 const SelectedCard = styled.li`
-  background-color: whitesmoke;
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 auto;
-  font-size: 24px;
-  font-weight: 700;
-  padding: 20px;
-  border-radius: 10px;
+  text-align: center;
+  .selected-card {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+  .enemy-card {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    background-color: #e0dede;
+  }
 `;
 
 const Cards = styled.ul`
@@ -105,24 +121,23 @@ const Cards = styled.ul`
   justify-content: center;
 `;
 const Card = styled.button`
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 10px;
-  background-color: pink;
+  background-color: #f2aeae;
   margin: 10px;
   font-size: 48px;
 `;
 
 const Footer = styled.ul`
   display: flex;
-  padding: 20px;
+  padding: 10px;
   font-weight: 500;
   font-size: 20px;
   justify-content: space-around;
   align-items: center;
   button {
-    background-color: whitesmoke;
-    border: 3px solid gray;
+    border: 3px solid #c1d0fb;
     border-radius: 10px;
     padding: 10px;
   }
