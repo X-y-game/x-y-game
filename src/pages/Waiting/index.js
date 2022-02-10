@@ -4,13 +4,8 @@ import styled from "styled-components";
 export default function WaitingRoom() {
   const [isSelected, setIsSelected] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const toggleIsSelected = () => {
-    setIsSelected(!isSelected);
-  }
-  
-  const toggleIsReady = () => {
-    setIsReady(!isReady);
-    }
+  const toggleIsSelected = () => setIsSelected(!isSelected);
+  const toggleIsReady = () => setIsReady(!isReady);
 
   const handleReady = (e) => {
     if (!isSelected) {
