@@ -87,9 +87,9 @@ const Team = styled.ul`
   flex-direction: column;
   justify-content: space-around;
   height: 80px;
-  background-color: #c1d0fb;
   padding: 10px;
   margin: 10px;
+  background-color: #c1d0fb;
   border-radius: 10px;
 `;
 
@@ -124,22 +124,22 @@ const Cards = styled.ul`
 const Card = styled.button`
   width: 60px;
   height: 60px;
+  margin: 10px;
   border-radius: 10px;
   background-color: #f2aeae;
-  margin: 10px;
   font-size: 48px;
 `;
 
 const Footer = styled.ul`
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 10px;
   font-weight: 500;
   font-size: 20px;
-  justify-content: space-around;
-  align-items: center;
   button {
+    padding: 10px;
     border: 3px solid #c1d0fb;
     border-radius: 10px;
-    padding: 10px;
   }
 `;
