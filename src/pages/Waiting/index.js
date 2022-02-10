@@ -6,21 +6,24 @@ export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
   const toggleIsSelected = () => {
     setIsSelected(!isSelected);
-  };
-
+  }
+  
   const toggleIsReady = () => {
     setIsReady(!isReady);
-  };
+    }
 
   const handleReady = (e) => {
     if (!isSelected) {
       e.target.disabled = true;
+      console.log(e.target);
       return;
     }
     toggleIsReady();
+    console.log(isReady);
   };
 
-  const handleClickTeam = () => {
+  const handleClickTeam = (e) => {
+    console.log(e.currentTarget.id);
     toggleIsSelected();
   };
 
@@ -30,6 +33,12 @@ export default function WaitingRoom() {
       <Teams>
         <Team onClick={handleClickTeam} id="1">
           <TeamName>1</TeamName>
+          {/* <Users>
+            <User>🙆</User>
+            <User>🙆</User>
+            <User>🙆</User>
+            <User>🙆</User>
+          </Users> */}
           <State>{isSelected ? "선택됨" : "대기"}</State>
         </Team>
         <Team onClick={handleClickTeam} id="2">
@@ -55,8 +64,8 @@ export default function WaitingRoom() {
 const Waiting = styled.div`
   height: 100%;
   padding: 40px;
-  background-color: #e0dede;
   text-align: center;
+  background-color: #e0dede;
 `;
 
 const Header = styled.header`
@@ -76,16 +85,25 @@ const Team = styled.ul`
   justify-content: space-between;
   flex-grow: 1;
   height: 100px;
+  background-color: #c1d0fb;
   padding: 20px;
   margin: 10px;
-  background-color: #c1d0fb;
   border-radius: 10px;
 `;
 
 const TeamName = styled.li`
-  margin-bottom: 5px;
   font-size: 24px;
+  margin-bottom: 5px;
 `;
+
+// const Users = styled.ul`
+//   display: grid;
+//   grid-template-columns: repeat(2, 1fr);
+//   gap: 5px;
+// `;
+// const User = styled.li`
+//   font-size: 24px;
+// `;
 
 const State = styled.li`
   background-color: #e0dede;
@@ -95,8 +113,8 @@ const State = styled.li`
 
 const Button = styled.button`
   padding: 10px;
-  margin-bottom: 30px;
   border: 2px solid #f2aeae;
-  border-radius: 10px;
   background-color: #e0dede;
+  border-radius: 10px;
+  margin-bottom: 30px;
 `;
