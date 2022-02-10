@@ -10,16 +10,29 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
   html, body, #root {
-    width:100%;
+    width: 100%;
     height: 100%;
   }
-  a{
+  a {
     text-decoration : none;
     color : inherit;
   }
 
-  button{
+  button {
     border : none;
     cursor : pointer;
   }
+
+  table {
+    border-collapse: collapse;
+  }
+
+th,td {
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid black;
+}
+caption {
+  margin: 1em 0;
+}
 `;

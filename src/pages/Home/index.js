@@ -16,9 +16,11 @@ export default function Home({ history }) {
           <h1>
             <Logo src={logo} alt="logo" />
           </h1>
-          <p className="game-intro">Win as much as you can</p>
+          <Content>
+            <p className="game-intro">Win as much as you can</p>
+            <Poster src={poster} alt="game-poster" />
+          </Content>
         </div>
-        <Poster src={poster} alt="game-poster" />
         <Button type="button" onClick={handleClick}>
           Start
         </Button>
@@ -56,8 +58,16 @@ const GameIntro = styled.div`
   }
 `;
 
+const Content = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  img {
+    width: 100%;
+  }
+`;
+
 const Logo = styled.img`
-  width: 3.5em;
+  width: 3em;
   margin-right: 15px;
   border-radius: 10px;
 `;
