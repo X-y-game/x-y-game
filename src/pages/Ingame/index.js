@@ -120,6 +120,7 @@ const Cards = styled.ul`
   display: flex;
   justify-content: center;
 `;
+
 const Card = styled.button`
   width: 60px;
   height: 60px;
