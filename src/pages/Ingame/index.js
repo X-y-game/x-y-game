@@ -8,7 +8,7 @@ export default function Game() {
         <li>Team 1</li>
         <li>Round 1</li>
         <li>
-          <span>📊</span>
+          <span>📋</span>
           <span>📒</span>
         </li>
       </Header>
@@ -23,7 +23,6 @@ export default function Game() {
         </Team>
         <Team>
           <TeamName>3</TeamName>
-          <SelectedCard>?</SelectedCard>
         </Team>
         <Team>
           <TeamName>4</TeamName>
@@ -55,22 +54,17 @@ const Header = styled.ul`
   justify-content: space-between;
   align-items: baseline;
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 500;
 
   li:first-child {
     font-size: 24px;
   }
-
-  span {
-    margin: 2px;
-    cursor: pointer;
-  }
 `;
 
 const Teams = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   padding: 40px 0;
+  justify-content: center;
 `;
 
 const Team = styled.ul`
@@ -92,10 +86,6 @@ const TeamName = styled.li`
 
 const SelectedCard = styled.li`
   background-color: whitesmoke;
-  width: 50%;
-  margin: 0 auto;
-  font-size: 24px;
-  font-weight: 700;
   padding: 20px;
   border-radius: 10px;
 `;

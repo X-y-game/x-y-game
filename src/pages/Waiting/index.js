@@ -60,9 +60,9 @@ const Header = styled.header`
 `;
 
 const Teams = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   padding: 40px 0;
+  justify-content: center;
 `;
 
 const Team = styled.ul`
