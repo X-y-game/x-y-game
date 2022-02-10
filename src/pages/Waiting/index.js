@@ -1,70 +1,61 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 export default function WaitingRoom() {
-  const [isSelected, setIsSelected] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const toggleIsSelected = () => setIsSelected(!isSelected);
-  const toggleIsReady = () => setIsReady(!isReady);
-
-  const handleReady = (e) => {
-    if (!isSelected) {
-      e.target.disabled = true;
-      console.log(e.target);
-      return;
-    }
-    toggleIsReady();
-    console.log(isReady);
-  };
-
-  const handleClickTeam = (e) => {
-    console.log(e.currentTarget.id);
-    toggleIsSelected();
-  };
-
   return (
     <Waiting>
       <Header>팀 선택</Header>
       <Teams>
-        <Team onClick={handleClickTeam} id="1">
+        <Team>
           <TeamName>1</TeamName>
-          {/* <Users>
+          <Users>
             <User>🙆</User>
             <User>🙆</User>
             <User>🙆</User>
             <User>🙆</User>
-          </Users> */}
-          <State>{isSelected ? "선택됨" : "대기"}</State>
+          </Users>
+          <State>완료</State>
         </Team>
-        <Team onClick={handleClickTeam} id="2">
+        <Team>
+          <TeamName>2</TeamName>
+          <Users>
+            <User>🙆</User>
+            <User>🙆</User>
+          </Users>
+          <State>대기</State>
+        </Team>
+        <Team>
           <TeamName>3</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
+          <Users>
+            <User>🙆</User>
+            <User>🙆</User>
+            <User>🙆</User>
+            <User>🙆</User>
+          </Users>
+          <State>완료</State>
         </Team>
-        <Team onClick={handleClickTeam} id="3">
-          <TeamName>3</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
-        </Team>
-        <Team onClick={handleClickTeam} id="4">
+        <Team>
           <TeamName>4</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
+          <Users>
+            <User>🙆</User>
+          </Users>
+          <State>대기</State>
         </Team>
       </Teams>
-      <Button onClick={handleReady} disabled={!isSelected}>
-        {isReady ? "준비완료" : "준비하기"}
-      </Button>
+      <Button>준비완료</Button>
+      <Footer>모든 팀이 준비를 완료하면 시작됩니다</Footer>
     </Waiting>
   );
 }
 
 const Waiting = styled.div`
-  height: 100%;
   padding: 40px;
   text-align: center;
-  background-color: #e0dede;
+  background-color: whitesmoke;
 `;
 
 const Header = styled.header`
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 500;
 `;
 
@@ -79,8 +70,8 @@ const Team = styled.ul`
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
-  height: 100px;
-  background-color: #c1d0fb;
+  height: 200px;
+  background-color: powderblue;
   padding: 20px;
   margin: 10px;
   border-radius: 10px;
@@ -91,25 +82,30 @@ const TeamName = styled.li`
   margin-bottom: 5px;
 `;
 
-// const Users = styled.ul`
-//   display: grid;
-//   grid-template-columns: repeat(2, 1fr);
-//   gap: 5px;
-// `;
-// const User = styled.li`
-//   font-size: 24px;
-// `;
+const Users = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+`;
+const User = styled.li`
+  font-size: 24px;
+`;
 
 const State = styled.li`
-  background-color: #e0dede;
+  background-color: whitesmoke;
   border-radius: 10px;
   padding: 10px;
 `;
 
 const Button = styled.button`
-  padding: 10px;
-  border: 2px solid #f2aeae;
-  background-color: #e0dede;
+  padding: 20px;
+  border: 3px solid pink;
+  background-color: whitesmoke;
   border-radius: 10px;
   margin-bottom: 30px;
+`;
+
+const Footer = styled.footer`
+  font-size: 24px;
+  font-weight: 400;
 `;
