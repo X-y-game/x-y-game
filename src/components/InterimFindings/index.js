@@ -1,160 +1,128 @@
 import React from "react";
 import styled from "styled-components";
+import InterimData from "./interimData";
 
 export default function InterimFindings() {
+  const RoundData = [
+    {
+      id: 1,
+      roundNum: 1,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+    {
+      id: 2,
+      roundNum: 2,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+    {
+      id: 3,
+      roundNum: 3,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+    {
+      id: 4,
+      roundNum: 4,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+    {
+      id: 5,
+      roundNum: 5,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+    {
+      id: 6,
+      roundNum: 6,
+      teamOneCardXY: true,
+      teamTwoCardXY: false,
+      teamThreeCardXY: true,
+      teamFourCardXY: true,
+      teamOneScore: 100,
+      teamTwoScore: -100,
+      teamThreeScore: 100,
+      teamFourScore: 100,
+    },
+  ];
   return (
-    <ModalDiv>
-      <p>중간 결과</p>
-      <WrapResult>
-        <div className="teamtext">
-          <p>1조</p>
-          <p>2조</p>
-          <p>3조</p>
-          <p>4조</p>
-        </div>
-        <div className="wrapRound">
-          <p>1R</p>
-          <div className="team one">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team two">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team three">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team four">
-            <span>X</span>
-            <span>100</span>
-          </div>
-        </div>
-        <div className="wrapRound">
-          <p>2R</p>
-          <div className="team one">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team two">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team three">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team four">
-            <span>X</span>
-            <span>100</span>
-          </div>
-        </div>
-        <div className="wrapRound">
-          <p>3R</p>
-          <div className="team one">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team two">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team three">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team four">
-            <span>X</span>
-            <span>100</span>
-          </div>
-        </div>
-        <div className="wrapRound">
-          <p>4R</p>
-          <div className="team one">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team two">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team three">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team four">
-            <span>X</span>
-            <span>100</span>
-          </div>
-        </div>
-        <div className="wrapRound">
-          <p>5R</p>
-          <div className="team one">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team two">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team three">
-            <span>X</span>
-            <span>100</span>
-          </div>
-          <div className="team four">
-            <span>X</span>
-            <span>100</span>
-          </div>
-        </div>
-      </WrapResult>
-    </ModalDiv>
+    <WrapResult>
+      <TeamNumber>
+        <p>1조</p>
+        <p>2조</p>
+        <p>3조</p>
+        <p>4조</p>
+      </TeamNumber>
+
+      {RoundData.map((it) => (
+        <InterimData
+          key={it.id}
+          roundNum={it.roundNum}
+          teamOneCardXY={it.teamOneCardXY}
+          teamTwoCardXY={it.teamTwoCardXY}
+          teamThreeCardXY={it.teamThreeCardXY}
+          teamFourCardXY={it.teamFourCardXY}
+          teamOneScore={it.teamOneScore}
+          teamTwoScore={it.teamTwoScore}
+          teamThreeScore={it.teamThreeScore}
+          teamFourScore={it.teamFourScore}
+        />
+      ))}
+    </WrapResult>
   );
 }
 
-const ModalDiv = styled.div`
-  background-color: #e0e0e0;
-  border-radius: 5px;
+const WrapResult = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
-  padding: 20px;
-  margin: 0 auto;
+  gap: 5px;
+  height: 216px;
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #c1d0fb;
   overflow: scroll;
+  overflow-x: hidden;
   p {
-    font-size: 1em;
+    font-size: 1.3em;
     font-weight: bold;
   }
 `;
 
-const WrapResult = styled.div`
+const TeamNumber = styled.div`
   display: flex;
-  height: 216px;
-  flex-direction: column;
-  padding: 10px;
-  margin-top: 5px;
-  background-color: #ffeae2;
-  gap: 5px;
-  overflow: scroll;
-  .teamtext {
-    display: flex;
-    width: 80%;
-    margin-left: 40px;
-    justify-content: space-between;
-  }
-  .wrapRound {
-    display: flex;
-    align-items: center;
-    .team {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin: 10px;
-      padding: 0 5px;
-      box-sizing: border-box;
-      background-color: #c3e8fb;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  }
+  justify-content: space-between;
+  width: 80%;
+  margin-left: 43px;
 `;
