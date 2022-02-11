@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export default function RuleBook({ onClick }) {
+export default function RuleBook({ handleClick }) {
   return (
-    <ModalDiv onClick={onClick}>
+    <ModalDiv onClick={handleClick}>
       <p>게임 규칙</p>
       <WrapRule>
         <Rule>
@@ -142,5 +142,5 @@ const WrapRule = styled.div`
 `;
 
 RuleBook.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
