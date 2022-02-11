@@ -16,19 +16,19 @@ export default function InterimData({
   return (
     <WrapRound>
       <p>{roundNum}R</p>
-      <CheckCard name={teamOneScore < 0 ? "손해" : "이득"}>
+      <CheckCard name={teamOneScore < 0 ? "패" : "승"}>
         <span>{teamOneCardXY ? "X" : "Y"}</span>
         <span>{teamOneScore}</span>
       </CheckCard>
-      <CheckCard name={teamTwoScore < 0 ? "손해" : "이득"}>
+      <CheckCard name={teamTwoScore < 0 ? "패" : "승"}>
         <span>{teamTwoCardXY ? "X" : "Y"}</span>
         <span>{teamTwoScore}</span>
       </CheckCard>
-      <CheckCard name={teamThreeScore < 0 ? "손해" : "이득"}>
+      <CheckCard name={teamThreeScore < 0 ? "패" : "승"}>
         <span>{teamThreeCardXY ? "X" : "Y"}</span>
         <span>{teamThreeScore}</span>
       </CheckCard>
-      <CheckCard name={teamFourScore < 0 ? "손해" : "이득"}>
+      <CheckCard name={teamFourScore < 0 ? "패" : "승"}>
         <span>{teamFourCardXY ? "X" : "Y"}</span>
         <span>{teamFourScore}</span>
       </CheckCard>
@@ -47,7 +47,7 @@ const CheckCard = styled.div`
   width: 100%;
   margin: 10px;
   padding: 0 1px;
-  background-color: ${(props) => (props.name === "이득" ? "#c3e8fb" : "#ffb7b7")};
+  background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 1em;
   font-weight: bold;
   box-sizing: border-box;

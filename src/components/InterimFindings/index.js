@@ -80,10 +80,10 @@ export default function InterimFindings() {
   return (
     <WrapResult>
       <TeamNumber>
-        <p>1조</p>
-        <p>2조</p>
-        <p>3조</p>
-        <p>4조</p>
+        <p>1팀</p>
+        <p>2팀</p>
+        <p>3팀</p>
+        <p>4팀</p>
       </TeamNumber>
 
       {RoundData.map((it) => (
