@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";
 
 export default function AdminPanelEntry({ title, placeholder }) {
+  const [name, setName] = useState("");
+
+  const handleKeyDown = (ev) => {
+    const enter = 13;
+    if (ev.keyCode === enter) {
+      const { value } = ev.target;
+      // socket.emit("add_channel", {
+      //  channel: name
+      // });
+
+      setName("");
+    }
+  };
+
+  const onChange = (ev) => {
+    setName(ev.target.value);
+  };
+
   return (
     <Wrapper>
       <h2>{title}</h2>
@@ -11,7 +29,7 @@ export default function AdminPanelEntry({ title, placeholder }) {
           <span>멋사 xy 화이팅!</span>
           <button type="button">삭제</button>
         </li>
-        <input type="text" placeholder={placeholder} />
+        <input type="text" placeholder={placeholder} onKeyDown={handleKeyDown} onChange={onChange} value={name} />
       </ul>
     </Wrapper>
   );
