@@ -4,7 +4,7 @@ import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
 
-export default function Modal({ onClick }) {
+export default function Modal({ handleClick }) {
   const teamData = [
     {
       team: 1,
@@ -28,14 +28,14 @@ export default function Modal({ onClick }) {
     },
   ];
 
-  const [isRoundModal, setRoundModal] = useState(false);
+  const [isRoundModal, setIsRoundModal] = useState(false);
 
-  const interFindTrun = () => {
-    setRoundModal(false);
+  const roundResult = () => {
+    setIsRoundModal(false);
   };
 
   return (
-    <ModalDiv onClick={onClick}>
+    <ModalDiv onClick={handleClick}>
       <p>{isRoundModal ? "라운드 결과" : "중간 결과"}</p>
       {isRoundModal ? (
         <WrapResult>
@@ -94,5 +94,5 @@ const WrapResult = styled.div`
 `;
 
 Modal.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };

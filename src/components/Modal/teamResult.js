@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 export default function TeamResult({ team, cardXY, point }) {
   return (
     <div className="wrapCard">
-      <p>{team}조</p>
+      <p>{team}팀</p>
       <SelectCard name={cardXY ? "X" : "Y"}>{cardXY ? "X" : "Y"}</SelectCard>
       <p>{point}</p>
     </div>
