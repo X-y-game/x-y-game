@@ -1,53 +1,31 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import Team from "../../components/Team";
+
 export default function WaitingRoom() {
-  const [isSelected, setIsSelected] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const toggleIsSelected = () => {
-    setIsSelected(!isSelected);
-  };
+  const [team, setTeam] = useState(0);
 
-  const toggleIsReady = () => {
+  const handleReady = () => {
     setIsReady(!isReady);
-  };
-
-  const handleReady = (e) => {
-    if (!isSelected) {
-      e.target.disabled = true;
-      return;
+    if (!isReady) {
+      const myTeam = team;
     }
-    toggleIsReady();
-  };
-
-  const handleClickTeam = () => {
-    toggleIsSelected();
   };
 
   return (
     <Waiting>
       <Header>팀 선택</Header>
-      <Teams>
-        <Team onClick={handleClickTeam} id="1">
-          <TeamName>1</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
-        </Team>
-        <Team onClick={handleClickTeam} id="2">
-          <TeamName>3</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
-        </Team>
-        <Team onClick={handleClickTeam} id="3">
-          <TeamName>3</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
-        </Team>
-        <Team onClick={handleClickTeam} id="4">
-          <TeamName>4</TeamName>
-          <State>{isSelected ? "선택됨" : "대기"}</State>
-        </Team>
+      <Teams htmlFor="team">
+        {[1, 2, 3, 4].map((it) => (
+          <Team id={it} key={`team_${it}`} setTeam={setTeam} setIsReady={setIsReady} />
+        ))}
       </Teams>
-      <Button onClick={handleReady} disabled={!isSelected}>
-        {isReady ? "준비완료" : "준비하기"}
+      <Button style={{ backgroundColor: isReady ? "#f2aeae" : "#e0dede" }} onClick={handleReady}>
+        {isReady ? "선택완료" : "선택하기"}
       </Button>
+      <p style={{ display: isReady ? "block" : "none" }}>{team}팀을 선택했습니다</p>
     </Waiting>
   );
 }
@@ -64,33 +42,10 @@ const Header = styled.header`
   font-weight: 500;
 `;
 
-const Teams = styled.ul`
+const Teams = styled.label`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: 40px 0;
-`;
-
-const Team = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
-  height: 100px;
-  padding: 20px;
-  margin: 10px;
-  background-color: #c1d0fb;
-  border-radius: 10px;
-`;
-
-const TeamName = styled.li`
-  margin-bottom: 5px;
-  font-size: 24px;
-`;
-
-const State = styled.li`
-  background-color: #e0dede;
-  border-radius: 10px;
-  padding: 10px;
 `;
 
 const Button = styled.button`
