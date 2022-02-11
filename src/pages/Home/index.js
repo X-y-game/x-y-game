@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ReactRouterPropTypes from "react-router-prop-types";
 import logo from "../../assets/xy-logo.png";
-import poster from "../../assets/mainHome.jpg";
+import poster from "../../assets/xy-bg.png";
 
 export default function Home({ history }) {
   const handleClick = () => {
@@ -28,6 +28,7 @@ export default function Home({ history }) {
     </Wrapper>
   );
 }
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
