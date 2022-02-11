@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function RuleBook() {
+export default function RuleBook({ onClick }) {
   return (
-    <ModalDiv>
+    <ModalDiv onClick={onClick}>
       <p>게임 규칙</p>
       <WrapRule>
         <Rule>
@@ -85,13 +85,16 @@ export default function RuleBook() {
 }
 
 const ModalDiv = styled.div`
-  background-color: #e0e0e0;
-  border-radius: 5px;
+  position: absolute;
+  top: 10vh;
+  left: 0;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  padding: 20px 0;
   gap: 20px;
+  padding: 20px 0;
+  border-radius: 5px;
+  background-color: #c1d0fb;
+  text-align: center;
   p {
     font-size: 1.5em;
     font-weight: bold;
@@ -130,9 +133,9 @@ const Isprofit = styled.span`
 
 const WrapRule = styled.div`
   display: flex;
-  width: 100%;
-  margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
+  width: 100%;
+  margin: 0 auto;
 `;
