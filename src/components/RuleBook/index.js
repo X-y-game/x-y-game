@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export default function RuleBook({ onClick }) {
   return (
@@ -139,3 +140,7 @@ const WrapRule = styled.div`
   width: 100%;
   margin: 0 auto;
 `;
+
+RuleBook.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};

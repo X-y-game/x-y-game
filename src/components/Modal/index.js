@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
@@ -91,3 +92,7 @@ const WrapResult = styled.div`
     background-color: #c1d0fb;
   }
 `;
+
+Modal.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
