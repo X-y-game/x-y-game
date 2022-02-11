@@ -1,11 +1,18 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import SetList from "./setList";
+import RoomList from "./roomList";
 
 export default function Room() {
+  const history = useHistory();
+
   const handleClick = () => {
-    console.log("뒤로");
+    history.goBack();
   };
+
+  const RoomArr = Array(30)
+    .fill(1)
+    .map((v, i) => v + i);
 
   return (
     <Body>
@@ -16,7 +23,11 @@ export default function Room() {
           </button>
           <h2>룸을 선택하세요</h2>
         </Header>
-        <SetList />
+        <WrapChannelUL>
+          {RoomArr.map((it) => (
+            <RoomList key={it} id={it} text={`${it} 룸`} />
+          ))}
+        </WrapChannelUL>
       </ChannelPage>
     </Body>
   );
@@ -54,4 +65,24 @@ const ChannelPage = styled.div`
   padding: 20px;
   border-radius: 5px;
   background-color: #e0dede;
+`;
+
+const WrapChannelUL = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+  li {
+    width: 4.5em;
+    padding: 20px;
+    background-color: #fbf2f2;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.2s;
+    cursor: pointer;
+  }
+  li:hover {
+    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.2);
+  }
 `;

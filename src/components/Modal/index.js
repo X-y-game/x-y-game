@@ -1,48 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import TeamResult from "./teamResult";
+import InterimFindings from "../InterimFindings";
 
-export default function Modal() {
+export default function Modal({ handleClick }) {
+  const teamData = [
+    {
+      team: 1,
+      cardXY: true,
+      point: 0,
+    },
+    {
+      team: 2,
+      cardXY: false,
+      point: 0,
+    },
+    {
+      team: 3,
+      cardXY: true,
+      point: 0,
+    },
+    {
+      team: 4,
+      cardXY: false,
+      point: 0,
+    },
+  ];
+
+  const [isRoundModal, setIsRoundModal] = useState(false);
+
+  const roundResult = () => {
+    setIsRoundModal(false);
+  };
+
   return (
-    <ModalDiv>
-      <p>라운드 결과</p>
-      <WrapResult>
-        <div className="teamResult">
-          <p>1조</p>
-          <div className="selectCard xCard">X</div>
-          <p>+ 100</p>
-        </div>
-        <div className="teamResult">
-          <p>2조</p>
-          <div className="selectCard yCard">Y</div>
-          <p>- 100</p>
-        </div>
-        <div className="teamResult">
-          <p>3조</p>
-          <div className="selectCard xCard">X</div>
-          <p>+ 100</p>
-        </div>
-        <div className="teamResult">
-          <p>4조</p>
-          <div className="selectCard xCard">X</div>
-          <p>+ 100</p>
-        </div>
-      </WrapResult>
+    <ModalDiv onClick={handleClick}>
+      <p>{isRoundModal ? "라운드 결과" : "중간 결과"}</p>
+      {isRoundModal ? (
+        <WrapResult>
+          {teamData.map((it) => (
+            <TeamResult key={it.team} team={it.team} cardXY={it.cardXY} point={it.point} />
+          ))}
+        </WrapResult>
+      ) : (
+        <InterimFindings />
+      )}
     </ModalDiv>
   );
 }
 
 const ModalDiv = styled.div`
-  background-color: #e0e0e0;
-  border-radius: 5px;
+  position: absolute;
+  top: 10vh;
+  left: 0;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  padding-top: 20px;
-  margin: 0 auto;
   gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fbf2f2;
+  text-align: center;
   p {
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: bold;
+  }
+  button {
+    position: absolute;
   }
 `;
 
@@ -54,25 +80,19 @@ const WrapResult = styled.div`
   align-items: center;
   padding: 10px;
   gap: 20px;
-  .teamResult {
-    width: 40%;
-    height: 100%;
+  .wrapCard {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #ffeae2;
-    padding: 10px;
     gap: 20px;
+    width: 40%;
+    height: 100%;
+    padding: 10px;
+    background-color: #c1d0fb;
   }
-  .selectCard {
-    display: flex;
-    width: 50%;
-    background-color: #c3e8fb;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-  }
-  .yCard {
-    background-color: #ffb7b7;
 `;
+
+Modal.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+};
