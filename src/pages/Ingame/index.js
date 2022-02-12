@@ -13,6 +13,7 @@ export default function Game() {
 
   const handleSubmit = (e) => {
     setIsSubmitted(true);
+    // DB에 저장될 변수
     const myCard = mycard;
   };
 
@@ -27,8 +28,8 @@ export default function Game() {
         </li>
       </Header>
       <GameItems>
-        {[1, 2, 3, 4].map((it) => (
-          <GameItem id={it} key={`team_${it}`} isSubmitted={isSubmitted} mycard={mycard} />
+        {[1, 2, 3, 4].map((item) => (
+          <GameItem id={item} key={`team_${item}`} isSubmitted={isSubmitted} mycard={mycard} />
         ))}
       </GameItems>
       <Cards>
@@ -103,7 +104,6 @@ const CardLabel = styled.label`
 const Card = styled.input.attrs({ type: "radio" })`
   &:checked + ${CardLabel} {
     box-shadow: #c1d0fb 2px 2px 1px 1px;
-    background-color: #f2aeae;
     background-color: ${(props) => (props.id === "X" ? "#c3e8fb" : "#ffb7b7")};
   }
 `;

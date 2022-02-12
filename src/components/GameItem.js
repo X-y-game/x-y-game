@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 export default function GameItem({ id, isSubmitted, mycard }) {
+  // 자신의 팀인지 확인하는 코드. 변경될 코드입니다.
   if (id === 1) {
     return (
       <Item>
