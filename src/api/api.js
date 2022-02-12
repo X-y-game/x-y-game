@@ -1,10 +1,24 @@
 const BASE_URL = "http://localhost8000/";
-const GET_CHANNELS = `${BASE_URL}/channel`;
+const CHANNELS = `${BASE_URL}/channel`;
 
 export const getChannelsAPI = () => {
   const options = {
     method: "GET",
   };
 
-  return fetch(GET_CHANNELS, options);
+  return fetch(CHANNELS, options);
+};
+
+export const makeChannelAPI = (title, password) => {
+  const data = {
+    title,
+    password,
+  };
+
+  const options = {
+    method: "POST",
+    body: JSON.stringify(data),
+  };
+
+  return fetch(CHANNELS, options);
 };
