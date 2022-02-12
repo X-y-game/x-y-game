@@ -11,7 +11,7 @@ export default function WaitingRoom() {
 
   const channelId = 1;
   const roomId = 1;
-  const roomName = `${channelId}-${roomId}-${team}`;
+  const roomName = `${channelId}-${roomId}`;
 
   const history = useHistory();
   const handleOnClickStart = () => {
@@ -19,23 +19,18 @@ export default function WaitingRoom() {
   };
 
   useEffect(() => {
-    socket.on("connect", () => {});
-    socket.emit("join", roomName);
-  }, []);
-
-  useEffect(() => {
-    socket.emit("check_teams_ready", roomName);
-    socket.on("can_start", (c) => {
-      setCanStart(c);
+    socket.on("connect", () => {
+      socket.emit("join", roomName);
     });
-  }, [isReady, canStart]);
+  }, []);
 
   const handleReady = () => {
     if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
       setIsReady(!isReady);
-      if (!isReady) {
-        socket.emit("select_team", channelId, roomId, roomName, team);
-      }
+      socket.emit("select_team", channelId, roomId, roomName, team);
+      socket.on("can_start", (c) => {
+        setCanStart(c);
+      });
     }
   };
 
