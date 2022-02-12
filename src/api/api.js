@@ -1,6 +1,7 @@
 const BASE_URL = "http://localhost8000/";
 const CHANNELS = `${BASE_URL}/channel`;
 const MAKE_ROOM = `${BASE_URL}/room`;
+const MAKE_TEAM = `${BASE_URL}/team`;
 
 export const getChannelsAPI = () => {
   const options = {
@@ -45,4 +46,27 @@ export const getRoomAPI = (channelId) => {
   };
 
   return fetch(GET_ROOM, options);
+};
+
+export const makeTeamAPI = (title, roomId) => {
+  const data = {
+    title,
+    roomId,
+  };
+
+  const options = {
+    method: "POST",
+    body: JSON.stringify(data),
+  };
+
+  return fetch(MAKE_TEAM, options);
+};
+
+export const getTeamsAPI = (roomId) => {
+  const GET_TEAMS = `${MAKE_TEAM}/${roomId}`;
+  const options = {
+    method: "GET",
+  };
+
+  return fetch(GET_TEAMS, options);
 };
