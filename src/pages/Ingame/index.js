@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import GameItem from "../../components/GameItem";
+import RuleBook from "../../components/RuleBook";
+import Modal from "../../components/Modal";
 
 export default function Game() {
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [isModal, setIsModal] = useState(false);
+  const [isInterim, setIsInterim] = useState(false);
+
+  const openRuleModal = () => {
+    setIsModal(!isModal);
+    setIsInterim(false);
+  };
+
+  const openInterimModal = () => {
+    setIsInterim(!isInterim);
+    setIsModal(false);
+  };
 
   const handleSelect = (e) => {
     setIsSubmitted(false);
@@ -19,12 +34,18 @@ export default function Game() {
 
   return (
     <InGame>
+      {isModal ? <RuleBook handleClick={openRuleModal} /> : ""}
+      {isInterim ? <Modal handleClick={openInterimModal} /> : ""}
       <Header>
         <li>Team 1</li>
         <li>Round 1</li>
         <li>
-          <span>📊</span>
-          <span>📒</span>
+          <span aria-hidden="true" onClick={openInterimModal} onKeyDown={openInterimModal}>
+            📊
+          </span>
+          <span aria-hidden="true" onClick={openRuleModal} onKeyDown={openRuleModal}>
+            📒
+          </span>
         </li>
       </Header>
       <GameItems>
