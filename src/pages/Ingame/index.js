@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import GameItem from "../../components/GameItem";
 
 export default function Game() {
+  const [mycard, setMycard] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSelect = (e) => {
+    setIsSubmitted(false);
+    setMycard(e.target.htmlFor);
+  };
+
+  const handleSubmit = (e) => {
+    setIsSubmitted(true);
+    // DB에 저장될 변수
+    const myCard = mycard;
+  };
+
   return (
     <InGame>
       <Header>
@@ -12,40 +27,27 @@ export default function Game() {
           <span>📒</span>
         </li>
       </Header>
-      <Teams>
-        <Team>
-          <TeamName>1</TeamName>
-          <SelectedCard>
-            <Card className="selected-card">X</Card>
-          </SelectedCard>
-        </Team>
-        <Team>
-          <TeamName>2</TeamName>
-          <SelectedCard>
-            <Card className="enemy-card">?</Card>
-          </SelectedCard>
-        </Team>
-        <Team>
-          <TeamName>3</TeamName>
-          <SelectedCard>
-            <Card className="enemy-card">X</Card>
-          </SelectedCard>
-        </Team>
-        <Team>
-          <TeamName>4</TeamName>
-          <SelectedCard>
-            <Card className="enemy-card">X</Card>
-          </SelectedCard>
-        </Team>
-      </Teams>
+      <GameItems>
+        {[1, 2, 3, 4].map((item) => (
+          <GameItem id={item} key={`team_${item}`} isSubmitted={isSubmitted} mycard={mycard} />
+        ))}
+      </GameItems>
       <Cards>
-        <Card>X</Card>
-        <Card>Y</Card>
+        <Card id="X" name="choice" hidden />
+        <CardLabel htmlFor="X" onClick={handleSelect}>
+          X
+        </CardLabel>
+        <Card id="Y" name="choice" hidden />
+        <CardLabel htmlFor="Y" onClick={handleSelect}>
+          Y
+        </CardLabel>
       </Cards>
       <Footer>
         <li>현재 점수 : 100</li>
         <li>
-          <button type="button">선택완료</button>
+          <button type="button" onClick={handleSubmit}>
+            {isSubmitted ? "제출완료" : "제출하기"}
+          </button>
         </li>
       </Footer>
     </InGame>
@@ -54,7 +56,7 @@ export default function Game() {
 
 const InGame = styled.div`
   height: 100%;
-  padding: 40px;
+  padding: 20px;
   background-color: #e0dede;
   text-align: center;
 `;
@@ -76,58 +78,34 @@ const Header = styled.ul`
   }
 `;
 
-const Teams = styled.ul`
+const GameItems = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: 20px 0;
 `;
 
-const Team = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 80px;
-  padding: 10px;
-  margin: 10px;
-  background-color: #c1d0fb;
-  border-radius: 10px;
-`;
-
-const TeamName = styled.li`
-  font-size: 18px;
-`;
-
-const SelectedCard = styled.li`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  text-align: center;
-  .selected-card {
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-  }
-  .enemy-card {
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    background-color: #e0dede;
-  }
-`;
-
-const Cards = styled.ul`
+const Cards = styled.label`
   display: flex;
   justify-content: center;
 `;
 
-const Card = styled.button`
+const CardLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 60px;
   height: 60px;
   margin: 10px;
   border-radius: 10px;
-  background-color: #f2aeae;
+  background-color: #fbf2f2;
   font-size: 48px;
+`;
+
+const Card = styled.input.attrs({ type: "radio" })`
+  &:checked + ${CardLabel} {
+    box-shadow: #c1d0fb 2px 2px 1px 1px;
+    background-color: ${(props) => (props.id === "X" ? "#c3e8fb" : "#ffb7b7")};
+  }
 `;
 
 const Footer = styled.ul`
@@ -136,10 +114,11 @@ const Footer = styled.ul`
   align-items: center;
   padding: 10px;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
   button {
-    padding: 10px;
+    padding: 5px;
     border: 3px solid #c1d0fb;
     border-radius: 10px;
+    font-size: 14px;
   }
 `;
