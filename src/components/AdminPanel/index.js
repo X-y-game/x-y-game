@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";
-import AdminPanelEntry from "../AdminPanelEntry";
+import AdminPanelContainer from "../AdminPanelContainer";
 
-export default function AdminPanel({ title, placeholder }) {
+export default function AdminPanel({ title, placeholder, data }) {
   return (
     <Channels>
-      <AdminPanelEntry title={title} placeholder={placeholder} />
+      <AdminPanelContainer title={title} placeholder={placeholder} data={data} />
     </Channels>
   );
 }
@@ -26,4 +26,9 @@ const Channels = styled.section`
 AdminPanel.propTypes = {
   title: Proptypes.string.isRequired,
   placeholder: Proptypes.string.isRequired,
+  data: Proptypes.objectOf(Proptypes.array),
+};
+
+AdminPanel.defaultProps = {
+  data: null,
 };

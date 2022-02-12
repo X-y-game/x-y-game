@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost8000/";
+const BASE_URL = "http://localhost:8000";
 const CHANNELS = `${BASE_URL}/channel`;
 const MAKE_ROOM = `${BASE_URL}/room`;
 const MAKE_TEAM = `${BASE_URL}/team`;
@@ -19,6 +19,9 @@ export const makeChannelAPI = (title, password) => {
 
   const options = {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   };
 
