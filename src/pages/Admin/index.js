@@ -6,7 +6,10 @@ export default function Admin() {
   return (
     <Container>
       <h1>XY Admin Panel</h1>
-      <AdminPanel title="Channel List" placeholder="채널 생성하기" />
+      <AdminPanel
+        title="Channel List"
+        placeholder="채널 생성하기 콤마로 맥스 인원을 정해주세요! 예시) 멋쟁이신사처럼,100"
+      />
       <AdminPanel title="Room List" placeholder="룸 생성하기" />
       <AdminPanel title="Team List" placeholder="팀 생성하기" />
     </Container>

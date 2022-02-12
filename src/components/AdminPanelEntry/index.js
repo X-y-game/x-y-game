@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";
+import io from "socket.io-client";
 
 export default function AdminPanelEntry({ title, placeholder }) {
   const [name, setName] = useState("");
 
+  // socket객체 정의
+  const server = "http://localhost:8000/";
+  const socket = io.connect(server, { cors: { origin: "*" } });
+
   const handleKeyDown = (ev) => {
     const enter = 13;
     if (ev.keyCode === enter) {
-      const { value } = ev.target;
-      // socket.emit("add_channel", {
-      //  channel: name
-      // });
+      socket.emit("add_channel", {
+        channel: name,
+      });
 
       setName("");
     }
   };
 
-  const onChange = (ev) => {
+  const handleOnChange = (ev) => {
     setName(ev.target.value);
   };
 
@@ -29,7 +33,7 @@ export default function AdminPanelEntry({ title, placeholder }) {
           <span>멋사 xy 화이팅!</span>
           <button type="button">삭제</button>
         </li>
-        <input type="text" placeholder={placeholder} onKeyDown={handleKeyDown} onChange={onChange} value={name} />
+        <input type="text" placeholder={placeholder} onKeyDown={handleKeyDown} onChange={handleOnChange} value={name} />
       </ul>
     </Wrapper>
   );
