@@ -13,7 +13,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/admin" component={Admin} />
-        <Route path="/game" component={InGame} />
+        <Route path="/game/:id" component={InGame} />
         <Route exact path="/lobby" component={Channel} />
         <Route path="/lobby/:id" component={Room} />
         <Route exact path="/waiting" component={Waiting} />
