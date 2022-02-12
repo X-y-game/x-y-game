@@ -1,15 +1,35 @@
 import React from "react";
 import Proptypes from "prop-types";
 
-export default function AdminPanelList({ data }) {
+export default function AdminPanelList({ data, onDelete, onDisplay }) {
+  let lists;
+  const { channelLists, roomLists, teamLists } = data;
+
+  if (channelLists) {
+    lists = channelLists;
+  }
+
+  if (roomLists) {
+    lists = roomLists;
+  }
+
+  if (teamLists) {
+    lists = teamLists;
+  }
+
   return (
     <ul>
-      {data.map((channel) => {
+      {lists.map((channel) => {
         const { _id: id } = channel;
         return (
           <li key={id}>
-            <span>{channel.title}</span>
-            <button type="button">삭제</button>
+            <button type="button" onClick={() => onDisplay(id)}>
+              {channel.title}
+            </button>
+
+            <button type="button" onClick={() => onDelete(id)}>
+              삭제
+            </button>
           </li>
         );
       })}
@@ -18,5 +38,13 @@ export default function AdminPanelList({ data }) {
 }
 
 AdminPanelList.propTypes = {
-  data: Proptypes.arrayOf(Proptypes.object).isRequired,
+  data: Proptypes.objectOf(Proptypes.array),
+  onDelete: Proptypes.func,
+  onDisplay: Proptypes.func,
+};
+
+AdminPanelList.defaultProps = {
+  data: null,
+  onDelete: null,
+  onDisplay: null,
 };

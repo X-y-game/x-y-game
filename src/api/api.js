@@ -73,3 +73,19 @@ export const getTeamsAPI = (roomId) => {
 
   return fetch(GET_TEAMS, options);
 };
+
+export const removeChannel = (channelId) => {
+  const data = {
+    channelId,
+  };
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(CHANNELS, options);
+};

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
-import { getChannelsAPI } from "../../api/api";
+import { getChannelsAPI, removeChannel, makeChannelAPI, getRoomAPI, getTeamsAPI } from "../../api/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
+  const [roomLists, setRoomLists] = useState(null);
+  const [teamLists, setTeamLists] = useState(null);
+
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+  const [team, setTeam] = useState("");
+  const [password, setPassword] = useState("");
 
   async function getChannels() {
     const channelList = await (await getChannelsAPI()).json();
@@ -15,6 +22,58 @@ export default function Admin() {
     getChannels();
   }, []);
 
+  const onDelete = async (channelId) => {
+    await removeChannel(channelId);
+    getChannels();
+  };
+
+  const onHandleChange = (ev) => {
+    switch (ev.target.id) {
+      case "Channel":
+        setName(ev.target.value);
+        break;
+      case "Room":
+        setRoom(ev.target.value);
+        break;
+      case "Team":
+        setTeam(ev.target.value);
+        break;
+      case "channel-pw":
+        setPassword(ev.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onHandleClick = async () => {
+    await makeChannelAPI(name, password);
+    getChannels();
+    setName("");
+    setPassword("");
+  };
+
+  const displayRooms = async (ChannelId) => {
+    const rooms = await (await getRoomAPI(ChannelId)).json();
+    setRoomLists(rooms);
+  };
+
+  const displayTeams = async (roomId) => {
+    const teams = await (await getTeamsAPI(roomId)).json();
+    setTeamLists(teams);
+  };
+
+  // TODO: make channels
+  const onHandleKeyDown = (ev) => {
+    if (ev.target.id === "Room") {
+      const enter = 13;
+    }
+
+    if (ev.target.id === "Team") {
+      console.log("team");
+    }
+  };
+
   return (
     <Container>
       <h1>XY Admin Panel</h1>
@@ -24,11 +83,54 @@ export default function Admin() {
           title="Channel List"
           placeholder="채널 생성하기 콤마로 맥스 인원을 정해주세요! 예시) 멋쟁이신사처럼,100"
           data={channels}
+          onDelete={onDelete}
+          onHandleChange={onHandleChange}
+          onHandleKeyDown={onHandleKeyDown}
+          onDisplay={displayRooms}
+          onClick={onHandleClick}
+          name={name}
+          password={password}
         />
       )}
 
-      <AdminPanel title="Room List" placeholder="룸 생성하기" />
-      <AdminPanel title="Team List" placeholder="팀 생성하기" />
+      {roomLists ? (
+        <AdminPanel
+          title="Room List"
+          placeholder="룸 생성하기"
+          data={roomLists}
+          name={room}
+          onHandleChange={onHandleChange}
+          onHandleKeyDown={onHandleKeyDown}
+          onDisplay={displayTeams}
+        />
+      ) : (
+        <AdminPanel
+          title="Room List"
+          placeholder="룸 생성하기"
+          name={room}
+          onHandleChange={onHandleChange}
+          onHandleKeyDown={onHandleKeyDown}
+        />
+      )}
+
+      {teamLists ? (
+        <AdminPanel
+          title="Team List"
+          placeholder="팀 생성하기"
+          data={teamLists}
+          name={team}
+          onHandleChange={onHandleChange}
+          onHandleKeyDown={onHandleKeyDown}
+        />
+      ) : (
+        <AdminPanel
+          title="Team List"
+          placeholder="팀 생성하기"
+          name={team}
+          onHandleChange={onHandleChange}
+          onHandleKeyDown={onHandleKeyDown}
+        />
+      )}
     </Container>
   );
 }

@@ -3,47 +3,25 @@ import io from "socket.io-client";
 import styled from "styled-components";
 import Proptypes from "prop-types";
 import AdminPanelList from "../AdminPanelList";
-import { makeChannelAPI } from "../../api/api";
 
-export default function AdminPanelContainer({ title, placeholder, data }) {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+export default function AdminPanelContainer({
+  title,
+  placeholder,
+  data,
+  onDelete,
+  onHandleChange,
+  onHandleClick,
+  onHandleKeyDown,
+  onHandleDisplay,
+  name,
+  password,
+}) {
   const [showInput, setShowInput] = useState(false);
   const containerTitle = title.split(" ")[0];
 
   // socket객체 정의
   const server = "http://localhost:8000/";
   // const socket = io.connect(server, { cors: { origin: "*" } });
-
-  const handleKeyDown = async (ev) => {
-    const enter = 13;
-    if (ev.keyCode === enter) {
-      switch (ev.target.id) {
-        case "Channel":
-          await makeChannelAPI(name, password);
-          break;
-
-        case "Room":
-          break;
-
-        case "Team":
-          break;
-        default:
-          break;
-      }
-
-      setName("");
-      setPassword("");
-    }
-  };
-
-  const handleOnChange = (ev) => {
-    if (ev.target.name === "channel-pw") {
-      setPassword(ev.target.value);
-    } else {
-      setName(ev.target.value);
-    }
-  };
 
   useEffect(() => {
     if (containerTitle === "Channel") {
@@ -54,25 +32,30 @@ export default function AdminPanelContainer({ title, placeholder, data }) {
   return (
     <Wrapper>
       <h2>{title}</h2>
-      {data && <AdminPanelList data={data.channelLists} />}
+      {data && <AdminPanelList data={data} onDelete={onDelete} onDisplay={onHandleDisplay} />}
 
       <input
         type="text"
         id={containerTitle}
         placeholder={placeholder}
-        onKeyDown={handleKeyDown}
-        onChange={handleOnChange}
+        onChange={onHandleChange}
         value={name}
+        onKeyDown={(ev) => onHandleKeyDown(ev)}
       />
       {showInput && (
-        <input
-          type="password"
-          name="channel-pw"
-          minLength="4"
-          placeholder="4글자 이상 패스워드를 셋팅해주세요"
-          onChange={handleOnChange}
-          onKeyDown={handleKeyDown}
-        />
+        <>
+          <input
+            type="password"
+            id="channel-pw"
+            minLength="4"
+            placeholder="4글자 이상 패스워드를 셋팅해주세요"
+            onChange={onHandleChange}
+            value={password}
+          />
+          <button type="button" onClick={onHandleClick}>
+            생성
+          </button>
+        </>
       )}
     </Wrapper>
   );
@@ -91,7 +74,6 @@ const Wrapper = styled.div`
     border-bottom: solid 1px #222222;
   }
 
-  span,
   button {
     width: calc(75% - 10px);
     text-align: center;
@@ -104,16 +86,13 @@ const Wrapper = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     margin-top: 15px;
+    margin-right: 10px;
     cursor: pointer;
   }
 
-  span {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  li > button {
+  li > button:last-child {
     width: 25%;
+    margin: 0;
   }
 
   input {
@@ -135,8 +114,21 @@ AdminPanelContainer.propTypes = {
   title: Proptypes.string.isRequired,
   placeholder: Proptypes.string.isRequired,
   data: Proptypes.objectOf(Proptypes.array),
+  onDelete: Proptypes.func,
+  onHandleChange: Proptypes.func,
+  onHandleClick: Proptypes.func,
+  onHandleKeyDown: Proptypes.func,
+  onHandleDisplay: Proptypes.func,
+  name: Proptypes.string.isRequired,
+  password: Proptypes.string,
 };
 
 AdminPanelContainer.defaultProps = {
   data: null,
+  onDelete: null,
+  onHandleChange: null,
+  onHandleClick: null,
+  onHandleKeyDown: null,
+  onHandleDisplay: null,
+  password: "",
 };
