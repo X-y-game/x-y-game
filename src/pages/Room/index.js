@@ -20,7 +20,7 @@ export default function Room() {
 
   useEffect(() => {
     async function getRoomList() {
-      const roomList = await (await getRoomAPI(channelid)).json();
+      const roomList = await (await getRoomAPI(id)).json();
       setRooms(roomList);
     }
     getRoomList();
@@ -32,10 +32,10 @@ export default function Room() {
         <BackBtn type="button" onClick={handleClick}>
           {"<"}
         </BackBtn>
-        <Header title="룸을 선택하세요." channelId={id} roomId="none" />
+        <Header title="룸을 선택하세요." channelId={channelid} roomId="none" />
         <WrapChannelUL>
           {Rooms?.roomLists?.map(({ _id, title }, index) => (
-            <RoomList key={_id} channelId={id} id={index + 1} text={title} />
+            <RoomList key={_id} channelId={id} id={_id} text={title} roomNum={index + 1} channelNum={channelid} />
           ))}
         </WrapChannelUL>
       </ChannelPage>
