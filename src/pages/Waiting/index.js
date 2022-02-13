@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import socket from "../../components/utils/socket";
 import Team from "../../components/Team";
+import Header from "../../components/Header";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
   const [team, setTeam] = useState(0);
   const [canStart, setCanStart] = useState(false);
 
-  const channelId = 1;
-  const roomId = 1;
+  const location = useLocation();
+  const { id } = useParams();
+  const channelRoom = location.state.channel;
+
+  const channelId = id.split("-")[0];
+  const roomId = id.split("-")[1];
   const roomName = `${channelId}-${roomId}`;
 
   const history = useHistory();
@@ -36,7 +41,7 @@ export default function WaitingRoom() {
 
   return (
     <Waiting>
-      <Header>팀 선택</Header>
+      <Header title="팀 선택" channelId={channelRoom} roomId={channelRoom} />
       <Teams htmlFor="team" style={{ display: isReady ? "none" : "grid" }}>
         {[1, 2, 3, 4].map((it) => (
           <Team id={it} key={`team_${it}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
@@ -76,11 +81,6 @@ const Waiting = styled.div`
   padding: 40px;
   background-color: #e0dede;
   text-align: center;
-`;
-
-const Header = styled.header`
-  font-size: 28px;
-  font-weight: 500;
 `;
 
 const Teams = styled.label`
