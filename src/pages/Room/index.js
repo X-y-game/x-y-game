@@ -22,7 +22,6 @@ export default function Room() {
     async function getRoomList() {
       const roomList = await (await getRoomAPI(channelid)).json();
       setRooms(roomList);
-      console.log(roomList);
     }
     getRoomList();
   }, []);
