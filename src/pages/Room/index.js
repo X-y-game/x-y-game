@@ -1,31 +1,42 @@
-import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { getRoomAPI } from "../../api/api";
 import RoomList from "./roomList";
 import Header from "../../components/Header";
 
 export default function Room() {
+  const location = useLocation();
   const { id } = useParams();
   const history = useHistory();
+
+  const channelid = location.state.channel;
 
   const handleClick = () => {
     history.goBack();
   };
 
-  const RoomArr = Array(30)
-    .fill(1)
-    .map((v, i) => v + i);
+  const [Rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    async function getRoomList() {
+      const roomList = await (await getRoomAPI(channelid)).json();
+      setRooms(roomList);
+      console.log(roomList);
+    }
+    getRoomList();
+  }, []);
 
   return (
     <Body>
       <ChannelPage>
-        <BackButton type="button" onClick={handleClick}>
+        <BackBtn type="button" onClick={handleClick}>
           {"<"}
-        </BackButton>
+        </BackBtn>
         <Header title="룸을 선택하세요." channelId={id} roomId="none" />
         <WrapChannelUL>
-          {RoomArr.map((iterator) => (
-            <RoomList key={iterator} channelId={id} id={iterator} text={`${iterator} 룸`} />
+          {Rooms?.roomLists?.map(({ _id, title }, index) => (
+            <RoomList key={_id} channelId={id} id={index + 1} text={title} />
           ))}
         </WrapChannelUL>
       </ChannelPage>
@@ -37,7 +48,7 @@ const Body = styled.div`
   background-color: #e0dede;
 `;
 
-const BackButton = styled.button`
+const BackBtn = styled.button`
   position: absolute;
   left: 10px;
   top: 6vh;
