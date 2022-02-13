@@ -14,8 +14,8 @@ export default function WaitingRoom() {
   const roomName = `${channelId}-${roomId}`;
 
   const history = useHistory();
-  const handleOnClickStart = () => {
-    history.push(`/game/:${roomName}-team${team}`);
+  const handleStart = () => {
+    history.push(`/game/:${roomName}-team${team}-1`);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function WaitingRoom() {
           </div>
         )}
       </div>
-      <StartBtn style={{ display: isReady && canStart ? "inline-block" : "none" }} onClick={handleOnClickStart}>
+      <StartBtn style={{ display: isReady && canStart ? "inline-block" : "none" }} onClick={handleStart}>
         게임 시작
       </StartBtn>
     </Waiting>
