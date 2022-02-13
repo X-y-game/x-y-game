@@ -9,10 +9,10 @@ export default function Header({ title, channelId, roomId }) {
   return (
     <Title>
       {location.pathname.includes("lobby/") ? (
-        <Infodata>채널 : {+channelId + 1}</Infodata>
+        <Infodata>채널 : {channelId}</Infodata>
       ) : (
         <Infodata>
-          채널 : {+channelId + 1} 룸 : {roomId}
+          채널 : {channelId} 룸 : {roomId}
         </Infodata>
       )}
       {title}
