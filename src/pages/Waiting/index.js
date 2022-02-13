@@ -22,6 +22,7 @@ export default function WaitingRoom() {
   const roomIndex = id.split("-")[1];
   const roomName = `${channelIndex}-${roomIndex}`;
 
+  //룸 아이디, 타이틀
   const roomDataInfo = location.state.roomData;
   const [roomTitle, roomDBID] = roomDataInfo.split("-");
 
@@ -62,8 +63,8 @@ export default function WaitingRoom() {
     <Waiting>
       <Header title="팀 선택" channel={channelIndex} roomId={roomTitle} />
       <Teams htmlFor="team" style={{ display: isReady ? "none" : "grid" }}>
-        {teamList?.map(({ _id, title }) => (
-          <Team id={title} key={`team_${_id}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
+      {[1, 2, 3, 4].map((it) => (
+          <Team id={it} key={`team_${it}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
         ))}
       </Teams>
       <Button

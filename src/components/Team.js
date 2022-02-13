@@ -63,6 +63,6 @@ const TeamCard = styled.input.attrs({ type: "radio" })`
 `;
 
 Team.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   setTeam: PropTypes.func.isRequired,
 };
