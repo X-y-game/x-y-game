@@ -1,19 +1,19 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import CheckPw from "../../components/CheckPw";
 
-export default function List({ text, index, channelId }) {
-  const history = useHistory();
+export default function List({ text, index, channelId, pw }) {
+  const [openPwForm, setOpenPwForm] = useState(false);
   const handleClick = () => {
-    history.push({
-      pathname: `/channel/${index}`,
-      state: { channel: channelId, title: text },
-    });
+    setOpenPwForm(!openPwForm);
   };
   return (
-    <li onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
-      {text}
-    </li>
+    <>
+      {openPwForm && <CheckPw passWord={pw} index={index} channelId={channelId} title={text} />}
+      <li onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
+        {text}
+      </li>
+    </>
   );
 }
 
@@ -21,4 +21,5 @@ List.propTypes = {
   text: PropTypes.string.isRequired,
   channelId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  pw: PropTypes.string.isRequired,
 };
