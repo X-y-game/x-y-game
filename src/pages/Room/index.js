@@ -19,13 +19,13 @@ export default function Room() {
   return (
     <Body>
       <ChannelPage>
-        <BackBtn type="button" onClick={handleClick}>
+        <BackButton type="button" onClick={handleClick}>
           {"<"}
-        </BackBtn>
+        </BackButton>
         <Header title="룸을 선택하세요." channelId={id} roomId="none" />
         <WrapChannelUL>
-          {RoomArr.map((it) => (
-            <RoomList key={it} channelId={id} id={it} text={`${it} 룸`} />
+          {RoomArr.map((iterator) => (
+            <RoomList key={iterator} channelId={id} id={iterator} text={`${iterator} 룸`} />
           ))}
         </WrapChannelUL>
       </ChannelPage>
@@ -37,7 +37,7 @@ const Body = styled.div`
   background-color: #e0dede;
 `;
 
-const BackBtn = styled.button`
+const BackButton = styled.button`
   position: absolute;
   left: 10px;
   top: 6vh;
