@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
-import { getChannelsAPI, removeChannel, makeChannelAPI, getRoomAPI, getTeamsAPI } from "../../api/api";
+import { getChannelsAPI, removeChannel, makeChannelAPI, getRoomAPI, getTeamsAPI, makeRoomAPI } from "../../api/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
   const [roomLists, setRoomLists] = useState(null);
   const [teamLists, setTeamLists] = useState(null);
+  const [currentChannel, setCurrentChannel] = useState("");
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -16,6 +17,11 @@ export default function Admin() {
   async function getChannels() {
     const channelList = await (await getChannelsAPI()).json();
     setChannels(channelList);
+  }
+
+  async function getRooms() {
+    const rooms = await (await getRoomAPI(currentChannel)).json();
+    setRoomLists(rooms);
   }
 
   useEffect(() => {
@@ -46,16 +52,17 @@ export default function Admin() {
     }
   };
 
-  const onHandleClick = async () => {
+  const onCreateChannel = async () => {
     await makeChannelAPI(name, password);
     getChannels();
     setName("");
     setPassword("");
   };
 
-  const displayRooms = async (ChannelId) => {
-    const rooms = await (await getRoomAPI(ChannelId)).json();
+  const displayRooms = async (channelId) => {
+    const rooms = await (await getRoomAPI(channelId)).json();
     setRoomLists(rooms);
+    setCurrentChannel(channelId);
   };
 
   const displayTeams = async (roomId) => {
@@ -63,14 +70,18 @@ export default function Admin() {
     setTeamLists(teams);
   };
 
-  // TODO: make channels
-  const onHandleKeyDown = (ev) => {
+  const onHandleKeyDown = async (ev) => {
     if (ev.target.id === "Room") {
       const enter = 13;
+      if (ev.keyCode === enter) {
+        await makeRoomAPI(currentChannel, room);
+        setRoom("");
+        getRooms();
+      }
     }
 
     if (ev.target.id === "Team") {
-      console.log("team");
+      // console.log("team");
     }
   };
 
@@ -87,7 +98,7 @@ export default function Admin() {
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
           onDisplay={displayRooms}
-          onClick={onHandleClick}
+          onClick={onCreateChannel}
           name={name}
           password={password}
         />

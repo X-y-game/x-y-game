@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
 import styled from "styled-components";
 import Proptypes from "prop-types";
 import AdminPanelList from "../AdminPanelList";
@@ -18,10 +17,6 @@ export default function AdminPanelContainer({
 }) {
   const [showInput, setShowInput] = useState(false);
   const containerTitle = title.split(" ")[0];
-
-  // socket객체 정의
-  const server = "http://localhost:8000/";
-  // const socket = io.connect(server, { cors: { origin: "*" } });
 
   useEffect(() => {
     if (containerTitle === "Channel") {
