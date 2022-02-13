@@ -8,17 +8,17 @@ export default function Game() {
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [isModal, setIsModal] = useState(false);
-  const [isInterim, setIsInterim] = useState(false);
+  const [isRuleModal, setIsRuleModal] = useState(false);
+  const [isBoardModal, setIsBoardModal] = useState(false);
 
-  const openRuleModal = () => {
-    setIsModal(!isModal);
-    setIsInterim(false);
+  const handleToggleRule = () => {
+    setIsRuleModal(!isRuleModal);
+    setIsBoardModal(isBoardModal && false);
   };
 
-  const openInterimModal = () => {
-    setIsInterim(!isInterim);
-    setIsModal(false);
+  const handleCurrentBoard = () => {
+    setIsBoardModal(!isBoardModal);
+    setIsRuleModal(isRuleModal && false);
   };
 
   const handleSelect = (e) => {
@@ -34,16 +34,16 @@ export default function Game() {
 
   return (
     <InGame>
-      {isModal ? <RuleBook handleClick={openRuleModal} /> : ""}
-      {isInterim ? <Modal handleClick={openInterimModal} /> : ""}
+      {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
+      {isBoardModal && <Modal handleClick={handleCurrentBoard} />}
       <Header>
         <li>Team 1</li>
         <li>Round 1</li>
         <li>
-          <span aria-hidden="true" onClick={openInterimModal} onKeyDown={openInterimModal}>
+          <span aria-hidden="true" onClick={handleCurrentBoard} onKeyDown={handleCurrentBoard}>
             📊
           </span>
-          <span aria-hidden="true" onClick={openRuleModal} onKeyDown={openRuleModal}>
+          <span aria-hidden="true" onClick={handleToggleRule} onKeyDown={handleToggleRule}>
             📒
           </span>
         </li>
