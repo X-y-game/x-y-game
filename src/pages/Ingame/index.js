@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import GameItem from "../../components/GameItem";
+import RuleBook from "../../components/RuleBook";
+import Modal from "../../components/Modal";
 
 export default function Game() {
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [isRuleModal, setIsRuleModal] = useState(false);
+  const [isBoardModal, setIsBoardModal] = useState(false);
+
+  const handleToggleRule = () => {
+    setIsRuleModal(!isRuleModal);
+    setIsBoardModal(isBoardModal && false);
+  };
+
+  const handleCurrentBoard = () => {
+    setIsBoardModal(!isBoardModal);
+    setIsRuleModal(isRuleModal && false);
+  };
 
   const handleSelect = (e) => {
     setIsSubmitted(false);
@@ -19,12 +34,18 @@ export default function Game() {
 
   return (
     <InGame>
+      {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
+      {isBoardModal && <Modal handleClick={handleCurrentBoard} />}
       <Header>
         <li>Team 1</li>
         <li>Round 1</li>
         <li>
-          <span>📊</span>
-          <span>📒</span>
+          <span aria-hidden="true" onClick={handleCurrentBoard} onKeyDown={handleCurrentBoard}>
+            📊
+          </span>
+          <span aria-hidden="true" onClick={handleToggleRule} onKeyDown={handleToggleRule}>
+            📒
+          </span>
         </li>
       </Header>
       <GameItems>

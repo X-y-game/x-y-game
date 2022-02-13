@@ -1,31 +1,41 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { getRoomAPI } from "../../api/api";
 import RoomList from "./roomList";
+import Header from "../../components/Header";
 
 export default function Room() {
+  const location = useLocation();
+  const { id } = useParams();
   const history = useHistory();
+
+  const channelid = location.state.channel;
 
   const handleClick = () => {
     history.goBack();
   };
 
-  const RoomArr = Array(30)
-    .fill(1)
-    .map((v, i) => v + i);
+  const [Rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    async function getRoomList() {
+      const roomList = await (await getRoomAPI(channelid)).json();
+      setRooms(roomList);
+    }
+    getRoomList();
+  }, []);
 
   return (
     <Body>
       <ChannelPage>
-        <Header>
-          <button type="button" onClick={handleClick} className="backBtn">
-            {"<"}
-          </button>
-          <h2>룸을 선택하세요</h2>
-        </Header>
+        <BackBtn type="button" onClick={handleClick}>
+          {"<"}
+        </BackBtn>
+        <Header title="룸을 선택하세요." channelId={id} roomId="none" />
         <WrapChannelUL>
-          {RoomArr.map((it) => (
-            <RoomList key={it} id={it} text={`${it} 룸`} />
+          {Rooms?.roomLists?.map(({ _id, title }, index) => (
+            <RoomList key={_id} channelId={id} id={index + 1} text={title} />
           ))}
         </WrapChannelUL>
       </ChannelPage>
@@ -37,30 +47,18 @@ const Body = styled.div`
   background-color: #e0dede;
 `;
 
-const Header = styled.div`
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: center;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #000;
-  h2 {
-    display: inline-block;
-    font-size: 2em;
-  }
-  .backBtn {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    padding: 10px;
-    margin-top: -35px;
-    background-color: inherit;
-    font-size: 25px;
-  }
+const BackBtn = styled.button`
+  position: absolute;
+  left: 10px;
+  top: 6vh;
+  padding: 10px;
+  margin-top: -35px;
+  background-color: inherit;
+  font-size: 25px;
 `;
 
 const ChannelPage = styled.div`
+  position: relative;
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
