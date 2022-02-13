@@ -12,7 +12,7 @@ export default function Header({ title, channelId, roomId }) {
         <Infodata>채널 : {channelId}</Infodata>
       ) : (
         <Infodata>
-          채널 : {channelId} 룸 : {roomId}
+          <Infodata>채널-룸 : {roomId}</Infodata>
         </Infodata>
       )}
       {title}
