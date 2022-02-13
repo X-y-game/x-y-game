@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 
 export default function List({ text, id, channelId }) {
   const history = useHistory();
-  const handelClick = () => {
+  const handleClick = () => {
     history.push({
       pathname: `/lobby/${id}`,
       state: { channel: channelId },
     });
   };
   return (
-    <li id={id} onClick={handelClick} onKeyDown={handelClick} aria-hidden="true">
+    <li id={id} onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
       {text}
     </li>
   );
