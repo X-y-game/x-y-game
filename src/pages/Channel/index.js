@@ -20,7 +20,7 @@ export default function Channel() {
         <Title>채널을 선택하세요.</Title>
         <WrapChannel>
           {Channels?.channelLists?.map(({ _id, title }, index) => (
-            <List key={_id} id={index} text={title} />
+            <List key={_id} id={index} text={title} channelId={_id} />
           ))}
         </WrapChannel>
       </ChannelPage>
