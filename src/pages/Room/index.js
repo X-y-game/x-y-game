@@ -31,10 +31,10 @@ export default function Room() {
         <BackBtn type="button" onClick={handleClick}>
           {"<"}
         </BackBtn>
-        <Header title="룸을 선택하세요." channel={channelTitle} roomId="none" />
+        <Header title="룸을 선택하세요." channel={channelTitle} />
         <WrapChannelUL>
           {rooms?.map(({ _id, title }, index) => (
-            <RoomList key={_id} channelId={indexId} text={title} roomNum={index + 1} channelNum={channelId} />
+            <RoomList key={_id} channelIndex={indexId} text={title} roomNum={index + 1} channelId={channelId} />
           ))}
         </WrapChannelUL>
       </ChannelPage>

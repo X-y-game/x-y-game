@@ -1,12 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-export default function roomList({ text, id, channelId, roomNum, channelNum }) {
+export default function roomList({ text, id, channelIndex, roomNum, channelId }) {
   const history = useHistory();
   const handleClick = () => {
     history.push({
-      pathname: `/waiting/${channelId}-${roomNum}`,
-      state: { room: text },
+      pathname: `/waiting/${channelIndex}-${roomNum}`,
+      state: { roomTile: text },
     });
   };
   return (

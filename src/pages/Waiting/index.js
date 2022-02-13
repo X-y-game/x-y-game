@@ -4,19 +4,37 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import socket from "../../components/utils/socket";
 import Team from "../../components/Team";
 import Header from "../../components/Header";
+import { getTeamsAPI } from "../../api/api";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
   const [team, setTeam] = useState(0);
   const [canStart, setCanStart] = useState(false);
+  const [teamList, setTeamList] = useState([]);
 
   const location = useLocation();
   const { id } = useParams();
+
+  // channel Room 수정 필요함!
   const channelRoom = location.state.channel;
 
-  const channelId = id.split("-")[0];
-  const roomId = id.split("-")[1];
-  const roomName = `${channelId}-${roomId}`;
+  const channelIndex = id.split("-")[0];
+  const roomIndex = id.split("-")[1];
+  const roomName = `${channelIndex}-${roomIndex}`;
+
+  // 루 아이디 title받았다고 가정하고 작성!
+
+  const { roomTitle, roomId } = location.state;
+
+  // 팀 가져오기 db
+  async function getTeams() {
+    const response = await (await getTeamsAPI(roomId)).json();
+    setTeamList(response.teamLists);
+  }
+
+  useEffect(() => {
+    getTeams();
+  }, []);
 
   const history = useHistory();
   const handleStart = () => {
@@ -32,13 +50,15 @@ export default function WaitingRoom() {
   const handleReady = () => {
     if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
       setIsReady(!isReady);
-      socket.emit("select_team", channelId, roomId, roomName, team);
+      socket.emit("select_team", channelIndex, roomIndex, roomName, team);
       socket.on("can_start", (c) => {
         setCanStart(c);
       });
     }
   };
 
+  // 64번 [1,2,3,4] 가 아니라 teamList가 팀 데이터라서 거시서 _id,title꺼내서 뿌리면 될거 같아요
+  // title로 ui 이름뿌려주면 될거 같습니다.
   return (
     <Waiting>
       <Header title="팀 선택" channel={channelRoom} roomId={channelRoom} />
