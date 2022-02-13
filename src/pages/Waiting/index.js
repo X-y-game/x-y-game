@@ -22,13 +22,12 @@ export default function WaitingRoom() {
   const roomIndex = id.split("-")[1];
   const roomName = `${channelIndex}-${roomIndex}`;
 
-  // 루 아이디 title받았다고 가정하고 작성!
-
-  const { roomTitle, roomId } = location.state;
+  const roomDataInfo = location.state.roomData;
+  const [roomTitle, roomDBID] = roomDataInfo.split("-");
 
   // 팀 가져오기 db
   async function getTeams() {
-    const response = await (await getTeamsAPI(roomId)).json();
+    const response = await (await getTeamsAPI(roomDBID)).json();
     setTeamList(response.teamLists);
   }
 
@@ -61,10 +60,10 @@ export default function WaitingRoom() {
   // title로 ui 이름뿌려주면 될거 같습니다.
   return (
     <Waiting>
-      <Header title="팀 선택" channel={channelRoom} roomId={channelRoom} />
+      <Header title="팀 선택" channel={channelIndex} roomId={roomTitle} />
       <Teams htmlFor="team" style={{ display: isReady ? "none" : "grid" }}>
-        {[1, 2, 3, 4].map((it) => (
-          <Team id={it} key={`team_${it}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
+        {teamList?.map(({ _id, title }) => (
+          <Team id={title} key={`team_${_id}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
         ))}
       </Teams>
       <Button
