@@ -19,8 +19,8 @@ export default function Channel() {
       <ChannelPage>
         <Title>채널을 선택하세요.</Title>
         <WrapChannel>
-          {channel?.map(({ _id, title }, index) => (
-            <List key={`channel${_id}`} index={index + 1} text={title} channelId={_id} />
+          {channel?.map(({ _id, title, password }, index) => (
+            <List key={`channel${_id}`} index={index + 1} text={title} channelId={_id} pw={password} />
           ))}
         </WrapChannel>
       </ChannelPage>
