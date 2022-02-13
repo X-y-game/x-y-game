@@ -28,9 +28,9 @@ const Title = styled.h2`
   font-size: 2em;
 `;
 
-const Infodata = styled.p`
+const Infodata = styled.header`
   margin-bottom: 10px;
-  font-size: 0.4em;
+  font-size: 0.5em;
 `;
 
 Header.propTypes = {
