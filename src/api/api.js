@@ -111,3 +111,19 @@ export const removeRoomAPI = (roomId) => {
 
   return fetch(MAKE_ROOM, options);
 };
+
+export const removeTeamAPI = (teamId) => {
+  const data = {
+    teamId,
+  };
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(MAKE_TEAM, options);
+};

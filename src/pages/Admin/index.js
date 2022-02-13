@@ -10,6 +10,7 @@ import {
   makeRoomAPI,
   makeTeamAPI,
   removeRoomAPI,
+  removeTeamAPI,
 } from "../../api/api";
 
 export default function Admin() {
@@ -51,6 +52,11 @@ export default function Admin() {
   const onDeleteRoom = async (roomId) => {
     await removeRoomAPI(roomId);
     getRooms();
+  };
+
+  const onDeleteTeam = async (teamId) => {
+    await removeTeamAPI(teamId);
+    getTeams();
   };
 
   const onHandleChange = (ev) => {
@@ -158,6 +164,7 @@ export default function Admin() {
           name={team}
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
+          onDelete={onDeleteTeam}
         />
       ) : (
         <AdminPanel
