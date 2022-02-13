@@ -14,8 +14,6 @@ export default function Channel() {
     getChannels();
   }, []);
 
-  console.log(Channels);
-
   return (
     <ChannelBody>
       <ChannelPage>
