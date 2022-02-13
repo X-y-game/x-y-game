@@ -25,8 +25,6 @@ export default function Room() {
     getRoomList();
   }, []);
 
-  console.log(rooms, "rooms");
-
   return (
     <Body>
       <ChannelPage>

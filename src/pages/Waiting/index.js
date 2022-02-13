@@ -13,7 +13,6 @@ export default function WaitingRoom() {
   const location = useLocation();
   const { id } = useParams();
   const channelRoom = location.state.channel;
-  console.log(location.state, "check");
 
   const channelId = id.split("-")[0];
   const roomId = id.split("-")[1];
