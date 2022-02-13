@@ -4,12 +4,12 @@ import { getChannelsAPI } from "../../api/api";
 import List from "./List";
 
 export default function Channel() {
-  const [Channels, setChannels] = useState([]);
+  const [channel, setChannels] = useState([]);
 
   useEffect(() => {
     async function getChannels() {
-      const channelList = await (await getChannelsAPI()).json();
-      setChannels(channelList);
+      const response = await (await getChannelsAPI()).json();
+      setChannels(response.channelLists);
     }
     getChannels();
   }, []);
@@ -19,8 +19,8 @@ export default function Channel() {
       <ChannelPage>
         <Title>채널을 선택하세요.</Title>
         <WrapChannel>
-          {Channels?.channelLists?.map(({ _id, title }, index) => (
-            <List key={`channel${_id}`} num={index + 1} text={title} channelId={_id} />
+          {channel?.map(({ _id, title }, index) => (
+            <List key={`channel${_id}`} index={index + 1} text={title} channelId={_id} />
           ))}
         </WrapChannel>
       </ChannelPage>

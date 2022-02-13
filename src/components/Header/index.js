@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function Header({ title, channelId, roomId }) {
+export default function Header({ title, channel, roomId }) {
   const location = useLocation();
 
   return (
     <Title>
-      {location.pathname.includes("lobby/") ? (
-        <Infodata>채널 : {channelId}</Infodata>
+      {location.pathname.includes("channel/") ? (
+        <Infodata>채널 : {channel}</Infodata>
       ) : (
         <Infodata>
           <Infodata>채널-룸 : {roomId}</Infodata>
@@ -35,6 +35,6 @@ const Infodata = styled.header`
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  channelId: PropTypes.string.isRequired,
   roomId: PropTypes.string.isRequired,
+  channel: PropTypes.string.isRequired,
 };

@@ -13,9 +13,9 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/channel" component={Channel} />
+        <Route path="/channel/:id" component={Room} />
         <Route path="/game/:id" component={InGame} />
-        <Route exact path="/lobby" component={Channel} />
-        <Route path="/lobby/:id" component={Room} />
         <Route exact path="/waiting" component={Waiting} />
         <Route path="/waiting/:id" component={Waiting} />
       </Switch>

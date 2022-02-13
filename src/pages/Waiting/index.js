@@ -13,6 +13,7 @@ export default function WaitingRoom() {
   const location = useLocation();
   const { id } = useParams();
   const channelRoom = location.state.channel;
+  console.log(location.state, "check");
 
   const channelId = id.split("-")[0];
   const roomId = id.split("-")[1];
@@ -41,7 +42,7 @@ export default function WaitingRoom() {
 
   return (
     <Waiting>
-      <Header title="팀 선택" channelId={channelRoom} roomId={channelRoom} />
+      <Header title="팀 선택" channel={channelRoom} roomId={channelRoom} />
       <Teams htmlFor="team" style={{ display: isReady ? "none" : "grid" }}>
         {[1, 2, 3, 4].map((it) => (
           <Team id={it} key={`team_${it}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />

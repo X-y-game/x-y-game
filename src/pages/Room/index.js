@@ -7,24 +7,25 @@ import Header from "../../components/Header";
 
 export default function Room() {
   const location = useLocation();
-  const { id } = useParams();
   const history = useHistory();
-
-  const channelid = location.state.channel;
+  const { id: indexId } = useParams();
+  const { channel: channelId, title: channelTitle } = location.state;
 
   const handleClick = () => {
     history.goBack();
   };
 
-  const [Rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     async function getRoomList() {
-      const roomList = await (await getRoomAPI(id)).json();
-      setRooms(roomList);
+      const response = await (await getRoomAPI(channelId)).json();
+      setRooms(response.roomLists);
     }
     getRoomList();
   }, []);
+
+  console.log(rooms, "rooms");
 
   return (
     <Body>
@@ -32,10 +33,10 @@ export default function Room() {
         <BackBtn type="button" onClick={handleClick}>
           {"<"}
         </BackBtn>
-        <Header title="룸을 선택하세요." channelId={channelid} roomId="none" />
+        <Header title="룸을 선택하세요." channel={channelTitle} roomId="none" />
         <WrapChannelUL>
-          {Rooms?.roomLists?.map(({ _id, title }, index) => (
-            <RoomList key={_id} channelId={id} text={title} roomNum={index + 1} channelNum={channelid} />
+          {rooms?.map(({ _id, title }, index) => (
+            <RoomList key={_id} channelId={indexId} text={title} roomNum={index + 1} channelNum={channelId} />
           ))}
         </WrapChannelUL>
       </ChannelPage>

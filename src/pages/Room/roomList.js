@@ -5,7 +5,7 @@ export default function roomList({ text, id, channelId, roomNum, channelNum }) {
   const history = useHistory();
   const handleClick = () => {
     history.push({
-      pathname: `/waiting/${channelId}-${id}`,
+      pathname: `/waiting/${channelId}-${roomNum}`,
       state: { channel: `${channelNum}-${roomNum}` },
     });
   };

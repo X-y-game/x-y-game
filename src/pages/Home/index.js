@@ -6,7 +6,7 @@ import poster from "../../assets/xy-bg.png";
 
 export default function Home({ history }) {
   const handleClick = () => {
-    history.push("/lobby");
+    history.push("/channel");
   };
 
   return (
