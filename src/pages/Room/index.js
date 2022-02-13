@@ -35,7 +35,7 @@ export default function Room() {
         <Header title="룸을 선택하세요." channelId={channelid} roomId="none" />
         <WrapChannelUL>
           {Rooms?.roomLists?.map(({ _id, title }, index) => (
-            <RoomList key={_id} channelId={id} id={_id} text={title} roomNum={index + 1} channelNum={channelid} />
+            <RoomList key={_id} channelId={id} text={title} roomNum={index + 1} channelNum={channelid} />
           ))}
         </WrapChannelUL>
       </ChannelPage>

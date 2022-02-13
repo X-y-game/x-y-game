@@ -10,7 +10,7 @@ export default function roomList({ text, id, channelId, roomNum, channelNum }) {
     });
   };
   return (
-    <li id={id} onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
+    <li onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
       {text}
     </li>
   );
