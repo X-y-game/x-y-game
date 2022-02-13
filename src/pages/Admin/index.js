@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
-import { getChannelsAPI, removeChannel, makeChannelAPI, getRoomAPI, getTeamsAPI, makeRoomAPI } from "../../api/api";
+import {
+  getChannelsAPI,
+  removeChannel,
+  makeChannelAPI,
+  getRoomAPI,
+  getTeamsAPI,
+  makeRoomAPI,
+  makeTeamAPI,
+} from "../../api/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
   const [roomLists, setRoomLists] = useState(null);
   const [teamLists, setTeamLists] = useState(null);
   const [currentChannel, setCurrentChannel] = useState("");
+  const [currentRoom, setCurrentRoom] = useState("");
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -22,6 +31,11 @@ export default function Admin() {
   async function getRooms() {
     const rooms = await (await getRoomAPI(currentChannel)).json();
     setRoomLists(rooms);
+  }
+
+  async function getTeams() {
+    const teams = await (await getTeamsAPI(currentRoom)).json();
+    setTeamLists(teams);
   }
 
   useEffect(() => {
@@ -68,11 +82,12 @@ export default function Admin() {
   const displayTeams = async (roomId) => {
     const teams = await (await getTeamsAPI(roomId)).json();
     setTeamLists(teams);
+    setCurrentRoom(roomId);
   };
 
   const onHandleKeyDown = async (ev) => {
+    const enter = 13;
     if (ev.target.id === "Room") {
-      const enter = 13;
       if (ev.keyCode === enter) {
         await makeRoomAPI(currentChannel, room);
         setRoom("");
@@ -81,7 +96,11 @@ export default function Admin() {
     }
 
     if (ev.target.id === "Team") {
-      // console.log("team");
+      if (ev.keyCode === enter) {
+        await makeTeamAPI(team, currentRoom);
+        setTeam("");
+        getTeams();
+      }
     }
   };
 
