@@ -9,6 +9,7 @@ import {
   getTeamsAPI,
   makeRoomAPI,
   makeTeamAPI,
+  removeRoomAPI,
 } from "../../api/api";
 
 export default function Admin() {
@@ -42,9 +43,14 @@ export default function Admin() {
     getChannels();
   }, []);
 
-  const onDelete = async (channelId) => {
+  const onDeleteChannel = async (channelId) => {
     await removeChannel(channelId);
     getChannels();
+  };
+
+  const onDeleteRoom = async (roomId) => {
+    await removeRoomAPI(roomId);
+    getRooms();
   };
 
   const onHandleChange = (ev) => {
@@ -113,7 +119,7 @@ export default function Admin() {
           title="Channel List"
           placeholder="채널 생성하기 콤마로 맥스 인원을 정해주세요! 예시) 멋쟁이신사처럼,100"
           data={channels}
-          onDelete={onDelete}
+          onDelete={onDeleteChannel}
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
           onDisplay={displayRooms}
@@ -132,6 +138,7 @@ export default function Admin() {
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
           onDisplay={displayTeams}
+          onDelete={onDeleteRoom}
         />
       ) : (
         <AdminPanel

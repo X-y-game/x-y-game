@@ -95,3 +95,19 @@ export const removeChannel = (channelId) => {
 
   return fetch(CHANNELS, options);
 };
+
+export const removeRoomAPI = (roomId) => {
+  const data = {
+    roomId,
+  };
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(MAKE_ROOM, options);
+};
