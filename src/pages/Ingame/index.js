@@ -1,12 +1,34 @@
+/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import GameItem from "../../components/GameItem";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
-import { socket } from "../../components/utils/socket";
+import { socket, emitJoinTeam } from "../../components/utils/socket";
 
 export default function Game() {
+  // 중간/최종 결과
+  function getMidResult(result, score, round) {
+    const midResult = Array(round).fill(Array(4).fill(["", 0]));
+    for (let r = 0; r < round; r++) {
+      for (let i = 0; i < 4; i++) {
+        midResult[r][i] = [result[r][i], score[r][i]];
+      }
+    }
+    return midResult;
+  }
+
+  function getCurScore(score, round, team) {
+    let teamScore = 0;
+    if (score) {
+      for (let r = 0; r < round; r++) {
+        teamScore += score[r][team.slice(4) - 1];
+      }
+    }
+    return teamScore;
+  }
+
   const location = useLocation();
   const teamInfo = location.pathname.split(":")[1].split("-");
   const [channelId, roomId, team] = teamInfo.slice(0, 3);
@@ -15,65 +37,52 @@ export default function Game() {
 
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [roundSelect, setRoundSelect] = useState([]); // 라운드별 선택
-  const [roundScore, setRoundScore] = useState([]); // 라운드 점수
-  const [roundDone, setRoundDone] = useState(false); // 라운드 종료 상태
+  const [selectBoard, setSelect] = useState(); // 전체 라운드 선택
+  const [roundScore, setRoundScore] = useState(); // 라운드별 점수
+  const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
+  const [resultBoard, setResultBoard] = useState(); // 전체 라운드 결과
+  const [roundDone, setRoundDone] = useState(false); // 라운드 종료 체크
+  const [curTeamScore, setCurTeamScore] = useState(0); // 현재 점수
   const history = useHistory();
 
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
 
   useEffect(() => {
-    socket.emit("join", roomName);
+    setRoundDone(false);
+    setIsSubmitted(false);
+    emitJoinTeam(roomName);
+
+    return () => {
+      socket.off("join");
+    };
   }, []);
 
-  // 리렌더링 테스트
   useEffect(() => {
-    console.log(roundSelect);
-  }, [roundSelect]);
-
-  // 리렌더링 테스트
-  useEffect(() => {
-    console.log(roundDone);
-    // 최종 라운드가 아닌 경우 테스트
-    if (round < 10) {
-      socket.emit("get_score", (roomName, "all", round));
-      // 리렌더링 필요. 테스트 필요
-      socket.on("show_score", (results) => {
-        console.log(results);
-      });
+    if (selectBoard && roundScore) {
+      // round 별 결과 모달 부분
+      console.log(selectBoard[round - 1], roundScore);
     }
-  }, [roundDone]);
+  }, [selectBoard, scoreBoard, roundDone]);
 
-  // 중간결과. 테스트 필요
   useEffect(() => {
-    console.log(isBoardModal);
-    socket.emit("get_score", (roomName, team, round));
-    socket.on("show_score", (results) => {
-      console.log(results);
-    });
+    if (scoreBoard && selectBoard) {
+      // 중간 결과
+      console.log(scoreBoard.slice(0, round), selectBoard.slice(0, round));
+    }
   }, [isBoardModal]);
 
   const handleNext = () => {
-    // 라운드 종료 확인
     if (roundDone) {
-      // 최종 라운드
+      setCurTeamScore(getCurScore(scoreBoard, round, team));
       if (round === 10) {
-        socket.emit("get_score", (roomName, "all", round));
-        // 리렌더링 필요. 테스트 필요
-        socket.on("show_score", (results) => {
-          console.log(results);
-        });
+        // 최종 결과 보여주기
+        console.log("done", selectBoard, scoreBoard);
       }
-      // 아래에서 라운드가 넘어갈 때
-      // 선택된 카드(라디오버튼)가 초기화되어야함
       setIsSubmitted(false);
       setMycard("");
       round += 1;
       history.push(`/game/:${roomName}-${team}-${round}`);
-    } else {
-      // line 39-44가 실행되어야합니다
-      console.log(roundScore);
     }
   };
 
@@ -85,6 +94,9 @@ export default function Game() {
   const handleCurrentBoard = () => {
     setIsBoardModal(!isBoardModal);
     setIsRuleModal(isRuleModal && false);
+    if (scoreBoard && selectBoard) {
+      getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
+    }
   };
 
   const handleSelect = (e) => {
@@ -92,14 +104,18 @@ export default function Game() {
     setMycard(e.target.htmlFor);
   };
 
-  // 카드 제출. 리렌더링 테스트 필요
   const handleSubmit = () => {
     setIsSubmitted(true);
     socket.emit("select_card", roomName, team, round, mycard);
-    socket.on("show_round_result", (results, roundResult) => {
-      setRoundSelect(results);
-      setRoundScore(roundResult);
+    socket.on("show_round_score", (curScore) => {
+      setRoundScore(curScore);
       setRoundDone(true);
+    });
+    socket.on("show_score", (allScore) => {
+      setScoreBoard(allScore);
+    });
+    socket.on("show_select", (allSelect) => {
+      setSelect(allSelect);
     });
   };
 
@@ -135,11 +151,11 @@ export default function Game() {
         </CardLabel>
       </Cards>
       <Footer>
-        <li>현재 점수 : 100</li>
+        <li>현재 점수 : {curTeamScore}</li>
         <li>
           {isSubmitted ? (
             <button type="button" onClick={handleNext}>
-              {roundDone ? "다음 라운드로" : "결과보기"}
+              {roundDone ? "다음으로" : "대기중"}
             </button>
           ) : (
             <button type="button" onClick={handleSubmit}>
