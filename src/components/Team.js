@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export default function Team({ id, setTeam }) {
+export default function Team({ id, setTeam, title }) {
   const [isSelected, setIsSelected] = useState(false);
-
   const toggleIsSelected = () => {
     setIsSelected(!isSelected);
   };
@@ -16,21 +15,12 @@ export default function Team({ id, setTeam }) {
 
   return (
     <TeamContainer>
-      {isSelected ? (
-        <div>
-          <TeamCard id={id} name="team" hidden />
-          <TeamName onClick={handleClickTeam} htmlFor={id}>
-            {id}
-          </TeamName>
-        </div>
-      ) : (
-        <div>
-          <TeamCard id={id} name="team" hidden />
-          <TeamName onClick={handleClickTeam} htmlFor={id}>
-            {id}
-          </TeamName>
-        </div>
-      )}
+      <div>
+        <TeamCard id={id} name="team" hidden />
+        <TeamName onClick={handleClickTeam} htmlFor={id}>
+          {title}
+        </TeamName>
+      </div>
     </TeamContainer>
   );
 }
@@ -49,7 +39,7 @@ const TeamName = styled.label`
   margin: 5px;
   background-color: #ececec;
   border-radius: 10px;
-  font-size: 24px;
+  font-size: 12px;
   text-align: center;
   cursor: pointer;
 `;
@@ -65,4 +55,5 @@ const TeamCard = styled.input.attrs({ type: "radio" })`
 Team.propTypes = {
   id: PropTypes.number.isRequired,
   setTeam: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };

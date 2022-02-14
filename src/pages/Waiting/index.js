@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import socket from "../../components/utils/socket";
 import Team from "../../components/Team";
 import Header from "../../components/Header";
 import { getTeamsAPI } from "../../api/api";
+import { socket, emitJoinTeam } from "../../components/utils/socket";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
@@ -12,17 +12,15 @@ export default function WaitingRoom() {
   const [canStart, setCanStart] = useState(false);
   const [teamList, setTeamList] = useState([]);
 
+  const history = useHistory();
   const location = useLocation();
   const { id } = useParams();
-
-  // channel Room 수정 필요함!
-  const channelRoom = location.state.channel;
 
   const channelIndex = id.split("-")[0];
   const roomIndex = id.split("-")[1];
   const roomName = `${channelIndex}-${roomIndex}`;
 
-  //룸 아이디, 타이틀
+  // 룸 아이디, 타이틀
   const roomDataInfo = location.state.roomData;
   const [roomTitle, roomDBID] = roomDataInfo.split("-");
 
@@ -32,39 +30,57 @@ export default function WaitingRoom() {
     setTeamList(response.teamLists);
   }
 
-  useEffect(() => {
-    getTeams();
-  }, []);
-
-  const history = useHistory();
   const handleStart = () => {
     history.push(`/game/:${roomName}-team${team}-1`);
   };
 
   useEffect(() => {
-    socket.on("connect", () => {
-      socket.emit("join", roomName);
-    });
+    getTeams();
+  }, []);
+
+  useEffect(() => {
+    emitJoinTeam(roomName);
+
+    return () => {
+      socket.off("join");
+    };
   }, []);
 
   const handleReady = () => {
     if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
       setIsReady(!isReady);
       socket.emit("select_team", channelIndex, roomIndex, roomName, team);
-      socket.on("can_start", (c) => {
-        setCanStart(c);
+      socket.on("can_start", (isStart) => {
+        setCanStart(isStart);
       });
     }
   };
 
-  // 64번 [1,2,3,4] 가 아니라 teamList가 팀 데이터라서 거시서 _id,title꺼내서 뿌리면 될거 같아요
-  // title로 ui 이름뿌려주면 될거 같습니다.
+  // 아래처럼 바꿀필요 가 있음 현재, 56-58로 하나 아래처럼 64-71줄로 하나 동일 하지만 useEffect 내에서 처리해야하므로
+  // statea만들어서 depenecty 배열에 넣어서 하면 될거 같다. 혹은 현재와 같이 해도 무리 없는 것은 첫 마운트시만 실행되는데, 서버단에서 조건이 충족되면 바로
+  // emit해주니까 상관 없어 보임 . 소켓 쓸때는  44,50으로 dependency해줘서 클리어까지 깔끔하게 해주는게 좋다고함.
+  useEffect(() => {
+    socket.on("can_start", (isStart) => {
+      setCanStart(isStart);
+    });
+    return () => {
+      socket.off("can_start");
+    };
+  }, []);
+
   return (
     <Waiting>
       <Header title="팀 선택" channel={channelIndex} roomId={roomTitle} />
       <Teams htmlFor="team" style={{ display: isReady ? "none" : "grid" }}>
-      {[1, 2, 3, 4].map((it) => (
-          <Team id={it} key={`team_${it}`} setTeam={setTeam} isReady={isReady} handleReady={handleReady} />
+        {teamList?.map(({ _id, title }, index) => (
+          <Team
+            id={index + 1}
+            key={`team_${_id}`}
+            setTeam={setTeam}
+            isReady={isReady}
+            handleReady={handleReady}
+            title={title}
+          />
         ))}
       </Teams>
       <Button

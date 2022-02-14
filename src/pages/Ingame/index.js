@@ -4,7 +4,7 @@ import styled from "styled-components";
 import GameItem from "../../components/GameItem";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
-import socket from "../../components/utils/socket";
+import { socket } from "../../components/utils/socket";
 
 export default function Game() {
   const location = useLocation();
