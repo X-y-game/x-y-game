@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import Team from "../../components/Team";
 import Header from "../../components/Header";
+import Spinner from "../../components/Spinner";
 import { getTeamsAPI } from "../../api/api";
 import { socket, emitJoinTeam } from "../../components/utils/socket";
 
@@ -50,15 +51,9 @@ export default function WaitingRoom() {
     if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
       setIsReady(!isReady);
       socket.emit("select_team", channelIndex, roomIndex, roomName, team);
-      socket.on("can_start", (isStart) => {
-        setCanStart(isStart);
-      });
     }
   };
 
-  // 아래처럼 바꿀필요 가 있음 현재, 56-58로 하나 아래처럼 64-71줄로 하나 동일 하지만 useEffect 내에서 처리해야하므로
-  // statea만들어서 depenecty 배열에 넣어서 하면 될거 같다. 혹은 현재와 같이 해도 무리 없는 것은 첫 마운트시만 실행되는데, 서버단에서 조건이 충족되면 바로
-  // emit해주니까 상관 없어 보임 . 소켓 쓸때는  44,50으로 dependency해줘서 클리어까지 깔끔하게 해주는게 좋다고함.
   useEffect(() => {
     socket.on("can_start", (isStart) => {
       setCanStart(isStart);
@@ -89,19 +84,24 @@ export default function WaitingRoom() {
       >
         선택하기
       </Button>
+
       <div style={{ display: isReady ? "block" : "none", margin: "10px" }}>
         <strong style={{ display: "block", fontSize: "18px", fontWeight: "700", margin: "20px" }}>
           {team}팀을 선택했습니다
         </strong>
+
         {canStart ? (
           <div>
-            모든 팀의 선택이 완료되었습니다
-            <br /> 게임을 시작해봅시다 <br />
+            <p>모든 팀의 선택이 완료되었습니다</p>
+            <p>게임을 시작해봅시다</p>
           </div>
         ) : (
           <div>
-            다른 팀의 접속을 기다리는 중입니다
-            <br /> 잠시만 기다려주세요 <br />
+            <p>다른 팀의 접속을 기다리는 중입니다</p>
+            <p>잠시만 기다려주세요</p>
+            <Loading>
+              <Spinner />
+            </Loading>
           </div>
         )}
       </div>
@@ -111,6 +111,12 @@ export default function WaitingRoom() {
     </Waiting>
   );
 }
+
+const Loading = styled.div`
+  position: relative;
+  top: 20px;
+  right: 20px;
+`;
 
 const Waiting = styled.div`
   height: 100%;

@@ -6,6 +6,7 @@ import InGame from "../../pages/Ingame";
 import Channel from "../../pages/Channel";
 import Admin from "../../pages/Admin";
 import Room from "../../pages/Room";
+import Spinner from "../Spinner";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/game/:id" component={InGame} />
         <Route exact path="/waiting" component={Waiting} />
         <Route path="/waiting/:id" component={Waiting} />
+        <Route exact path="/test" component={Spinner} />
       </Switch>
     </BrowserRouter>
   );
