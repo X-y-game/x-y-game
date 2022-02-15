@@ -4,31 +4,31 @@ import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
 
-export default function Modal({ handleClick }) {
+export default function Modal({ handleClick, selectCard, roundScore, isInterim }) {
   const teamData = [
     {
       team: 1,
-      cardXY: true,
-      point: 0,
+      cardXY: selectCard[0],
+      point: roundScore[0],
     },
     {
       team: 2,
-      cardXY: false,
-      point: 0,
+      cardXY: selectCard[1],
+      point: roundScore[1],
     },
     {
       team: 3,
-      cardXY: true,
-      point: 0,
+      cardXY: selectCard[2],
+      point: roundScore[2],
     },
     {
       team: 4,
-      cardXY: false,
-      point: 0,
+      cardXY: selectCard[3],
+      point: roundScore[3],
     },
   ];
 
-  const [isRoundModal, setIsRoundModal] = useState(false);
+  const [isRoundModal, setIsRoundModal] = useState(isInterim);
 
   const roundResult = () => {
     setIsRoundModal(false);
@@ -36,15 +36,15 @@ export default function Modal({ handleClick }) {
 
   return (
     <ModalDiv onClick={handleClick}>
-      <p>{isRoundModal ? "라운드 결과" : "중간 결과"}</p>
+      <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
       {isRoundModal ? (
+        <InterimFindings roundData={teamData} />
+      ) : (
         <WrapResult>
           {teamData.map((it) => (
-            <TeamResult key={it.team} team={it.team} cardXY={it.cardXY} point={it.point} />
+            <TeamResult key={`modal_${it.team}`} team={it.team} cardXY={it.cardXY} point={it.point} />
           ))}
         </WrapResult>
-      ) : (
-        <InterimFindings />
       )}
     </ModalDiv>
   );
@@ -95,4 +95,12 @@ const WrapResult = styled.div`
 
 Modal.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  selectCard: PropTypes.arrayOf(PropTypes.string),
+  roundScore: PropTypes.arrayOf(PropTypes.number),
+  isInterim: PropTypes.bool.isRequired,
+};
+
+Modal.defaultProps = {
+  selectCard: "?",
+  roundScore: 0,
 };
