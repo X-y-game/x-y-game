@@ -78,16 +78,16 @@ export default function Game() {
   }, [isBoardModal]);
 
   const handleNext = () => {
-    if (roundDone) {
+    if (roundDone && round < 10) {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
-      if (round === 10) {
-        // 최종 결과 보여주기
-        console.log("done", selectBoard, scoreBoard);
-      }
       setIsSubmitted(false);
       setMycard("");
       round += 1;
       history.push(`/game/:${roomName}-${team}-${round}`);
+    }
+    if (round === 10) {
+      setIsBoardModal(true);
+      console.log("done", selectBoard, scoreBoard);
     }
   };
 
@@ -134,13 +134,16 @@ export default function Game() {
           isInterim={isCurrentModal}
           selectCard={selectBoard[round - 1]}
           roundScore={roundScore}
+          scoreBoard={scoreBoard}
+          selectBoard={selectBoard}
+          round={round}
         />
       )}
       <Header>
         <li>{team}</li>
         <li>Round {round}</li>
         <li>
-        <span
+          <span
             style={{ display: round > 1 ? "inline" : "none" }}
             aria-hidden="true"
             onClick={handleCurrentBoard}
