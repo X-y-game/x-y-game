@@ -85,10 +85,6 @@ export default function Game() {
       round += 1;
       history.push(`/game/:${roomName}-${team}-${round}`);
     }
-    if (round === 10) {
-      setIsBoardModal(true);
-      console.log("done", selectBoard, scoreBoard);
-    }
   };
 
   const handleToggleRule = () => {
@@ -97,11 +93,15 @@ export default function Game() {
   };
 
   const handleCurrentBoard = () => {
-    setIsCurrentModal(true);
-    setIsBoardModal(!isBoardModal);
-    setIsRuleModal(isRuleModal && false);
-    if (scoreBoard && selectBoard) {
-      getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
+    if (round < 10) {
+      setIsCurrentModal(true);
+      setIsBoardModal(!isBoardModal);
+      setIsRuleModal(isRuleModal && false);
+      if (scoreBoard && selectBoard) {
+        getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
+      }
+    } else {
+      setIsBoardModal(true);
     }
   };
 
