@@ -37,6 +37,7 @@ export default function Game() {
 
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [selectBoard, setSelect] = useState(); // 전체 라운드 선택
   const [roundScore, setRoundScore] = useState(); // 라운드별 점수
   const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
@@ -54,6 +55,7 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
+    setCurTeamScore(getCurScore(scoreBoard, round, team));
 
     return () => {
       socket.off("join");
@@ -82,9 +84,14 @@ export default function Game() {
     if (roundDone) {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
       if (round === 10) {
+<<<<<<< HEAD
         setisFinishResult(true);
         setIsBoardModal(true);
         console.log("done", selectBoard, scoreBoard, curTeamScore);
+=======
+        // 최종 결과 보여주기
+        console.log("done", selectBoard, scoreBoard);
+>>>>>>> a4e35f8 (🐛 Fix : Reset checked button, avoid change card)
         return;
       }
       setIsSubmitted(false);
@@ -111,11 +118,17 @@ export default function Game() {
 
   const handleSelect = (e) => {
     setIsSubmitted(false);
+    setIsChecked(true);
     setMycard(e.target.htmlFor);
+  };
+
+  const handleOnChange = () => {
+    setIsChecked(true);
   };
 
   const handleSubmit = () => {
     setIsSubmitted(true);
+    setIsChecked(false);
     socket.emit("select_card", roomName, team, round, mycard);
     socket.on("show_round_score", (curScore) => {
       setRoundScore(curScore);
@@ -168,12 +181,12 @@ export default function Game() {
           <GameItem id={item} team={team} key={`team_${item}`} isSubmitted={isSubmitted} mycard={mycard} />
         ))}
       </GameItems>
-      <Cards>
-        <Card id="X" name="choice" hidden defaultChecked={isSubmitted} />
+      <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
+        <Card id="X" name="choice" hidden onChange={handleOnChange} checked={isChecked} />
         <CardLabel htmlFor="X" onClick={handleSelect}>
           X
         </CardLabel>
-        <Card id="Y" name="choice" hidden defaultChecked={isSubmitted} />
+        <Card id="Y" name="choice" hidden onChange={handleOnChange} checked={isChecked} />
         <CardLabel htmlFor="Y" onClick={handleSelect}>
           Y
         </CardLabel>
@@ -186,7 +199,7 @@ export default function Game() {
               {roundDone ? "다음으로" : "대기중"}
             </button>
           ) : (
-            <button type="button" onClick={handleSubmit}>
+            <button type="button" disabled={!isChecked} onClick={handleSubmit}>
               제출하기
             </button>
           )}
@@ -244,6 +257,9 @@ const CardLabel = styled.label`
 `;
 
 const Card = styled.input.attrs({ type: "radio" })`
+  & + ${CardLabel} {
+    background-color: #fbf2f2;
+  }
   &:checked + ${CardLabel} {
     box-shadow: #c1d0fb 2px 2px 1px 1px;
     background-color: ${(props) => (props.id === "X" ? "#c3e8fb" : "#ffb7b7")};
@@ -254,6 +270,10 @@ const Footer = styled.ul`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: absolute;
+  left: 0vw;
+  bottom: 10%;
+  width: 100vw;
   padding: 10px;
   font-weight: 500;
   font-size: 18px;
