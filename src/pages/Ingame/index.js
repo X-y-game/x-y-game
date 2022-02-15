@@ -47,6 +47,7 @@ export default function Game() {
 
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
+  const [isCurrentModal, setIsCurrentModal] = useState(false);
 
   useEffect(() => {
     setRoundDone(false);
@@ -61,6 +62,10 @@ export default function Game() {
   useEffect(() => {
     if (selectBoard && roundScore) {
       // round 별 결과 모달 부분
+      if (roundDone) {
+        setIsCurrentModal(false);
+        setIsBoardModal(true);
+      }
       console.log(selectBoard[round - 1], roundScore);
     }
   }, [selectBoard, scoreBoard, roundDone]);
@@ -92,6 +97,7 @@ export default function Game() {
   };
 
   const handleCurrentBoard = () => {
+    setIsCurrentModal(true);
     setIsBoardModal(!isBoardModal);
     setIsRuleModal(isRuleModal && false);
     if (scoreBoard && selectBoard) {
@@ -122,12 +128,24 @@ export default function Game() {
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
-      {isBoardModal && <Modal handleClick={handleCurrentBoard} />}
+      {isBoardModal && (
+        <Modal
+          handleClick={handleCurrentBoard}
+          isInterim={isCurrentModal}
+          selectCard={selectBoard[round - 1]}
+          roundScore={roundScore}
+        />
+      )}
       <Header>
         <li>{team}</li>
         <li>Round {round}</li>
         <li>
-          <span aria-hidden="true" onClick={handleCurrentBoard} onKeyDown={handleCurrentBoard}>
+        <span
+            style={{ display: round > 1 ? "inline" : "none" }}
+            aria-hidden="true"
+            onClick={handleCurrentBoard}
+            onKeyDown={handleCurrentBoard}
+          >
             📊
           </span>
           <span aria-hidden="true" onClick={handleToggleRule} onKeyDown={handleToggleRule}>
