@@ -17,20 +17,20 @@ export default function InterimData({
     <WrapRound>
       <p>{roundNum}R</p>
       <CheckCard name={teamOneScore < 0 ? "패" : "승"}>
-        <span>{teamOneCardXY ? "X" : "Y"}</span>
-        <span>{teamOneScore}</span>
+        <span>{teamOneCardXY}</span>
+        <span>{teamOneScore === 0 ? "?" : teamOneScore}</span>
       </CheckCard>
       <CheckCard name={teamTwoScore < 0 ? "패" : "승"}>
-        <span>{teamTwoCardXY ? "X" : "Y"}</span>
-        <span>{teamTwoScore}</span>
+        <span>{teamTwoCardXY}</span>
+        <span>{teamTwoScore === 0 ? "?" : teamTwoScore}</span>
       </CheckCard>
       <CheckCard name={teamThreeScore < 0 ? "패" : "승"}>
-        <span>{teamThreeCardXY ? "X" : "Y"}</span>
-        <span>{teamThreeScore}</span>
+        <span>{teamThreeCardXY}</span>
+        <span>{teamThreeScore === 0 ? "?" : teamThreeScore}</span>
       </CheckCard>
       <CheckCard name={teamFourScore < 0 ? "패" : "승"}>
-        <span>{teamFourCardXY ? "X" : "Y"}</span>
-        <span>{teamFourScore}</span>
+        <span>{teamFourCardXY}</span>
+        <span>{teamFourScore === 0 ? "?" : teamFourScore}</span>
       </CheckCard>
     </WrapRound>
   );
@@ -55,10 +55,10 @@ const CheckCard = styled.div`
 
 InterimData.propTypes = {
   roundNum: PropTypes.number.isRequired,
-  teamOneCardXY: PropTypes.bool.isRequired,
-  teamTwoCardXY: PropTypes.bool.isRequired,
-  teamThreeCardXY: PropTypes.bool.isRequired,
-  teamFourCardXY: PropTypes.bool.isRequired,
+  teamOneCardXY: PropTypes.string.isRequired,
+  teamTwoCardXY: PropTypes.string.isRequired,
+  teamThreeCardXY: PropTypes.string.isRequired,
+  teamFourCardXY: PropTypes.string.isRequired,
   teamOneScore: PropTypes.number.isRequired,
   teamTwoScore: PropTypes.number.isRequired,
   teamThreeScore: PropTypes.number.isRequired,
