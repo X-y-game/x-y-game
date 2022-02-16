@@ -47,6 +47,8 @@ export default function Game() {
 
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
+  const [isCurrentModal, setIsCurrentModal] = useState(false);
+  const [isfinishResult, setisFinishResult] = useState(false);
 
   useEffect(() => {
     setRoundDone(false);
@@ -71,6 +73,10 @@ export default function Game() {
   useEffect(() => {
     if (selectBoard && roundScore) {
       // round 별 결과 모달 부분
+      if (roundDone) {
+        setIsCurrentModal(false);
+        setIsBoardModal(true);
+      }
       console.log(selectBoard[round - 1], roundScore);
     }
   }, [selectBoard, scoreBoard, roundDone]);
@@ -104,7 +110,9 @@ export default function Game() {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
       if (round === 10) {
         // 최종 결과 보여주기
-        console.log("done", selectBoard, scoreBoard);
+        setisFinishResult(true);
+        setIsBoardModal(true);
+        console.log("done", selectBoard, scoreBoard, curTeamScore);
         return;
       }
       setIsSubmitted(false);
@@ -122,6 +130,7 @@ export default function Game() {
   };
 
   const handleCurrentBoard = () => {
+    setIsCurrentModal(true);
     setIsBoardModal(!isBoardModal);
     setIsRuleModal(isRuleModal && false);
     if (scoreBoard && selectBoard) {
@@ -158,12 +167,30 @@ export default function Game() {
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
-      {isBoardModal && <Modal handleClick={handleCurrentBoard} />}
+      {isBoardModal && selectBoard ? (
+        <Modal
+          handleClick={handleCurrentBoard}
+          isInterim={isCurrentModal}
+          isfinishResult={isfinishResult}
+          selectCard={selectBoard[round - 1]}
+          roundScore={roundScore}
+          scoreBoard={scoreBoard}
+          selectBoard={selectBoard}
+          round={round}
+        />
+      ) : (
+        ""
+      )}
       <Header>
         <li>{team}</li>
         <li>Round {round}</li>
         <li>
-          <span aria-hidden="true" onClick={handleCurrentBoard} onKeyDown={handleCurrentBoard}>
+          <span
+            style={{ display: round > 1 ? "inline" : "none" }}
+            aria-hidden="true"
+            onClick={handleCurrentBoard}
+            onKeyDown={handleCurrentBoard}
+          >
             📊
           </span>
           <span aria-hidden="true" onClick={handleToggleRule} onKeyDown={handleToggleRule}>

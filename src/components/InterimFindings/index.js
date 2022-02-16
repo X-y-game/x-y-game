@@ -1,82 +1,28 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import InterimData from "./interimData";
 
-export default function InterimFindings() {
-  const RoundData = [
-    {
-      id: 1,
-      roundNum: 1,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-    {
-      id: 2,
-      roundNum: 2,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-    {
-      id: 3,
-      roundNum: 3,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-    {
-      id: 4,
-      roundNum: 4,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-    {
-      id: 5,
-      roundNum: 5,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-    {
-      id: 6,
-      roundNum: 6,
-      teamOneCardXY: true,
-      teamTwoCardXY: false,
-      teamThreeCardXY: true,
-      teamFourCardXY: true,
-      teamOneScore: 100,
-      teamTwoScore: -100,
-      teamThreeScore: 100,
-      teamFourScore: 100,
-    },
-  ];
+export default function InterimFindings({ scoreData, selectData, round, isfinishResult }) {
+  const roundData = () => {
+    const pushData = [];
+    for (let i = 0; i < round; i += 1) {
+      pushData.push({
+        id: i + 1,
+        roundNum: i + 1,
+        teamOneCardXY: selectData[i][0],
+        teamTwoCardXY: selectData[i][1],
+        teamThreeCardXY: selectData[i][2],
+        teamFourCardXY: selectData[i][3],
+        teamOneScore: scoreData[i][0],
+        teamTwoScore: scoreData[i][1],
+        teamThreeScore: scoreData[i][2],
+        teamFourScore: scoreData[i][3],
+      });
+    }
+    return pushData;
+  };
+
   return (
     <WrapResult>
       <TeamNumber>
@@ -86,7 +32,7 @@ export default function InterimFindings() {
         <p>4팀</p>
       </TeamNumber>
 
-      {RoundData.map((it) => (
+      {roundData().map((it) => (
         <InterimData
           key={it.id}
           roundNum={it.roundNum}
@@ -100,6 +46,19 @@ export default function InterimFindings() {
           teamFourScore={it.teamFourScore}
         />
       ))}
+      <hr />
+
+      {isfinishResult ? (
+        <WrapfinishScore>
+          <em>합계</em>
+          <div>{round + 200}</div>
+          <div>{round + 300}</div>
+          <div>{round + 100}</div>
+          <div>{round + 200}</div>
+        </WrapfinishScore>
+      ) : (
+        ""
+      )}
     </WrapResult>
   );
 }
@@ -108,12 +67,9 @@ const WrapResult = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  height: 216px;
   margin-top: 5px;
   border-radius: 5px;
   background-color: #c1d0fb;
-  overflow: scroll;
-  overflow-x: hidden;
   p {
     font-size: 1.3em;
     font-weight: bold;
@@ -126,3 +82,28 @@ const TeamNumber = styled.div`
   width: 80%;
   margin-left: 43px;
 `;
+
+const WrapfinishScore = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding: 10px 30px 10px 0px;
+  em {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  div {
+    font-weight: bold;
+  }
+`;
+
+InterimFindings.propTypes = {
+  scoreData: PropTypes.arrayOf(PropTypes.array).isRequired,
+  selectData: PropTypes.arrayOf(PropTypes.array).isRequired,
+  round: PropTypes.number.isRequired,
+  isfinishResult: PropTypes.bool,
+};
+
+InterimFindings.defaultProps = {
+  isfinishResult: false,
+};

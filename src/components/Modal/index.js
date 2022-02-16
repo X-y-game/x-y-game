@@ -4,49 +4,62 @@ import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
 
-export default function Modal({ handleClick }) {
-  const teamData = [
-    {
-      team: 1,
-      cardXY: true,
-      point: 0,
-    },
-    {
-      team: 2,
-      cardXY: false,
-      point: 0,
-    },
-    {
-      team: 3,
-      cardXY: true,
-      point: 0,
-    },
-    {
-      team: 4,
-      cardXY: false,
-      point: 0,
-    },
-  ];
+export default function Modal({
+  handleClick,
+  selectCard,
+  roundScore,
+  isInterim,
+  scoreBoard,
+  selectBoard,
+  round,
+  isfinishResult,
+}) {
+  const roundResultData = () => {
+    const pushData = [];
+    for (let i = 0; i < 4; i += 1) {
+      pushData.push({
+        team: i + 1,
+        cardXY: selectCard[i],
+        point: roundScore[i],
+      });
+    }
+    return pushData;
+  };
 
-  const [isRoundModal, setIsRoundModal] = useState(false);
+  const [isRoundModal, setIsRoundModal] = useState(isInterim);
 
   const roundResult = () => {
     setIsRoundModal(false);
   };
 
   return (
-    <ModalDiv onClick={handleClick}>
-      <p>{isRoundModal ? "라운드 결과" : "중간 결과"}</p>
-      {isRoundModal ? (
-        <WrapResult>
-          {teamData.map((it) => (
-            <TeamResult key={it.team} team={it.team} cardXY={it.cardXY} point={it.point} />
-          ))}
-        </WrapResult>
+    <>
+      {!isfinishResult ? (
+        <ModalDiv onClick={handleClick}>
+          <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
+          {isRoundModal ? (
+            <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
+          ) : (
+            <WrapResult>
+              {roundResultData().map((it) => (
+                <TeamResult key={`modal_${it.team}`} team={it.team} cardXY={it.cardXY} point={it.point} />
+              ))}
+            </WrapResult>
+          )}
+        </ModalDiv>
       ) : (
-        <InterimFindings />
+        <ModalDiv>
+          <p>최종결과</p>
+          <InterimFindings
+            scoreData={scoreBoard}
+            selectData={selectBoard}
+            round={round}
+            isfinishResult={isfinishResult}
+          />
+        </ModalDiv>
       )}
-    </ModalDiv>
+      <FinishMessage>{isfinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
+    </>
   );
 }
 
@@ -93,6 +106,31 @@ const WrapResult = styled.div`
   }
 `;
 
+const FinishMessage = styled.p`
+  position: relative;
+  top: 90vh;
+  font-weight: bold;
+  font-size: 20px;
+`;
+
 Modal.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
+  selectCard: PropTypes.arrayOf(PropTypes.string),
+  roundScore: PropTypes.arrayOf(PropTypes.number),
+  scoreBoard: PropTypes.arrayOf(PropTypes.array),
+  selectBoard: PropTypes.arrayOf(PropTypes.array),
+  isInterim: PropTypes.bool,
+  round: PropTypes.number,
+  isfinishResult: PropTypes.bool,
+};
+
+Modal.defaultProps = {
+  handleClick: () => {},
+  selectCard: "?",
+  roundScore: 0,
+  scoreBoard: [],
+  selectBoard: [],
+  isInterim: true,
+  isfinishResult: false,
+  round: 0,
 };
