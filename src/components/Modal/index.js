@@ -30,25 +30,24 @@ export default function Modal({
 
   const [isRoundModal, setIsRoundModal] = useState(isInterim);
 
-  const roundResult = () => {
-    setIsRoundModal(false);
-  };
-
   return (
     <>
       {!isfinishResult ? (
-        <ModalDiv onClick={handleClick}>
-          <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
-          {isRoundModal ? (
-            <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
-          ) : (
-            <WrapResult>
-              {roundResultData().map((it) => (
-                <TeamResult key={`modal_${it.team}`} team={it.team} cardXY={it.cardXY} point={it.point} />
-              ))}
-            </WrapResult>
-          )}
-        </ModalDiv>
+        <>
+          <ModalDiv onClick={handleClick}>
+            <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
+            {isRoundModal ? (
+              <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
+            ) : (
+              <WrapResult>
+                {roundResultData().map((it) => (
+                  <TeamResult key={`modal_${it.team}`} team={it.team} cardXY={it.cardXY} point={it.point} />
+                ))}
+              </WrapResult>
+            )}
+          </ModalDiv>
+          <Dimd onClick={handleClick}>dimd</Dimd>
+        </>
       ) : (
         <ModalDiv>
           <p>최종결과</p>
@@ -108,6 +107,15 @@ const FinishMessage = styled.p`
   top: 90vh;
   font-weight: bold;
   font-size: 20px;
+`;
+
+const Dimd = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
 `;
 
 Modal.propTypes = {
