@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-export default function roomList({ text, id, channelIndex, roomNum, channelId }) {
+export default function roomList({ text, id, channelIndex, roomNum }) {
   const history = useHistory();
   const handleClick = () => {
     history.push({

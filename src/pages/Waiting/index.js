@@ -5,7 +5,7 @@ import Team from "../../components/Team";
 import Header from "../../components/Header";
 import Spinner from "../../components/Spinner";
 import { getTeamsAPI } from "../../api/api";
-import { socket, emitJoinTeam } from "../../components/utils/socket";
+import { socket, emitJoinTeam } from "../../utils/socket";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);

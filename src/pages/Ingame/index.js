@@ -1,35 +1,15 @@
-/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import GameItem from "../../components/GameItem";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
-import { socket, emitJoinTeam } from "../../components/utils/socket";
+import { emitJoinTeam, socket } from "../../utils/socket";
+import { getMiddleResult, getCurrentScore } from "../../utils/game";
 
 export default function Game() {
-  // 중간/최종 결과
-  function getMiddleResult(result, score, round) {
-    const midResult = Array(round).fill(Array(4).fill(["", 0]));
-    for (let r = 0; r < round; r++) {
-      for (let i = 0; i < 4; i++) {
-        midResult[r][i] = [result[r][i], score[r][i]];
-      }
-    }
-    return midResult;
-  }
-
-  function getCurrentScore(score, round, team) {
-    let teamScore = 0;
-    if (score) {
-      for (let r = 0; r < round; r++) {
-        teamScore += score[r][team.slice(4) - 1];
-      }
-    }
-    return teamScore;
-  }
-
   const location = useLocation();
+  const history = useHistory();
   const teamInfo = location.pathname.split(":")[1].split("-");
   const [channelId, roomId, team] = teamInfo.slice(0, 3);
   const roomName = `${channelId}-${roomId}`;
@@ -43,8 +23,6 @@ export default function Game() {
   const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
   const [roundDone, setRoundDone] = useState(false); // 라운드 종료 체크
   const [currentTeamScore, setCurrentScore] = useState(0); // 현재 점수
-  const history = useHistory();
-
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
@@ -54,11 +32,11 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
-    socket.on("cur_result", (curResult) => {
-      setSelect(curResult);
+    socket.on("cur_result", (currentResult) => {
+      setSelect(currentResult);
     });
-    socket.on("cur_score", (curScore) => {
-      setScoreBoard(curScore);
+    socket.on("cur_score", (currentScore) => {
+      setScoreBoard(currentScore);
     });
 
     return () => {
@@ -110,7 +88,7 @@ export default function Game() {
       setCurrentScore(getCurrentScore(scoreBoard, round, team));
       if (round === 10) {
         setisFinishResult(true);
-        setIsBoardModal(true);
+        // setIsBoardModal(true);
         console.log("done", selectBoard, scoreBoard, currentTeamScore);
 
         // 최종 결과 보여주기
@@ -154,8 +132,8 @@ export default function Game() {
     setIsSubmitted(true);
     setIsChecked(false);
     socket.emit("select_card", roomName, team, round, mycard);
-    socket.on("show_round_score", (curScore) => {
-      setRoundScore(curScore);
+    socket.on("show_round_score", (currentScore) => {
+      setRoundScore(currentScore);
       setRoundDone(true);
     });
     socket.on("show_score", (allScore) => {
