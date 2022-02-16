@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
+import Result from "../Result/Container";
 
 export default function Modal({
   handleClick,
@@ -13,6 +14,7 @@ export default function Modal({
   selectBoard,
   round,
   isfinishResult,
+  totalResult,
 }) {
   const roundResultData = () => {
     const pushData = [];
@@ -50,12 +52,7 @@ export default function Modal({
       ) : (
         <ModalDiv>
           <p>최종결과</p>
-          <InterimFindings
-            scoreData={scoreBoard}
-            selectData={selectBoard}
-            round={round}
-            isfinishResult={isfinishResult}
-          />
+          <Result />
         </ModalDiv>
       )}
       <FinishMessage>{isfinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
@@ -122,6 +119,7 @@ Modal.propTypes = {
   isInterim: PropTypes.bool,
   round: PropTypes.number,
   isfinishResult: PropTypes.bool,
+  totalResult: PropTypes.arrayOf(Object),
 };
 
 Modal.defaultProps = {
@@ -133,4 +131,5 @@ Modal.defaultProps = {
   isInterim: true,
   isfinishResult: false,
   round: 0,
+  totalResult: {},
 };

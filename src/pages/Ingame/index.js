@@ -5,11 +5,11 @@ import GameItem from "../../components/GameItem";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
 import { emitJoinTeam, socket } from "../../utils/socket";
-import { getMiddleResult, getCurrentScore } from "../../utils/game";
+import { getMiddleResult, getCurrentScore, sumScores, sumResults, makeData } from "../../utils/game";
 
 export default function Game() {
-  const location = useLocation();
   const history = useHistory();
+  const location = useLocation();
   const teamInfo = location.pathname.split(":")[1].split("-");
   const [channelId, roomId, team] = teamInfo.slice(0, 3);
   const roomName = `${channelId}-${roomId}`;
@@ -27,6 +27,7 @@ export default function Game() {
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
   const [isfinishResult, setisFinishResult] = useState(false);
+  const [totalResult, setTotalResult] = useState({});
 
   useEffect(() => {
     setRoundDone(false);
@@ -55,14 +56,14 @@ export default function Game() {
         setIsCurrentModal(false);
         setIsBoardModal(true);
       }
-      console.log(selectBoard[round - 1], roundScore);
+      // console.log(selectBoard[round - 1], roundScore);
     }
   }, [selectBoard, scoreBoard, roundDone]);
 
   useEffect(() => {
     if (scoreBoard && selectBoard) {
       // 중간 결과
-      console.log(scoreBoard.slice(0, round), selectBoard.slice(0, round));
+      // console.log(scoreBoard.slice(0, round), selectBoard.slice(0, round));
     }
   }, [isBoardModal]);
 
@@ -87,12 +88,15 @@ export default function Game() {
     if (roundDone) {
       setCurrentScore(getCurrentScore(scoreBoard, round, team));
       if (round === 10) {
+        const totalScores = sumScores(scoreBoard);
+        const totalResults = sumResults(scoreBoard);
+        const teamData = { results: totalResults, scores: totalScores };
+        const tableData = makeData(teamData);
+        setTotalResult(tableData);
         setisFinishResult(true);
-        // setIsBoardModal(true);
-        console.log("done", selectBoard, scoreBoard, currentTeamScore);
-
+        setIsBoardModal(true);
         // 최종 결과 보여주기
-        console.log("done", selectBoard, scoreBoard);
+        console.log("done", selectBoard, scoreBoard, currentTeamScore);
         return;
       }
       setIsSubmitted(false);
@@ -157,6 +161,7 @@ export default function Game() {
           scoreBoard={scoreBoard}
           selectBoard={selectBoard}
           round={round}
+          totalResult={totalResult}
         />
       ) : (
         ""
