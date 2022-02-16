@@ -48,6 +48,7 @@ export default function Game() {
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
+  const [isfinishResult, setisFinishResult] = useState(false);
 
   useEffect(() => {
     setRoundDone(false);
@@ -78,9 +79,16 @@ export default function Game() {
   }, [isBoardModal]);
 
   const handleNext = () => {
-    if (roundDone && round < 10) {
+    if (roundDone) {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
+      if (round === 10) {
+        setisFinishResult(true);
+        setIsBoardModal(true);
+        console.log("done", selectBoard, scoreBoard, curTeamScore);
+        return;
+      }
       setIsSubmitted(false);
+      setRoundDone(false);
       setMycard("");
       round += 1;
       history.push(`/game/:${roomName}-${team}-${round}`);
@@ -93,15 +101,11 @@ export default function Game() {
   };
 
   const handleCurrentBoard = () => {
-    if (round < 10) {
-      setIsCurrentModal(true);
-      setIsBoardModal(!isBoardModal);
-      setIsRuleModal(isRuleModal && false);
-      if (scoreBoard && selectBoard) {
-        getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
-      }
-    } else {
-      setIsBoardModal(true);
+    setIsCurrentModal(true);
+    setIsBoardModal(!isBoardModal);
+    setIsRuleModal(isRuleModal && false);
+    if (scoreBoard && selectBoard) {
+      getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
     }
   };
 
@@ -128,16 +132,19 @@ export default function Game() {
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
-      {isBoardModal && (
+      {isBoardModal && selectBoard ? (
         <Modal
           handleClick={handleCurrentBoard}
           isInterim={isCurrentModal}
+          isfinishResult={isfinishResult}
           selectCard={selectBoard[round - 1]}
           roundScore={roundScore}
           scoreBoard={scoreBoard}
           selectBoard={selectBoard}
           round={round}
         />
+      ) : (
+        ""
       )}
       <Header>
         <li>{team}</li>
