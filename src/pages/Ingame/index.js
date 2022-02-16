@@ -109,10 +109,12 @@ export default function Game() {
     if (roundDone) {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
       if (round === 10) {
-        // 최종 결과 보여주기
         setisFinishResult(true);
         setIsBoardModal(true);
         console.log("done", selectBoard, scoreBoard, curTeamScore);
+
+        // 최종 결과 보여주기
+        console.log("done", selectBoard, scoreBoard);
         return;
       }
       setIsSubmitted(false);
