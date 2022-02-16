@@ -21,7 +21,6 @@ const Loading = styled.div`
   border: 5px solid;
   border-color: ${(props) => props.innerColor || "rgba(193,64,21, 0.2)"};
   border-top-color: ${(props) => props.color || "#c14015"};
-  animation: spinner 0.9s linear infinite;
 
   @keyframes loading {
     0% {
