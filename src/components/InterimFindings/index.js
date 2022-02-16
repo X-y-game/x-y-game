@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import InterimData from "./interimData";
 
-export default function InterimFindings({ socreData, selectData, round }) {
+export default function InterimFindings({ scoreData, selectData, round, isfinishResult }) {
   const roundData = () => {
     const pushData = [];
     for (let i = 0; i < round; i += 1) {
@@ -14,10 +14,10 @@ export default function InterimFindings({ socreData, selectData, round }) {
         teamTwoCardXY: selectData[i][1],
         teamThreeCardXY: selectData[i][2],
         teamFourCardXY: selectData[i][3],
-        teamOneScore: socreData[i][0],
-        teamTwoScore: socreData[i][1],
-        teamThreeScore: socreData[i][2],
-        teamFourScore: socreData[i][3],
+        teamOneScore: scoreData[i][0],
+        teamTwoScore: scoreData[i][1],
+        teamThreeScore: scoreData[i][2],
+        teamFourScore: scoreData[i][3],
       });
     }
     return pushData;
@@ -48,7 +48,7 @@ export default function InterimFindings({ socreData, selectData, round }) {
       ))}
       <hr />
 
-      {round === 10 ? (
+      {isfinishResult ? (
         <WrapfinishScore>
           <em>합계</em>
           <div>{round + 200}</div>
@@ -98,7 +98,12 @@ const WrapfinishScore = styled.div`
 `;
 
 InterimFindings.propTypes = {
-  socreData: PropTypes.arrayOf(PropTypes.array).isRequired,
+  scoreData: PropTypes.arrayOf(PropTypes.array).isRequired,
   selectData: PropTypes.arrayOf(PropTypes.array).isRequired,
   round: PropTypes.number.isRequired,
+  isfinishResult: PropTypes.bool,
+};
+
+InterimFindings.defaultProps = {
+  isfinishResult: false,
 };
