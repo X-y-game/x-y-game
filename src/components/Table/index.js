@@ -4,6 +4,9 @@ import { useTable } from "react-table";
 import PropTypes from "prop-types";
 
 export default function Table({ columns, data }) {
+  console.log(columns, "check");
+  console.log(data, "data");
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
   return (

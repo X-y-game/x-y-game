@@ -20,5 +20,5 @@ const Container = styled.section`
 
 Result.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.Object).isRequired,
 };
