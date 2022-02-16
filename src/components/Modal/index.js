@@ -4,7 +4,16 @@ import styled from "styled-components";
 import TeamResult from "./teamResult";
 import InterimFindings from "../InterimFindings";
 
-export default function Modal({ handleClick, selectCard, roundScore, isInterim, scoreBoard, selectBoard, round }) {
+export default function Modal({
+  handleClick,
+  selectCard,
+  roundScore,
+  isInterim,
+  scoreBoard,
+  selectBoard,
+  round,
+  isfinishResult,
+}) {
   const roundResultData = () => {
     const pushData = [];
     for (let i = 0; i < 4; i += 1) {
@@ -25,11 +34,11 @@ export default function Modal({ handleClick, selectCard, roundScore, isInterim, 
 
   return (
     <>
-      {round < 10 ? (
+      {!isfinishResult ? (
         <ModalDiv onClick={handleClick}>
           <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
           {isRoundModal ? (
-            <InterimFindings socreData={scoreBoard} selectData={selectBoard} round={round} />
+            <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
           ) : (
             <WrapResult>
               {roundResultData().map((it) => (
@@ -41,10 +50,15 @@ export default function Modal({ handleClick, selectCard, roundScore, isInterim, 
       ) : (
         <ModalDiv>
           <p>최종결과</p>
-          <InterimFindings socreData={scoreBoard} selectData={selectBoard} round={round} />
+          <InterimFindings
+            scoreData={scoreBoard}
+            selectData={selectBoard}
+            round={round}
+            isfinishResult={isfinishResult}
+          />
         </ModalDiv>
       )}
-      <FinishMessage>{round === 10 ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
+      <FinishMessage>{isfinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
     </>
   );
 }
@@ -100,16 +114,23 @@ const FinishMessage = styled.p`
 `;
 
 Modal.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   selectCard: PropTypes.arrayOf(PropTypes.string),
   roundScore: PropTypes.arrayOf(PropTypes.number),
-  scoreBoard: PropTypes.arrayOf(PropTypes.array).isRequired,
-  selectBoard: PropTypes.arrayOf(PropTypes.array).isRequired,
-  isInterim: PropTypes.bool.isRequired,
-  round: PropTypes.number.isRequired,
+  scoreBoard: PropTypes.arrayOf(PropTypes.array),
+  selectBoard: PropTypes.arrayOf(PropTypes.array),
+  isInterim: PropTypes.bool,
+  round: PropTypes.number,
+  isfinishResult: PropTypes.bool,
 };
 
 Modal.defaultProps = {
+  handleClick: () => {},
   selectCard: "?",
   roundScore: 0,
+  scoreBoard: [],
+  selectBoard: [],
+  isInterim: true,
+  isfinishResult: false,
+  round: 0,
 };
