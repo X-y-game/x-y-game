@@ -12,7 +12,7 @@ export default function WaitingRoom() {
   const [team, setTeam] = useState(0);
   const [canStart, setCanStart] = useState(false);
   const [teamList, setTeamList] = useState([]);
-  const [curRound, setCurRound] = useState(1);
+  const [currentRound, setCurrentRound] = useState(1);
 
   const history = useHistory();
   const location = useLocation();
@@ -33,14 +33,14 @@ export default function WaitingRoom() {
   }
 
   const handleStart = () => {
-    history.push(`/game/:${roomName}-team${team}-${curRound}`);
+    history.push(`/game/:${roomName}-team${team}-${currentRound}`);
   };
 
   useEffect(() => {
     getTeams();
     emitJoinTeam(roomName);
     socket.on("cur_round", (round) => {
-      setCurRound(round);
+      setCurrentRound(round);
     });
     socket.on("can_start", (isStart) => {
       setCanStart(isStart);

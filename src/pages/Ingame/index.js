@@ -9,7 +9,7 @@ import { socket, emitJoinTeam } from "../../components/utils/socket";
 
 export default function Game() {
   // 중간/최종 결과
-  function getMidResult(result, score, round) {
+  function getMiddleResult(result, score, round) {
     const midResult = Array(round).fill(Array(4).fill(["", 0]));
     for (let r = 0; r < round; r++) {
       for (let i = 0; i < 4; i++) {
@@ -19,7 +19,7 @@ export default function Game() {
     return midResult;
   }
 
-  function getCurScore(score, round, team) {
+  function getCurrentScore(score, round, team) {
     let teamScore = 0;
     if (score) {
       for (let r = 0; r < round; r++) {
@@ -42,7 +42,7 @@ export default function Game() {
   const [roundScore, setRoundScore] = useState(); // 라운드별 점수
   const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
   const [roundDone, setRoundDone] = useState(false); // 라운드 종료 체크
-  const [curTeamScore, setCurTeamScore] = useState(0); // 현재 점수
+  const [currentTeamScore, setCurrentScore] = useState(0); // 현재 점수
   const history = useHistory();
 
   const [isRuleModal, setIsRuleModal] = useState(false);
@@ -67,7 +67,7 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    setCurTeamScore(getCurScore(scoreBoard, round, team));
+    setCurrentScore(getCurrentScore(scoreBoard, round, team));
   }, [scoreBoard]);
 
   useEffect(() => {
@@ -107,11 +107,11 @@ export default function Game() {
 
   const handleNext = () => {
     if (roundDone) {
-      setCurTeamScore(getCurScore(scoreBoard, round, team));
+      setCurrentScore(getCurrentScore(scoreBoard, round, team));
       if (round === 10) {
         setisFinishResult(true);
         setIsBoardModal(true);
-        console.log("done", selectBoard, scoreBoard, curTeamScore);
+        console.log("done", selectBoard, scoreBoard, currentTeamScore);
 
         // 최종 결과 보여주기
         console.log("done", selectBoard, scoreBoard);
@@ -136,7 +136,7 @@ export default function Game() {
     setIsBoardModal(!isBoardModal);
     setIsRuleModal(isRuleModal && false);
     if (scoreBoard && selectBoard) {
-      getMidResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
+      getMiddleResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
     }
   };
 
@@ -216,7 +216,7 @@ export default function Game() {
         </CardLabel>
       </Cards>
       <Footer>
-        <li>현재 점수 : {curTeamScore}</li>
+        <li>현재 점수 : {currentTeamScore}</li>
         <li>
           {isSubmitted ? (
             <button type="button" onClick={handleNext}>
