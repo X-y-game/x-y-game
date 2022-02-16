@@ -16,6 +16,20 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   height: 100%;
+
+  table {
+    font-size: 1.2rem;
+    border: none;
+    font-weight: 500;
+    border-radius: 5px;
+  }
+  tbody {
+    border: none;
+  }
+  tr,
+  td {
+    border: none;
+  }
 `;
 
 Result.propTypes = {

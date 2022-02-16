@@ -1,22 +1,38 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import PropTypes from "prop-types";
 
 export default function Table({ columns, data }) {
-  console.log(columns, "check");
-  console.log(data, "data");
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        sortBy: [
+          {
+            id: "score",
+            desc: true,
+          },
+        ],
+      },
+    },
+    useSortBy
+  );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
-
+  console.log(headerGroups);
   return (
     <table {...getTableProps()}>
-      <caption>최종 결과</caption>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render("Header")}
+
+                <span>{column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}</span>
+              </th>
             ))}
           </tr>
         ))}

@@ -52,7 +52,7 @@ export default function Modal({
       ) : (
         <ModalDiv>
           <p>최종결과</p>
-          <Result />
+          <Result tableData={totalResult} />
         </ModalDiv>
       )}
       <FinishMessage>{isfinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>

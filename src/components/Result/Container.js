@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import Result from "./index";
+import Score from "./Score";
 
 export default function ResultContainer({ tableData }) {
   const columnData = [
@@ -9,8 +10,9 @@ export default function ResultContainer({ tableData }) {
       Header: "team",
     },
     {
-      accessor: "score",
       Header: "score",
+      accessor: "score",
+      Cell: Score,
     },
     {
       accessor: "result",
