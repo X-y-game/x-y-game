@@ -3,10 +3,9 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export default function CheckPw({ passWord, index, channelId, title }) {
+export default function CheckPw({ passWord, index, channelId, title, handleClick }) {
   const [wrongPw, setWrongPw] = useState(true);
   const [inputText, setInputText] = useState("");
-  const [openPw, setOpenPw] = useState(true);
   const history = useHistory();
 
   const checkPw = () => {
@@ -23,16 +22,12 @@ export default function CheckPw({ passWord, index, channelId, title }) {
     }
   };
 
-  const onChange = (ev) => {
-    setInputText(ev.target.value);
-  };
-
-  const onClick = () => {
-    setOpenPw(!openPw);
+  const onChange = (event) => {
+    setInputText(event.target.value);
   };
 
   return (
-    <Wrap openPw={openPw}>
+    <Wrap>
       <CheckPassWard>
         <p>비밀번호를 입력하세요 👀</p>
         <input type="text" onChange={onChange} value={inputText} />
@@ -41,13 +36,12 @@ export default function CheckPw({ passWord, index, channelId, title }) {
           입력
         </EnterButton>
       </CheckPassWard>
-      <Dimd onClick={onClick}>dimd</Dimd>
+      <Dimd onClick={handleClick}>dimd</Dimd>
     </Wrap>
   );
 }
 
 const Wrap = styled.div`
-  display: ${(props) => (props.openPw === true ? "block" : "none")};
   position: fixed;
   width: 100%;
   height: 100%;
@@ -111,4 +105,5 @@ CheckPw.propTypes = {
   index: PropTypes.number.isRequired,
   channelId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
