@@ -41,7 +41,6 @@ export default function Game() {
   const [selectBoard, setSelect] = useState(); // 전체 라운드 선택
   const [roundScore, setRoundScore] = useState(); // 라운드별 점수
   const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
-  const [resultBoard, setResultBoard] = useState(); // 전체 라운드 결과
   const [roundDone, setRoundDone] = useState(false); // 라운드 종료 체크
   const [curTeamScore, setCurTeamScore] = useState(0); // 현재 점수
   const history = useHistory();
@@ -53,12 +52,21 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
-    setCurTeamScore(getCurScore(scoreBoard, round, team));
+    socket.on("cur_result", (curResult) => {
+      setSelect(curResult);
+    });
+    socket.on("cur_score", (curScore) => {
+      setScoreBoard(curScore);
+    });
 
     return () => {
       socket.off("join");
     };
   }, []);
+
+  useEffect(() => {
+    setCurTeamScore(getCurScore(scoreBoard, round, team));
+  }, [scoreBoard]);
 
   useEffect(() => {
     if (selectBoard && roundScore) {
