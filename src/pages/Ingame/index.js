@@ -82,6 +82,23 @@ export default function Game() {
     }
   }, [isBoardModal]);
 
+  const checkSpecialRound = () => {
+    switch (round) {
+      case 5:
+        window.alert("5라운드에서는 점수의 가중치가 3배 입니다!");
+        break;
+      case 8:
+        window.alert("8라운드에서는 점수의 가중치가 5배 입니다!!");
+        break;
+      case 10:
+        window.alert("10라운드에서는 점수의 가중치가 10배 입니다!!!");
+
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleNext = () => {
     if (roundDone) {
       setCurTeamScore(getCurScore(scoreBoard, round, team));
@@ -94,6 +111,7 @@ export default function Game() {
       setRoundDone(false);
       setMycard("");
       round += 1;
+      checkSpecialRound();
       history.push(`/game/:${roomName}-${team}-${round}`);
     }
   };
