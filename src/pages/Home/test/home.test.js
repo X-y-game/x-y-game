@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Home from "./index.js";
+import Home from "../Home";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import renderer from "react-test-renderer";
