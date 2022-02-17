@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import getChannels from "../../utils/api";
+import PropTypes from "prop-types";
 import Channel from "../../components/Channel";
 
-export default function Channels() {
-  const [channel, setChannels] = useState([]);
-
-  useEffect(() => {
-    getChannels(setChannels);
-  }, []);
-
+export default function Channels({ channels }) {
+  console.log(channels, "check");
+  console.log(typeof channels, "check");
+  console.log(typeof channels.channelLists, "Sfd");
   return (
     <ChannelBody>
       <ChannelPage>
         <Title>채널을 선택하세요.</Title>
         <WrapChannel>
-          {channel?.channelLists?.map(({ _id, title, password }, index) => (
+          {channels?.channelLists?.map(({ _id, title, password }, index) => (
             <Channel key={`channel${_id}`} index={index + 1} text={title} channelId={_id} pw={password} />
           ))}
         </WrapChannel>
@@ -23,6 +20,11 @@ export default function Channels() {
     </ChannelBody>
   );
 }
+
+// TODO: proptypes check
+Channels.propTypes = {
+  channels: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.object))).isRequired,
+};
 
 const ChannelBody = styled.div`
   background-color: #e0dede;
