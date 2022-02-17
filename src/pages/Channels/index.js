@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getChannelsAPI } from "../../api/api";
-import List from "./List";
+import getChannels from "../../utils/api";
+import Channel from "../../components/Channel";
 
-export default function Channel() {
+export default function Channels() {
   const [channel, setChannels] = useState([]);
 
   useEffect(() => {
-    async function getChannels() {
-      const response = await (await getChannelsAPI()).json();
-      setChannels(response.channelLists);
-    }
-    getChannels();
+    getChannels(setChannels);
   }, []);
 
   return (
@@ -19,8 +15,8 @@ export default function Channel() {
       <ChannelPage>
         <Title>채널을 선택하세요.</Title>
         <WrapChannel>
-          {channel?.map(({ _id, title, password }, index) => (
-            <List key={`channel${_id}`} index={index + 1} text={title} channelId={_id} pw={password} />
+          {channel?.channelLists?.map(({ _id, title, password }, index) => (
+            <Channel key={`channel${_id}`} index={index + 1} text={title} channelId={_id} pw={password} />
           ))}
         </WrapChannel>
       </ChannelPage>

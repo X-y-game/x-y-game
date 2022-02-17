@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Home from "../../pages/Home";
 import Waiting from "../../pages/Waiting";
 import InGame from "../../pages/Ingame";
-import Channel from "../../pages/Channel";
+import Channels from "../../pages/Channels";
 import Admin from "../../pages/Admin";
 import Room from "../../pages/Room";
 
@@ -13,7 +13,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/admin" component={Admin} />
-        <Route exact path="/channel" component={Channel} />
+        <Route exact path="/channel" component={Channels} />
         <Route path="/channel/:id" component={Room} />
         <Route path="/game/:id" component={InGame} />
         <Route exact path="/waiting" component={Waiting} />
