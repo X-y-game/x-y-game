@@ -80,7 +80,7 @@ export const getTeamsAPI = (roomId) => {
   return fetch(GET_TEAMS, options);
 };
 
-export const removeChannel = (channelId) => {
+export const removeChannelAPI = (channelId) => {
   const data = {
     channelId,
   };

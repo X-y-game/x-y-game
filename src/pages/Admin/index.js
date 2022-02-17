@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
-import {
-  removeChannel,
-  makeChannelAPI,
-  getRoomAPI,
-  getTeamsAPI,
-  makeRoomAPI,
-  makeTeamAPI,
-  removeRoomAPI,
-  removeTeamAPI,
-} from "../../api/api";
-
-import { getChannels, getRooms, getTeams } from "../../utils/api";
+import { makeChannelAPI, getRoomAPI, getTeamsAPI, makeRoomAPI, makeTeamAPI, removeTeamAPI } from "../../api/api";
+import { getChannels, getRooms, getTeams, removeChannel, removeRoom, removeTeam } from "../../utils/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
@@ -36,12 +26,12 @@ export default function Admin() {
   };
 
   const onDeleteRoom = async (roomId) => {
-    await removeRoomAPI(roomId);
+    await removeRoom(roomId);
     getRooms(currentChannel, setRoomLists);
   };
 
   const onDeleteTeam = async (teamId) => {
-    await removeTeamAPI(teamId);
+    await removeTeam(teamId);
     getTeams(currentRoom, setTeamLists);
   };
 
