@@ -2,17 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import GoBackButton from "../GoBackButton";
 
 export default function Header({ title, channel, roomId }) {
   const location = useLocation();
 
   return (
     <Title>
+      <GoBackButton />
       {location.pathname.includes("channel/") ? (
-        <Infodata>채널 : {channel}</Infodata>
+        <Infodata>{channel}</Infodata>
       ) : (
         <Infodata>
-          <Infodata>채널-룸 : {roomId}</Infodata>
+          <Infodata>{roomId}</Infodata>
         </Infodata>
       )}
       {title}
