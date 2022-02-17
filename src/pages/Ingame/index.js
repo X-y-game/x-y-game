@@ -122,7 +122,7 @@ export default function Game() {
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
       {isBoardModal && resultBoard ? (
         <Modal
-          handleClick={handleCurrentBoard}
+          handleToggleBoard={handleCurrentBoard}
           isInterim={isCurrentModal}
           isfinishResult={isFinishedResult}
           selectCard={resultBoard[currentRound - 1]}
