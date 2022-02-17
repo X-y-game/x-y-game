@@ -18,6 +18,13 @@ export default function GameCard({ card, setMycard, setIsChecked, isChecked }) {
   );
 }
 
+GameCard.propTypes = {
+  card: PropTypes.string.isRequired,
+  setMycard: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  setIsChecked: PropTypes.func.isRequired,
+};
+
 const CardContainer = styled.ul`
   display: flex;
   justify-content: center;
@@ -44,10 +51,3 @@ const Card = styled.input.attrs({ type: "radio" })`
     background-color: ${(props) => (props.id === "X" ? "#c3e8fb" : "#ffb7b7")};
   }
 `;
-
-GameCard.propTypes = {
-  card: PropTypes.string.isRequired,
-  setMycard: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool.isRequired,
-  setIsChecked: PropTypes.func.isRequired,
-};
