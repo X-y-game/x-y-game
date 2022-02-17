@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { getRoomAPI } from "../../api/api";
 import RoomList from "./roomList";
@@ -7,13 +7,8 @@ import Header from "../../components/Header";
 
 export default function Room() {
   const location = useLocation();
-  const history = useHistory();
   const { id: indexId } = useParams();
   const { channel: channelId, title: channelTitle } = location.state;
-
-  const handleClick = () => {
-    history.goBack();
-  };
 
   const [rooms, setRooms] = useState([]);
 
@@ -28,10 +23,7 @@ export default function Room() {
   return (
     <Body>
       <ChannelPage>
-        <BackBtn type="button" onClick={handleClick}>
-          {"<"}
-        </BackBtn>
-        <Header title="룸을 선택하세요." channel={channelTitle} roomId="-" />
+        <Header title="룸을 선택하세요" channel={channelTitle} roomId="-" />
         <WrapChannelUL>
           {rooms?.map(({ _id, title }, index) => (
             <RoomList
@@ -51,16 +43,6 @@ export default function Room() {
 
 const Body = styled.div`
   background-color: #e0dede;
-`;
-
-const BackBtn = styled.button`
-  position: absolute;
-  left: 10px;
-  top: 6vh;
-  padding: 10px;
-  margin-top: -35px;
-  background-color: inherit;
-  font-size: 25px;
 `;
 
 const ChannelPage = styled.div`
