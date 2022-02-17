@@ -56,6 +56,29 @@ export default function AdminPanelContainer({
   );
 }
 
+AdminPanelContainer.propTypes = {
+  title: Proptypes.string.isRequired,
+  placeholder: Proptypes.string.isRequired,
+  data: Proptypes.objectOf(Proptypes.array),
+  onDelete: Proptypes.func,
+  onHandleChange: Proptypes.func,
+  onHandleClick: Proptypes.func,
+  onHandleKeyDown: Proptypes.func,
+  onHandleDisplay: Proptypes.func,
+  name: Proptypes.string.isRequired,
+  password: Proptypes.string,
+};
+
+AdminPanelContainer.defaultProps = {
+  data: null,
+  onDelete: null,
+  onHandleChange: null,
+  onHandleClick: null,
+  onHandleKeyDown: null,
+  onHandleDisplay: null,
+  password: "",
+};
+
 const Wrapper = styled.div`
   background: #eeeeee;
   border: solid 1px #444444;
@@ -104,26 +127,3 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }
 `;
-
-AdminPanelContainer.propTypes = {
-  title: Proptypes.string.isRequired,
-  placeholder: Proptypes.string.isRequired,
-  data: Proptypes.objectOf(Proptypes.array),
-  onDelete: Proptypes.func,
-  onHandleChange: Proptypes.func,
-  onHandleClick: Proptypes.func,
-  onHandleKeyDown: Proptypes.func,
-  onHandleDisplay: Proptypes.func,
-  name: Proptypes.string.isRequired,
-  password: Proptypes.string,
-};
-
-AdminPanelContainer.defaultProps = {
-  data: null,
-  onDelete: null,
-  onHandleChange: null,
-  onHandleClick: null,
-  onHandleKeyDown: null,
-  onHandleDisplay: null,
-  password: "",
-};

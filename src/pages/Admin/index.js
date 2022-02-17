@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
-import { makeChannelAPI, getRoomAPI, getTeamsAPI, makeRoomAPI, makeTeamAPI, removeTeamAPI } from "../../api/api";
+import { makeChannelAPI, makeRoomAPI, makeTeamAPI } from "../../api/api";
 import { getChannels, getRooms, getTeams, removeChannel, removeRoom, removeTeam } from "../../utils/api";
 
 export default function Admin() {
@@ -62,14 +62,12 @@ export default function Admin() {
   };
 
   const displayRooms = async (channelId) => {
-    const rooms = await (await getRoomAPI(channelId)).json();
-    setRoomLists(rooms);
+    getRooms(channelId, setRoomLists);
     setCurrentChannel(channelId);
   };
 
   const displayTeams = async (roomId) => {
-    const teams = await (await getTeamsAPI(roomId)).json();
-    setTeamLists(teams);
+    getTeams(roomId, setTeamLists);
     setCurrentRoom(roomId);
   };
 

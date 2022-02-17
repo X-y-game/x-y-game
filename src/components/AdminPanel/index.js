@@ -16,7 +16,7 @@ export default function AdminPanel({
   password,
 }) {
   return (
-    <Channels>
+    <Container>
       <AdminPanelContainer
         title={title}
         placeholder={placeholder}
@@ -29,21 +29,9 @@ export default function AdminPanel({
         name={name}
         password={password}
       />
-    </Channels>
+    </Container>
   );
 }
-
-const Channels = styled.section`
-  width: 100%;
-  max-width: 750px;
-  margin-left: 20px;
-  float: left;
-  padding-left: 20px;
-  padding-right: 20px;
-  min-height: 1px;
-  box-sizing: border-box;
-  margin-top: 20px;
-`;
 
 AdminPanel.propTypes = {
   title: Proptypes.string.isRequired,
@@ -66,3 +54,15 @@ AdminPanel.defaultProps = {
   onDisplay: null,
   password: "",
 };
+
+const Container = styled.section`
+  width: 100%;
+  max-width: 750px;
+  margin-left: 20px;
+  float: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  min-height: 1px;
+  box-sizing: border-box;
+  margin-top: 20px;
+`;
