@@ -1,10 +1,10 @@
 import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import Home from "../../pages/Home";
+import Home from "../../pages/Home/Home";
 import Waiting from "../../pages/Waiting";
 import InGame from "../../pages/Ingame";
 import Channels from "../../pages/Channels/Container";
-import Admin from "../../pages/Admin";
+import Admin from "../../pages/Admin/Container";
 import Room from "../../pages/Room";
 
 export default function App() {
