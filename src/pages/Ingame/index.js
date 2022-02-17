@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import GameItem from "../../components/GameItem";
+import GameItem from "../../components/Ingame/GameItem";
+import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
 import { emitJoinTeam, socket } from "../../utils/socket";
@@ -13,16 +14,16 @@ export default function Game() {
   const teamInfo = location.pathname.split(":")[1].split("-");
   const [channelId, roomId, team] = teamInfo.slice(0, 3);
   const roomName = `${channelId}-${roomId}`;
-  let round = Number(teamInfo[3]);
+  const [round, setRound] = useState(Number(teamInfo[3]));
 
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [selectBoard, setSelect] = useState(); // 전체 라운드 선택
-  const [roundScore, setRoundScore] = useState(); // 라운드별 점수
-  const [scoreBoard, setScoreBoard] = useState(); // 전체 라운드 점수
-  const [roundDone, setRoundDone] = useState(false); // 라운드 종료 체크
-  const [currentTeamScore, setCurrentScore] = useState(0); // 현재 점수
+  const [selectBoard, setSelect] = useState();
+  const [roundScore, setRoundScore] = useState();
+  const [scoreBoard, setScoreBoard] = useState();
+  const [roundDone, setRoundDone] = useState(false);
+  const [currentTeamScore, setCurrentScore] = useState(0);
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
@@ -30,6 +31,7 @@ export default function Game() {
   const [totalResult, setTotalResult] = useState({});
 
   useEffect(() => {
+    setIsChecked(false);
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
@@ -45,11 +47,10 @@ export default function Game() {
     };
   }, []);
 
-  useEffect(() => {
-    setCurrentScore(getCurrentScore(scoreBoard, round, team));
-  }, [scoreBoard]);
+  useEffect(() => {}, [scoreBoard]);
 
   useEffect(() => {
+    setCurrentScore(getCurrentScore(scoreBoard, round, team));
     if (selectBoard && roundScore) {
       if (roundDone) {
         setIsCurrentModal(false);
@@ -57,13 +58,6 @@ export default function Game() {
       }
     }
   }, [selectBoard, scoreBoard, roundDone]);
-
-  useEffect(() => {
-    if (scoreBoard && selectBoard) {
-      // 중간 결과
-      // console.log(scoreBoard.slice(0, round), selectBoard.slice(0, round));
-    }
-  }, [isBoardModal]);
 
   const checkSpecialRound = () => {
     switch (round) {
@@ -75,7 +69,6 @@ export default function Game() {
         break;
       case 10:
         window.alert("10라운드에서는 점수의 가중치가 10배 입니다!!!");
-
         break;
       default:
         break;
@@ -93,16 +86,14 @@ export default function Game() {
         setTotalResult(tableData);
         setisFinishResult(true);
         setIsBoardModal(true);
-        // 최종 결과 보여주기
-        console.log("done", selectBoard, scoreBoard, currentTeamScore);
         return;
       }
       setIsSubmitted(false);
       setRoundDone(false);
       setMycard("");
-      round += 1;
+      setRound(round + 1);
       checkSpecialRound();
-      history.push(`/game/:${roomName}-${team}-${round}`);
+      history.push(`/game/:${roomName}-${team}-${round + 1}`);
     }
   };
 
@@ -120,17 +111,10 @@ export default function Game() {
     }
   };
 
-  const handleSelect = (e) => {
-    setIsSubmitted(false);
-    setIsChecked(true);
-    setMycard(e.target.htmlFor);
-  };
-
-  const handleOnChange = () => {
-    setIsChecked(true);
-  };
-
   const handleSubmit = () => {
+    if (!mycard) {
+      return;
+    }
     setIsSubmitted(true);
     setIsChecked(false);
     socket.emit("select_card", roomName, team, round, mycard);
@@ -187,14 +171,16 @@ export default function Game() {
         ))}
       </GameItems>
       <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
-        <Card id="X" name="choice" hidden onChange={handleOnChange} checked={isChecked} />
-        <CardLabel htmlFor="X" onClick={handleSelect}>
-          X
-        </CardLabel>
-        <Card id="Y" name="choice" hidden onChange={handleOnChange} checked={isChecked} />
-        <CardLabel htmlFor="Y" onClick={handleSelect}>
-          Y
-        </CardLabel>
+        {["X", "Y"].map((item) => (
+          <GameCard
+            key={`card_${item}`}
+            card={item}
+            setIsSubmitted={setIsSubmitted}
+            setMycard={setMycard}
+            setIsChecked={setIsChecked}
+            isChecked={isChecked}
+          />
+        ))}
       </Cards>
       <Footer>
         <li>현재 점수 : {currentTeamScore}</li>
@@ -204,7 +190,7 @@ export default function Game() {
               {roundDone ? "다음으로" : "대기중"}
             </button>
           ) : (
-            <button type="button" disabled={!isChecked} onClick={handleSubmit}>
+            <button type="submit" disabled={!mycard} onClick={handleSubmit}>
               제출하기
             </button>
           )}
@@ -247,28 +233,6 @@ const GameItems = styled.ul`
 const Cards = styled.label`
   display: flex;
   justify-content: center;
-`;
-
-const CardLabel = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-  border-radius: 10px;
-  background-color: #fbf2f2;
-  font-size: 48px;
-`;
-
-const Card = styled.input.attrs({ type: "radio" })`
-  & + ${CardLabel} {
-    background-color: #fbf2f2;
-  }
-  &:checked + ${CardLabel} {
-    box-shadow: #c1d0fb 2px 2px 1px 1px;
-    background-color: ${(props) => (props.id === "X" ? "#c3e8fb" : "#ffb7b7")};
-  }
 `;
 
 const Footer = styled.ul`
