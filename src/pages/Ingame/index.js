@@ -5,8 +5,16 @@ import GameItem from "../../components/Ingame/GameItem";
 import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
-import { emitJoinTeam, socket } from "../../utils/socket";
-import { getMiddleResult, getCurrentScore, sumScores, sumResults, makeData } from "../../utils/game";
+import {
+  socket,
+  emitJoinTeam,
+  getMiddleResult,
+  getCurrentScore,
+  sumScores,
+  sumResults,
+  makeData,
+  checkSpecialRound,
+} from "../../utils";
 
 export default function Game() {
   const history = useHistory();
@@ -47,8 +55,6 @@ export default function Game() {
     };
   }, []);
 
-  useEffect(() => {}, [scoreBoard]);
-
   useEffect(() => {
     setCurrentScore(getCurrentScore(scoreBoard, round, team));
     if (selectBoard && roundScore) {
@@ -58,22 +64,6 @@ export default function Game() {
       }
     }
   }, [selectBoard, scoreBoard, roundDone]);
-
-  const checkSpecialRound = () => {
-    switch (round) {
-      case 5:
-        window.alert("5라운드에서는 점수의 가중치가 3배 입니다!");
-        break;
-      case 8:
-        window.alert("8라운드에서는 점수의 가중치가 5배 입니다!!");
-        break;
-      case 10:
-        window.alert("10라운드에서는 점수의 가중치가 10배 입니다!!!");
-        break;
-      default:
-        break;
-    }
-  };
 
   const handleNext = () => {
     if (roundDone) {
@@ -92,7 +82,7 @@ export default function Game() {
       setRoundDone(false);
       setMycard("");
       setRound(round + 1);
-      checkSpecialRound();
+      checkSpecialRound(round);
       history.push(`/game/:${roomName}-${team}-${round + 1}`);
     }
   };
@@ -112,9 +102,6 @@ export default function Game() {
   };
 
   const handleSubmit = () => {
-    if (!mycard) {
-      return;
-    }
     setIsSubmitted(true);
     setIsChecked(false);
     socket.emit("select_card", roomName, team, round, mycard);
