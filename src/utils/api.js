@@ -1,6 +1,6 @@
 import { getChannelsAPI, getRoomAPI, getTeamsAPI } from "../api/api";
 
-export default async function getChannels(setChannels) {
+export async function getChannels(setChannels) {
   const channelList = await (await getChannelsAPI()).json();
   return setChannels(channelList);
 }
