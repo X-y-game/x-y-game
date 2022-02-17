@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import AdminPanel from "../../components/AdminPanel";
 import { makeChannelAPI, makeRoomAPI, makeTeamAPI } from "../../api/api";
 import { getChannels, getRooms, getTeams, removeChannel, removeRoom, removeTeam } from "../../utils/api";
+import Admin from "./Admin";
 
-export default function Admin() {
+export default function AdminContainer() {
   const [channels, setChannels] = useState(null);
   const [roomLists, setRoomLists] = useState(null);
   const [teamLists, setTeamLists] = useState(null);
@@ -91,79 +90,22 @@ export default function Admin() {
   };
 
   return (
-    <Container>
-      <h1>XY Admin Panel</h1>
-
-      {channels && (
-        <AdminPanel
-          title="Channel List"
-          placeholder="채널 생성하기 콤마로 맥스 인원을 정해주세요! 예시) 멋쟁이신사처럼,100"
-          data={channels}
-          onDelete={onDeleteChannel}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-          onDisplay={displayRooms}
-          onClick={onCreateChannel}
-          name={name}
-          password={password}
-        />
-      )}
-
-      {roomLists ? (
-        <AdminPanel
-          title="Room List"
-          placeholder="룸 생성하기"
-          data={roomLists}
-          name={room}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-          onDisplay={displayTeams}
-          onDelete={onDeleteRoom}
-        />
-      ) : (
-        <AdminPanel
-          title="Room List"
-          placeholder="룸 생성하기"
-          name={room}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-        />
-      )}
-
-      {teamLists ? (
-        <AdminPanel
-          title="Team List"
-          placeholder="팀 생성하기"
-          data={teamLists}
-          name={team}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-          onDelete={onDeleteTeam}
-        />
-      ) : (
-        <AdminPanel
-          title="Team List"
-          placeholder="팀 생성하기"
-          name={team}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-        />
-      )}
-    </Container>
+    <Admin
+      channelName={name}
+      roomName={room}
+      teamName={team}
+      password={password}
+      channels={channels}
+      rooms={roomLists}
+      teams={teamLists}
+      onDisplayRooms={displayRooms}
+      onDisplayTeams={displayTeams}
+      onCreateChannel={onCreateChannel}
+      onDeleteChannel={onDeleteChannel}
+      onDeleteRoom={onDeleteRoom}
+      onDeleteTeam={onDeleteTeam}
+      onHandleChange={onHandleChange}
+      onHandleKeyDown={onHandleKeyDown}
+    />
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #54628c;
-
-  h1 {
-    padding: 3rem;
-    text-align: center;
-    font-size: 2rem;
-    font-family: "Noto Sans KR", sans-serif;
-    font-weight: 400;
-    color: #f2aeae;
-  }
-`;
