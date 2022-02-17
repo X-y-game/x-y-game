@@ -4,9 +4,6 @@ import PropTypes from "prop-types";
 import Channel from "../../components/Channel";
 
 export default function Channels({ channels }) {
-  console.log(channels, "check");
-  console.log(typeof channels, "check");
-  console.log(typeof channels.channelLists, "Sfd");
   return (
     <ChannelBody>
       <ChannelPage>
