@@ -43,9 +43,6 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
-    socket.on("test", (r, s) => {
-      console.log(r, s);
-    });
     socket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
     });
