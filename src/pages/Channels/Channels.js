@@ -1,12 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import PropTypes, { array, object } from "prop-types";
 import Channel from "../../components/Channel";
 
 export default function Channels({ channels }) {
-  console.log(channels, "check");
-  console.log(typeof channels, "check");
-  console.log(typeof channels.channelLists, "Sfd");
   return (
     <ChannelBody>
       <ChannelPage>
@@ -21,9 +18,8 @@ export default function Channels({ channels }) {
   );
 }
 
-// TODO: proptypes check
 Channels.propTypes = {
-  channels: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.object))).isRequired,
+  channels: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.array), PropTypes.arrayOf(PropTypes.array)]).isRequired,
 };
 
 const ChannelBody = styled.div`
