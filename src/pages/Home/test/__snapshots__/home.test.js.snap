@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home  renders 1`] = `
+<div
+  className="sc-bdvvtL junnHm"
+>
+  <div
+    className="sc-gsDKAQ japwcN"
+  >
+    <div>
+      <h1>
+        <img
+          alt="logo"
+          className="sc-hKwDye cTZbSc"
+          src="xy-logo.png"
+        />
+      </h1>
+      <div
+        className="sc-dkPtRN lnpABA"
+      >
+        <p
+          className="game-intro"
+        >
+          Win as much as you can
+        </p>
+        <img
+          alt="game-poster"
+          className="sc-jRQBWg fzdYDm"
+          src="xy-bg.png"
+        />
+      </div>
+    </div>
+    <button
+      className="sc-eCImPb gofXFp"
+      onClick={[Function]}
+      type="button"
+    >
+      Start
+    </button>
+  </div>
+</div>
+`;
