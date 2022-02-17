@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Home from "../../pages/Home";
 import Waiting from "../../pages/Waiting";
 import InGame from "../../pages/Ingame";
-import Channels from "../../pages/Channels";
+import Channels from "../../pages/Channels/Container";
 import Admin from "../../pages/Admin";
 import Room from "../../pages/Room";
 
