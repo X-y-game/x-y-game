@@ -72,7 +72,7 @@ const ModalDiv = styled.div`
   text-align: center;
   z-index: 10;
   p {
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: bold;
   }
   button {
@@ -118,7 +118,7 @@ Modal.propTypes = {
   isInterim: PropTypes.bool,
   round: PropTypes.number,
   isfinishResult: PropTypes.bool,
-  totalResult: PropTypes.arrayOf(Object),
+  totalResult: PropTypes.arrayOf(PropTypes.object),
 };
 
 Modal.defaultProps = {
