@@ -29,6 +29,10 @@ export default function Home({ history }) {
   );
 }
 
+Home.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+};
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -95,7 +99,3 @@ const Poster = styled.img`
   height: 50%;
   border-radius: 1.2rem;
 `;
-
-Home.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-};
