@@ -7,16 +7,16 @@ export default function ResultContainer({ tableData }) {
   const columnData = [
     {
       accessor: "team",
-      Header: "team",
+      Header: "TEAM",
     },
     {
-      Header: "score",
+      Header: "SCORE",
       accessor: "score",
       Cell: Score,
     },
     {
       accessor: "result",
-      Header: "result",
+      Header: "RESULT",
     },
   ];
 
@@ -26,5 +26,5 @@ export default function ResultContainer({ tableData }) {
 }
 
 ResultContainer.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.Object).isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

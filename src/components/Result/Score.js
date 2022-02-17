@@ -14,5 +14,5 @@ export default function Score({ value }) {
 }
 
 Score.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
 };
