@@ -12,7 +12,7 @@ import {
   removeTeamAPI,
 } from "../../api/api";
 
-import getChannels from "../../utils/api";
+import { getChannels, getRooms, getTeams } from "../../utils/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
@@ -26,16 +26,6 @@ export default function Admin() {
   const [team, setTeam] = useState("");
   const [password, setPassword] = useState("");
 
-  async function getRooms() {
-    const rooms = await (await getRoomAPI(currentChannel)).json();
-    setRoomLists(rooms);
-  }
-
-  async function getTeams() {
-    const teams = await (await getTeamsAPI(currentRoom)).json();
-    setTeamLists(teams);
-  }
-
   useEffect(() => {
     getChannels(setChannels);
   }, []);
@@ -47,12 +37,12 @@ export default function Admin() {
 
   const onDeleteRoom = async (roomId) => {
     await removeRoomAPI(roomId);
-    getRooms();
+    getRooms(currentChannel, setRoomLists);
   };
 
   const onDeleteTeam = async (teamId) => {
     await removeTeamAPI(teamId);
-    getTeams();
+    getTeams(currentRoom, setTeamLists);
   };
 
   const onHandleChange = (ev) => {
@@ -99,7 +89,7 @@ export default function Admin() {
       if (ev.keyCode === enter) {
         await makeRoomAPI(currentChannel, room);
         setRoom("");
-        getRooms();
+        getRooms(currentChannel, setRoomLists);
       }
     }
 
@@ -107,7 +97,7 @@ export default function Admin() {
       if (ev.keyCode === enter) {
         await makeTeamAPI(team, currentRoom);
         setTeam("");
-        getTeams();
+        getTeams(currentRoom, setTeamLists);
       }
     }
   };
