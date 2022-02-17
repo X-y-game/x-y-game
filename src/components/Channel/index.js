@@ -9,7 +9,9 @@ export default function Channel({ text, index, channelId, pw }) {
   };
   return (
     <>
-      {openPwForm && <CheckPw passWord={pw} index={index} channelId={channelId} title={text} />}
+      {openPwForm && (
+        <CheckPw passWord={pw} index={index} channelId={channelId} title={text} handleClick={handleClick} />
+      )}
       <li onClick={handleClick} onKeyDown={handleClick} aria-hidden="true">
         {text}
       </li>
