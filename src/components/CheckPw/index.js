@@ -36,7 +36,7 @@ export default function CheckPw({ passWord, index, channelId, title, handleClick
           입력
         </EnterButton>
       </CheckPassWard>
-      <Dimd onClick={handleClick}>dimd</Dimd>
+      <Dimmed onClick={handleClick}>dimmed</Dimmed>
     </Wrap>
   );
 }
@@ -89,7 +89,7 @@ const Message = styled.p`
   color: #ff0000;
 `;
 
-const Dimd = styled.div`
+const Dimmed = styled.div`
   position: fixed;
   top: 0;
   left: 0;
