@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminPanel from "../../components/AdminPanel";
 import {
-  getChannelsAPI,
   removeChannel,
   makeChannelAPI,
   getRoomAPI,
@@ -12,6 +11,8 @@ import {
   removeRoomAPI,
   removeTeamAPI,
 } from "../../api/api";
+
+import getChannels from "../../utils/api";
 
 export default function Admin() {
   const [channels, setChannels] = useState(null);
@@ -25,11 +26,6 @@ export default function Admin() {
   const [team, setTeam] = useState("");
   const [password, setPassword] = useState("");
 
-  async function getChannels() {
-    const channelList = await (await getChannelsAPI()).json();
-    setChannels(channelList);
-  }
-
   async function getRooms() {
     const rooms = await (await getRoomAPI(currentChannel)).json();
     setRoomLists(rooms);
@@ -41,12 +37,12 @@ export default function Admin() {
   }
 
   useEffect(() => {
-    getChannels();
+    getChannels(setChannels);
   }, []);
 
   const onDeleteChannel = async (channelId) => {
     await removeChannel(channelId);
-    getChannels();
+    getChannels(setChannels);
   };
 
   const onDeleteRoom = async (roomId) => {
@@ -80,7 +76,7 @@ export default function Admin() {
 
   const onCreateChannel = async () => {
     await makeChannelAPI(name, password);
-    getChannels();
+    getChannels(setChannels);
     setName("");
     setPassword("");
   };
