@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import CheckPw from "../../components/CheckPw";
+import CheckPw from "../CheckPw";
 
-export default function List({ text, index, channelId, pw }) {
+export default function Channel({ text, index, channelId, pw }) {
   const [openPwForm, setOpenPwForm] = useState(false);
   const handleClick = () => {
     setOpenPwForm(!openPwForm);
@@ -17,7 +17,7 @@ export default function List({ text, index, channelId, pw }) {
   );
 }
 
-List.propTypes = {
+Channel.propTypes = {
   text: PropTypes.string.isRequired,
   channelId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,

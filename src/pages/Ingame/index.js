@@ -51,12 +51,10 @@ export default function Game() {
 
   useEffect(() => {
     if (selectBoard && roundScore) {
-      // round 별 결과 모달 부분
       if (roundDone) {
         setIsCurrentModal(false);
         setIsBoardModal(true);
       }
-      // console.log(selectBoard[round - 1], roundScore);
     }
   }, [selectBoard, scoreBoard, roundDone]);
 

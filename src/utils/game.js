@@ -1,9 +1,7 @@
-/* eslint-disable no-plusplus */
-// 중간/최종 결과
 export function getMiddleResult(result, score, round) {
   const midResult = Array(round).fill(Array(4).fill(["", 0]));
-  for (let r = 0; r < round; r++) {
-    for (let i = 0; i < 4; i++) {
+  for (let r = 0; r < round; r += 1) {
+    for (let i = 0; i < 4; i += 1) {
       midResult[r][i] = [result[r][i], score[r][i]];
     }
   }
@@ -13,7 +11,7 @@ export function getMiddleResult(result, score, round) {
 export function getCurrentScore(score, round, team) {
   let teamScore = 0;
   if (score) {
-    for (let r = 0; r < round; r++) {
+    for (let r = 0; r < round; r += 1) {
       teamScore += score[r][team.slice(4) - 1];
     }
   }
