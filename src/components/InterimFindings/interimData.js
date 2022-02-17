@@ -44,13 +44,20 @@ const WrapRound = styled.div`
 const CheckCard = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+  height: 3vh;
   margin: 10px;
   padding: 0 1px;
   background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 1em;
   font-weight: bold;
   box-sizing: border-box;
+  @media screen and (min-width: 800px) {
+    height: 4vh;
+    padding: 0 10px;
+    font-size: 1.2em;
+  }
 `;
 
 InterimData.propTypes = {

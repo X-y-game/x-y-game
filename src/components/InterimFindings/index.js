@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import InterimData from "./interimData";
 
-export default function InterimFindings({ scoreData, selectData, round, isfinishResult }) {
+export default function InterimFindings({ scoreData, selectData, round }) {
   const roundData = () => {
     const pushData = [];
     for (let i = 0; i < round; i += 1) {
@@ -46,19 +46,6 @@ export default function InterimFindings({ scoreData, selectData, round, isfinish
           teamFourScore={it.teamFourScore}
         />
       ))}
-      <hr />
-
-      {isfinishResult ? (
-        <WrapfinishScore>
-          <em>합계</em>
-          <div>{round + 200}</div>
-          <div>{round + 300}</div>
-          <div>{round + 100}</div>
-          <div>{round + 200}</div>
-        </WrapfinishScore>
-      ) : (
-        ""
-      )}
     </WrapResult>
   );
 }
@@ -68,11 +55,16 @@ const WrapResult = styled.div`
   flex-direction: column;
   gap: 5px;
   margin-top: 5px;
+  padding: 5px;
   border-radius: 5px;
   background-color: #c1d0fb;
   p {
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: bold;
+  }
+  @media screen and (min-width: 600px) {
+    width: 60%;
+    margin: 0 auto;
   }
 `;
 
@@ -80,30 +72,11 @@ const TeamNumber = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
-  margin-left: 43px;
-`;
-
-const WrapfinishScore = styled.div`
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  padding: 10px 30px 10px 0px;
-  em {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-  div {
-    font-weight: bold;
-  }
+  margin-left: calc(11%);
 `;
 
 InterimFindings.propTypes = {
   scoreData: PropTypes.arrayOf(PropTypes.array).isRequired,
   selectData: PropTypes.arrayOf(PropTypes.array).isRequired,
   round: PropTypes.number.isRequired,
-  isfinishResult: PropTypes.bool,
-};
-
-InterimFindings.defaultProps = {
-  isfinishResult: false,
 };
