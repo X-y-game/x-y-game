@@ -22,12 +22,12 @@ export default function Game() {
   const teamInfo = location.pathname.split(":")[1].split("-");
   const [channelId, roomId, team] = teamInfo.slice(0, 3);
   const roomName = `${channelId}-${roomId}`;
-  const [round, setRound] = useState(Number(teamInfo[3]));
+  const [currentRound, setCurrentRound] = useState(Number(teamInfo[3]));
 
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [selectBoard, setSelect] = useState();
+  const [resultBoard, setResultBoard] = useState();
   const [roundScore, setRoundScore] = useState();
   const [scoreBoard, setScoreBoard] = useState();
   const [roundDone, setRoundDone] = useState(false);
@@ -35,7 +35,7 @@ export default function Game() {
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
-  const [isfinishResult, setisFinishResult] = useState(false);
+  const [isFinishedResult, setIsFinishedResult] = useState(false);
   const [totalResult, setTotalResult] = useState({});
 
   useEffect(() => {
@@ -43,8 +43,11 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
+    socket.on("test", (r, s) => {
+      console.log(r, s);
+    });
     socket.on("cur_result", (currentResult) => {
-      setSelect(currentResult);
+      setResultBoard(currentResult);
     });
     socket.on("cur_score", (currentScore) => {
       setScoreBoard(currentScore);
@@ -56,34 +59,34 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    setCurrentScore(getCurrentScore(scoreBoard, round, team));
-    if (selectBoard && roundScore) {
+    setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
+    if (resultBoard && roundScore) {
       if (roundDone) {
         setIsCurrentModal(false);
         setIsBoardModal(true);
       }
     }
-  }, [selectBoard, scoreBoard, roundDone]);
+  }, [resultBoard, scoreBoard, roundDone]);
 
   const handleNext = () => {
     if (roundDone) {
-      setCurrentScore(getCurrentScore(scoreBoard, round, team));
-      if (round === 10) {
+      setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
+      if (currentRound === 10) {
         const totalScores = sumScores(scoreBoard);
         const totalResults = sumResults(scoreBoard);
         const teamData = { results: totalResults, scores: totalScores };
         const tableData = makeData(teamData);
         setTotalResult(tableData);
-        setisFinishResult(true);
+        setIsFinishedResult(true);
         setIsBoardModal(true);
         return;
       }
       setIsSubmitted(false);
       setRoundDone(false);
       setMycard("");
-      setRound(round + 1);
-      checkSpecialRound(round);
-      history.push(`/game/:${roomName}-${team}-${round + 1}`);
+      setCurrentRound(currentRound + 1);
+      checkSpecialRound(currentRound);
+      history.push(`/game/:${roomName}-${team}-${currentRound + 1}`);
     }
   };
 
@@ -96,15 +99,15 @@ export default function Game() {
     setIsCurrentModal(true);
     setIsBoardModal(!isBoardModal);
     setIsRuleModal(isRuleModal && false);
-    if (scoreBoard && selectBoard) {
-      getMiddleResult(scoreBoard.slice(0, round), selectBoard.slice(0, round), round);
+    if (scoreBoard && resultBoard) {
+      getMiddleResult(scoreBoard.slice(0, currentRound), resultBoard.slice(0, currentRound), currentRound);
     }
   };
 
   const handleSubmit = () => {
     setIsSubmitted(true);
     setIsChecked(false);
-    socket.emit("select_card", roomName, team, round, mycard);
+    socket.emit("select_card", roomName, team, currentRound, mycard);
     socket.on("show_round_score", (currentScore) => {
       setRoundScore(currentScore);
       setRoundDone(true);
@@ -113,23 +116,23 @@ export default function Game() {
       setScoreBoard(allScore);
     });
     socket.on("show_select", (allSelect) => {
-      setSelect(allSelect);
+      setResultBoard(allSelect);
     });
   };
 
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
-      {isBoardModal && selectBoard ? (
+      {isBoardModal && resultBoard ? (
         <Modal
           handleClick={handleCurrentBoard}
           isInterim={isCurrentModal}
-          isfinishResult={isfinishResult}
-          selectCard={selectBoard[round - 1]}
+          isfinishResult={isFinishedResult}
+          selectCard={resultBoard[currentRound - 1]}
           roundScore={roundScore}
           scoreBoard={scoreBoard}
-          selectBoard={selectBoard}
-          round={round}
+          selectBoard={resultBoard}
+          round={currentRound}
           totalResult={totalResult}
         />
       ) : (
@@ -137,10 +140,10 @@ export default function Game() {
       )}
       <Header>
         <li>{team}</li>
-        <li>Round {round}</li>
+        <li>Round {currentRound}</li>
         <li>
           <span
-            style={{ display: round > 1 ? "inline" : "none" }}
+            style={{ display: currentRound > 1 ? "inline" : "none" }}
             aria-hidden="true"
             onClick={handleCurrentBoard}
             onKeyDown={handleCurrentBoard}

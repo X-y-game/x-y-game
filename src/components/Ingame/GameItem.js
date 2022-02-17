@@ -19,6 +19,13 @@ export default function GameItem({ id, team, isSubmitted, mycard }) {
   );
 }
 
+GameItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  isSubmitted: PropTypes.bool.isRequired,
+  mycard: PropTypes.string.isRequired,
+  team: PropTypes.string.isRequired,
+};
+
 const Item = styled.ul`
   display: flex;
   flex-direction: column;
@@ -51,10 +58,3 @@ const SelectedCard = styled.li`
   font-size: 24px;
   font-weight: 600;
 `;
-
-GameItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  isSubmitted: PropTypes.bool.isRequired,
-  mycard: PropTypes.string.isRequired,
-  team: PropTypes.string.isRequired,
-};
