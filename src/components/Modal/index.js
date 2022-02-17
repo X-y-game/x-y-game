@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import TeamResult from "./teamResult";
@@ -6,7 +6,7 @@ import InterimFindings from "../InterimFindings";
 import Result from "../Result/Container";
 
 export default function Modal({
-  handleClick,
+  handleToggleBoard,
   selectCard,
   roundScore,
   isInterim,
@@ -28,25 +28,23 @@ export default function Modal({
     return pushData;
   };
 
-  const [isRoundModal, setIsRoundModal] = useState(isInterim);
-
   return (
     <>
       {!isfinishResult ? (
         <>
-          <ModalDiv onClick={handleClick}>
-            <p>{isRoundModal ? "중간 결과" : "라운드 결과"}</p>
-            {isRoundModal ? (
+          <ModalDiv onClick={handleToggleBoard}>
+            <p>{isInterim ? "중간 결과" : "라운드 결과"}</p>
+            {isInterim ? (
               <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
             ) : (
               <WrapResult>
-                {roundResultData().map((it) => (
-                  <TeamResult key={`modal_${it.team}`} team={it.team} cardXY={it.cardXY} point={it.point} />
+                {roundResultData().map((data) => (
+                  <TeamResult key={`modal_${data.team}`} team={data.team} cardXY={data.cardXY} point={data.point} />
                 ))}
               </WrapResult>
             )}
           </ModalDiv>
-          <Dimd onClick={handleClick}>dimd</Dimd>
+          <Dimmed onClick={handleToggleBoard}>dimmed</Dimmed>
         </>
       ) : (
         <ModalDiv>
@@ -68,12 +66,13 @@ const ModalDiv = styled.div`
   gap: 20px;
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   background-color: #fbf2f2;
   text-align: center;
+  z-index: 10;
   p {
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
   }
   button {
@@ -89,16 +88,8 @@ const WrapResult = styled.div`
   align-items: center;
   padding: 10px;
   gap: 20px;
-  .wrapCard {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 40%;
-    height: 100%;
-    padding: 10px;
-    background-color: #c1d0fb;
+  @media screen and (min-width: 600px) {
+    height: 60vh;
   }
 `;
 
@@ -109,7 +100,7 @@ const FinishMessage = styled.p`
   font-size: 20px;
 `;
 
-const Dimd = styled.div`
+const Dimmed = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -119,7 +110,7 @@ const Dimd = styled.div`
 `;
 
 Modal.propTypes = {
-  handleClick: PropTypes.func,
+  handleToggleBoard: PropTypes.func,
   selectCard: PropTypes.arrayOf(PropTypes.string),
   roundScore: PropTypes.arrayOf(PropTypes.number),
   scoreBoard: PropTypes.arrayOf(PropTypes.array),
@@ -131,7 +122,7 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  handleClick: () => {},
+  handleToggleBoard: () => {},
   selectCard: "?",
   roundScore: 0,
   scoreBoard: [],
