@@ -4,8 +4,7 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import Team from "../../components/Team";
 import Header from "../../components/Header";
 import Spinner from "../../components/Spinner";
-import { getTeamsAPI } from "../../api/api";
-import { socket, emitJoinTeam } from "../../utils/socket";
+import { socket, emitJoinTeam, getTeams } from "../../utils";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
@@ -22,22 +21,15 @@ export default function WaitingRoom() {
   const roomIndex = id.split("-")[1];
   const roomName = `${channelIndex}-${roomIndex}`;
 
-  // 룸 아이디, 타이틀
   const roomDataInfo = location.state.roomData;
   const [roomTitle, roomDBID] = roomDataInfo.split("-");
-
-  // 팀 가져오기 db
-  async function getTeams() {
-    const response = await (await getTeamsAPI(roomDBID)).json();
-    setTeamList(response.teamLists);
-  }
 
   const handleStart = () => {
     history.push(`/game/:${roomName}-team${team}-${currentRound}`);
   };
 
-  useEffect(() => {
-    getTeams();
+  useEffect(async () => {
+    setTeamList(await getTeams(roomDBID));
     emitJoinTeam(roomName);
     socket.on("cur_round", (round) => {
       setCurrentRound(round);
