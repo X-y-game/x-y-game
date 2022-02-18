@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import InterimData from "./interimData";
+import CurrentData from "./currentData";
 
-export default function InterimFindings({ scoreData, selectData, round }) {
+export default function CurrentResult({ scoreData, selectData, round }) {
   const roundData = () => {
     const pushData = [];
     for (let i = 0; i < round; i += 1) {
@@ -33,7 +33,7 @@ export default function InterimFindings({ scoreData, selectData, round }) {
       </TeamNumber>
 
       {roundData().map((it) => (
-        <InterimData
+        <CurrentData
           key={it.id}
           roundNum={it.roundNum}
           teamOneCardXY={it.teamOneCardXY}
@@ -75,7 +75,7 @@ const TeamNumber = styled.div`
   margin-left: 11%;
 `;
 
-InterimFindings.propTypes = {
+CurrentResult.propTypes = {
   scoreData: PropTypes.arrayOf(PropTypes.array).isRequired,
   selectData: PropTypes.arrayOf(PropTypes.array).isRequired,
   round: PropTypes.number.isRequired,

@@ -43,6 +43,7 @@ export default function Room() {
 
 const Body = styled.div`
   background-color: #e0dede;
+  height: 100%;
 `;
 
 const ChannelPage = styled.div`
@@ -60,7 +61,7 @@ const WrapChannelUL = styled.ul`
   gap: 20px;
   font-size: 20px;
   li {
-    width: 4.5em;
+    min-width: 5.5em;
     padding: 20px;
     background-color: #fbf2f2;
     border-radius: 5px;

@@ -123,8 +123,8 @@ export default function Game() {
       {isBoardModal && resultBoard ? (
         <Modal
           handleToggleBoard={handleCurrentBoard}
-          isInterim={isCurrentModal}
-          isfinishResult={isFinishedResult}
+          isCurrentResult={isCurrentModal}
+          isFinishResult={isFinishedResult}
           selectCard={resultBoard[currentRound - 1]}
           roundScore={roundScore}
           scoreBoard={scoreBoard}

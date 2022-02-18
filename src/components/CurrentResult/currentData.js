@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export default function InterimData({
+export default function CurrentData({
   roundNum,
   teamOneCardXY,
   teamTwoCardXY,
@@ -60,7 +60,7 @@ const CheckCard = styled.div`
   }
 `;
 
-InterimData.propTypes = {
+CurrentData.propTypes = {
   roundNum: PropTypes.number.isRequired,
   teamOneCardXY: PropTypes.string.isRequired,
   teamTwoCardXY: PropTypes.string.isRequired,
