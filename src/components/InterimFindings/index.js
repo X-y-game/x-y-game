@@ -72,7 +72,7 @@ const TeamNumber = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
-  margin-left: calc(11%);
+  margin-left: 11%;
 `;
 
 InterimFindings.propTypes = {

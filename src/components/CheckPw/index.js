@@ -54,7 +54,7 @@ const CheckPassWard = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 30%;
+  top: 50%;
   width: 100%;
   padding: 20px;
   border-radius: 5px;
