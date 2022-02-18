@@ -95,7 +95,7 @@ const WrapResult = styled.div`
 
 const FinishMessage = styled.p`
   position: relative;
-  top: 90vh;
+  top: 50vh;
   font-weight: bold;
   font-size: 20px;
 `;
