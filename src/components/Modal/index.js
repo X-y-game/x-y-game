@@ -2,18 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import TeamResult from "./teamResult";
-import InterimFindings from "../InterimFindings";
+import CurrentResult from "../CurrentResult";
 import Result from "../Result/Container";
 
 export default function Modal({
   handleToggleBoard,
   selectCard,
   roundScore,
-  isInterim,
+  isCurrentResult,
   scoreBoard,
   selectBoard,
   round,
-  isfinishResult,
+  isFinishResult,
   totalResult,
 }) {
   const roundResultData = () => {
@@ -30,12 +30,12 @@ export default function Modal({
 
   return (
     <>
-      {!isfinishResult ? (
+      {!isFinishResult ? (
         <>
           <ModalDiv onClick={handleToggleBoard}>
-            <p>{isInterim ? "중간 결과" : "라운드 결과"}</p>
-            {isInterim ? (
-              <InterimFindings scoreData={scoreBoard} selectData={selectBoard} round={round} />
+            <p>{isCurrentResult ? "중간 결과" : "라운드 결과"}</p>
+            {isCurrentResult ? (
+              <CurrentResult scoreData={scoreBoard} selectData={selectBoard} round={round} />
             ) : (
               <WrapResult>
                 {roundResultData().map((data) => (
@@ -52,7 +52,7 @@ export default function Modal({
           <Result tableData={totalResult} />
         </ModalDiv>
       )}
-      <FinishMessage>{isfinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
+      <FinishMessage>{isFinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
     </>
   );
 }
@@ -115,10 +115,10 @@ Modal.propTypes = {
   roundScore: PropTypes.arrayOf(PropTypes.number),
   scoreBoard: PropTypes.arrayOf(PropTypes.array),
   selectBoard: PropTypes.arrayOf(PropTypes.array),
-  isInterim: PropTypes.bool,
+  isCurrentResult: PropTypes.bool,
   round: PropTypes.number,
-  isfinishResult: PropTypes.bool,
-  totalResult: PropTypes.arrayOf(PropTypes.object),
+  isFinishResult: PropTypes.bool,
+  totalResult: PropTypes.objectOf(PropTypes.array),
 };
 
 Modal.defaultProps = {
@@ -127,8 +127,8 @@ Modal.defaultProps = {
   roundScore: 0,
   scoreBoard: [],
   selectBoard: [],
-  isInterim: true,
-  isfinishResult: false,
+  isCurrentResult: true,
+  isFinishResult: false,
   round: 0,
-  totalResult: {},
+  totalResult: [],
 };

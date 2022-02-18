@@ -25,6 +25,7 @@ Channels.propTypes = {
 
 const ChannelBody = styled.div`
   background-color: #e0dede;
+  height: 100%;
 `;
 
 const ChannelPage = styled.div`
@@ -43,6 +44,7 @@ const WrapChannel = styled.ul`
   li {
     width: 100%;
     padding: 20px;
+    border-radius: 5px;
     background-color: #fbf2f2;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.2s;
