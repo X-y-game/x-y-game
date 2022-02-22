@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://x-ygames.herokuapp.com";
 const CHANNELS = `${BASE_URL}/channel`;
 const MAKE_ROOM = `${BASE_URL}/room`;
 const MAKE_TEAM = `${BASE_URL}/team`;

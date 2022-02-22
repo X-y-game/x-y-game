@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes, { array, object } from "prop-types";
+import PropTypes from "prop-types";
 import Channel from "../../components/Channel";
 import Header from "../../components/Header";
 
