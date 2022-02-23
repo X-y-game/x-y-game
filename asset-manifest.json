@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/x-y-game/static/js/main.2e4dfa1b.js",
+    "static/media/xy-bg.png": "/x-y-game/static/media/xy-bg.faed834226324b67d8b3.png",
+    "static/media/xy-logo.png": "/x-y-game/static/media/xy-logo.e8d6c091340f8451df87.png",
+    "index.html": "/x-y-game/index.html",
+    "main.2e4dfa1b.js.map": "/x-y-game/static/js/main.2e4dfa1b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.2e4dfa1b.js"
+  ]
+}
