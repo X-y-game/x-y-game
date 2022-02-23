@@ -1,2 +1,2 @@
-const CLIENT_ENDPOINT = "https://x-ygames.herokuapp.com/";
-export default CLIENT_ENDPOINT;
+const SERVER_URL = "https://x-ygames.herokuapp.com";
+export default SERVER_URL;
