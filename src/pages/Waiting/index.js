@@ -4,7 +4,7 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import Team from "../../components/Team";
 import Header from "../../components/Header";
 import Spinner from "../../components/Spinner";
-import { socket, emitJoinTeam, getTeams } from "../../utils";
+import { getSocket, emitJoinTeam, getTeams } from "../../utils";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
@@ -31,23 +31,23 @@ export default function WaitingRoom() {
   useEffect(async () => {
     setTeamList(await getTeams(roomDBID));
     emitJoinTeam(roomName);
-    socket.on("cur_round", (round) => {
+    getSocket.on("cur_round", (round) => {
       setCurrentRound(round);
     });
-    socket.on("can_start", (isStart) => {
+    getSocket.on("can_start", (isStart) => {
       setCanStart(isStart);
     });
 
     return () => {
-      socket.off("join");
-      socket.off("can_start");
+      getSocket.off("join");
+      getSocket.off("can_start");
     };
   }, []);
 
   const handleReady = () => {
     if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
       setIsReady(!isReady);
-      socket.emit("select_team", channelIndex, roomIndex, roomName, team);
+      getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
     }
   };
 

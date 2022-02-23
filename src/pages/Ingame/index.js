@@ -6,7 +6,7 @@ import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
 import {
-  socket,
+  getSocket,
   emitJoinTeam,
   getMiddleResult,
   getCurrentScore,
@@ -43,15 +43,15 @@ export default function Game() {
     setRoundDone(false);
     setIsSubmitted(false);
     emitJoinTeam(roomName);
-    socket.on("cur_result", (currentResult) => {
+    getSocket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
     });
-    socket.on("cur_score", (currentScore) => {
+    getSocket.on("cur_score", (currentScore) => {
       setScoreBoard(currentScore);
     });
 
     return () => {
-      socket.off("join");
+      getSocket.off("join");
     };
   }, []);
 
@@ -104,15 +104,15 @@ export default function Game() {
   const handleSubmit = () => {
     setIsSubmitted(true);
     setIsChecked(false);
-    socket.emit("select_card", roomName, team, currentRound, mycard);
-    socket.on("show_round_score", (currentScore) => {
+    getSocket.emit("select_card", roomName, team, currentRound, mycard);
+    getSocket.on("show_round_score", (currentScore) => {
       setRoundScore(currentScore);
       setRoundDone(true);
     });
-    socket.on("show_score", (allScore) => {
+    getSocket.on("show_score", (allScore) => {
       setScoreBoard(allScore);
     });
-    socket.on("show_select", (allSelect) => {
+    getSocket.on("show_select", (allSelect) => {
       setResultBoard(allSelect);
     });
   };
