@@ -1,7 +1,8 @@
-const BASE_URL = "https://x-ygames.herokuapp.com";
-const CHANNELS = `${BASE_URL}/channel`;
-const MAKE_ROOM = `${BASE_URL}/room`;
-const MAKE_TEAM = `${BASE_URL}/team`;
+import SERVER_URL from "../constants";
+
+const CHANNELS = `${SERVER_URL}/channel`;
+const MAKE_ROOM = `${SERVER_URL}/room`;
+const MAKE_TEAM = `${SERVER_URL}/team`;
 
 export const getChannelsAPI = () => {
   const options = {
