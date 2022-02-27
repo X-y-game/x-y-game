@@ -18,6 +18,12 @@
 - **Client**: [https://github.com/X-y-game/x-y-game](https://github.com/X-y-game/x-y-game)
 - **Server**: [https://github.com/X-y-game/X-y-game-server](https://github.com/X-y-game/X-y-game-server)
 
+## **Deploy**
+
+[Click to Start](https://xy-game.netlify.app/)
+
+
+
 ## **Requirement**
 
 - 해당 웹 어플리케이션은 모바일 환경에 최적화되어 있습니다.
