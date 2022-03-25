@@ -20,9 +20,7 @@
 
 ## **Deploy**
 
-[Click to Start](https://xy-game.netlify.app/)
-
-
+[Click to Start](https://xygame.wplusedu.co.kr/)
 
 ## **Requirement**
 
