@@ -10,13 +10,12 @@ export default function RuleBook({ handleClick }) {
         <WrapRule>
           <Rule>
             <RuleContent>
-              <div>
-                <span>🙆‍♂️</span>
-                <span>🙆‍♂️</span>
-                <span>🙆</span>
-                <span>🙆</span>
-              </div>
-              <p>Y</p>
+              <WrapCard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
+              </WrapCard>
               <p>
                 각 100억 <Isprofit name="profit">이익</Isprofit>
               </p>
@@ -24,13 +23,12 @@ export default function RuleBook({ handleClick }) {
           </Rule>
           <Rule>
             <RuleContent>
-              <div>
-                <span>🤦‍♂️</span>
-                <span>🤦‍♂️</span>
-                <span>🤦</span>
-                <span>🤦</span>
-              </div>
-              <p>X</p>
+              <WrapCard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+              </WrapCard>
               <p>
                 각 100억 <Isprofit name="loss">손실</Isprofit>
               </p>
@@ -38,17 +36,11 @@ export default function RuleBook({ handleClick }) {
           </Rule>
           <Rule>
             <RuleContent>
-              <div>
-                <span>🤦‍♂️</span>
-                <span>🤦‍♂️</span>
-                <span>🙆</span>
-                <span>🤦</span>
-              </div>
               <WrapCard>
-                <p>Y</p>
-                <p>Y</p>
-                <p>X</p>
-                <p>Y</p>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
               </WrapCard>
               <p>
                 X : 300억 <Isprofit name="profit">이익</Isprofit>
@@ -60,17 +52,11 @@ export default function RuleBook({ handleClick }) {
           </Rule>
           <Rule>
             <RuleContent>
-              <div>
-                <span>🤦‍♂️</span>
-                <span>🙆‍♂️</span>
-                <span>🙆</span>
-                <span>🙆</span>
-              </div>
               <WrapCard>
-                <p>Y</p>
-                <p>X</p>
-                <p>X</p>
-                <p>X</p>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="Y">Y</XYcard>
               </WrapCard>
               <p>
                 X : 100억 <Isprofit name="profit">이익</Isprofit>
@@ -82,17 +68,11 @@ export default function RuleBook({ handleClick }) {
           </Rule>
           <Rule>
             <RuleContent>
-              <div>
-                <span> 🤦‍♂️</span>
-                <span> 🤦‍♂️</span>
-                <span>🙆</span>
-                <span>🙆</span>
-              </div>
               <WrapCard>
-                <p>Y</p>
-                <p>Y</p>
-                <p>X</p>
-                <p>X</p>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="X">X</XYcard>
+                <XYcard name="Y">Y</XYcard>
+                <XYcard name="Y">Y</XYcard>
               </WrapCard>
               <p>
                 X : 200억 <Isprofit name="profit">이익</Isprofit>
@@ -184,6 +164,12 @@ const WrapCard = styled.div`
 
 const Isprofit = styled.span`
   color: ${(props) => (props.name === "profit" ? "#7988D9" : "#F17E7E")};
+`;
+
+const XYcard = styled.p`
+  padding: 5px;
+  border-radius: 5px;
+  background-color: ${(props) => (props.name === "X" ? "#7988D9" : "#F17E7E")};
 `;
 
 const WrapRule = styled.div`
