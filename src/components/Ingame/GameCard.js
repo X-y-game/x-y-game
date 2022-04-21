@@ -34,17 +34,18 @@ const CardLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 60px;
+  width: 2.5em;
+  height: 4em;
   margin: 10px;
   border-radius: 10px;
   background-color: #fbf2f2;
   font-size: 48px;
+  color: #343a40;
 `;
 
 const Card = styled.input.attrs({ type: "radio" })`
   & + ${CardLabel} {
-    background-color: #fbf2f2;
+    background-color: #999;
   }
   &:checked + ${CardLabel} {
     box-shadow: #c1d0fb 2px 2px 1px 1px;

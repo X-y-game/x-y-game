@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TeamResult from "./teamResult";
 import CurrentResult from "../CurrentResult";
 import Result from "../Result/Container";
@@ -33,7 +33,7 @@ export default function Modal({
       {!isFinishResult ? (
         <>
           <ModalDiv onClick={handleToggleBoard}>
-            <p>{isCurrentResult ? "중간 결과" : "라운드 결과"}</p>
+            <TextResult>{isCurrentResult ? "중간 결과" : "라운드 결과"}</TextResult>
             {isCurrentResult ? (
               <CurrentResult scoreData={scoreBoard} selectData={selectBoard} round={round} />
             ) : (
@@ -48,7 +48,7 @@ export default function Modal({
         </>
       ) : (
         <ModalDiv>
-          <p>최종결과</p>
+          <TextResult>최종결과</TextResult>
           <Result tableData={totalResult} />
         </ModalDiv>
       )}
@@ -68,9 +68,10 @@ const ModalDiv = styled.div`
   margin: 0 auto;
   padding: 15px;
   border-radius: 5px;
-  background-color: #fbf2f2;
+  background-color: #54628c;
   text-align: center;
   z-index: 10;
+
   p {
     font-size: 1.2em;
     font-weight: bold;
@@ -78,6 +79,10 @@ const ModalDiv = styled.div`
   button {
     position: absolute;
   }
+`;
+
+const TextResult = styled.p`
+  color: #fff;
 `;
 
 const WrapResult = styled.div`

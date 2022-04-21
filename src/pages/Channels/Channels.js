@@ -24,7 +24,6 @@ Channels.propTypes = {
 };
 
 const ChannelBody = styled.div`
-  background-color: #e0dede;
   height: 100%;
 `;
 
@@ -36,21 +35,28 @@ const ChannelPage = styled.div`
 
 const WrapChannel = styled.ul`
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding: 0 40% 0;
   font-size: 1.5em;
   li {
     width: 100%;
     padding: 20px;
-    border-radius: 5px;
-    background-color: #fbf2f2;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    background-color: #54628c;
+    text-align: center;
+    color: #fff;
     transition: 0.2s;
     cursor: pointer;
   }
-  li:hover {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  li:active {
+    color: #f2aeae;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 0 10% 0;
+    transition: 0.1s;
   }
 `;

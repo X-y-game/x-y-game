@@ -25,7 +25,7 @@ const Container = styled.section`
     font-weight: 500;
     border-radius: 5px;
   }
-  thead {
+  th {
     background-color: #252940;
     color: #fff;
   }
