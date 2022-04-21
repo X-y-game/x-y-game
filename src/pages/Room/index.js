@@ -42,7 +42,6 @@ export default function Room() {
 }
 
 const Body = styled.div`
-  background-color: #e0dede;
   height: 100%;
 `;
 
@@ -51,25 +50,32 @@ const ChannelPage = styled.div`
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
-  background-color: #e0dede;
 `;
 
 const WrapChannelUL = styled.ul`
   display: flex;
-  flex-wrap: wrap;
+  height: 100%;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 20px;
-  font-size: 20px;
+  padding: 0 40% 0;
+  font-size: 1.5em;
   li {
-    min-width: 5.5em;
+    width: 100%;
     padding: 20px;
-    background-color: #fbf2f2;
-    border-radius: 5px;
+    background-color: #54628c;
+    border-radius: 50px;
     text-align: center;
     transition: 0.2s;
+    color: #fff;
     cursor: pointer;
   }
-  li:hover {
-    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.2);
+  li:active {
+    color: #f2aeae;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 0 10% 0;
+    transition: 0.1s;
   }
 `;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import GameItem from "../../components/Ingame/GameItem";
 import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
@@ -152,11 +152,9 @@ export default function Game() {
           </span>
         </li>
       </Header>
-      <GameItems>
-        {[1, 2, 3, 4].map((item) => (
-          <GameItem id={item} team={team} key={`team_${item}`} isSubmitted={isSubmitted} mycard={mycard} />
-        ))}
-      </GameItems>
+      <SelectCard style={{ display: isSubmitted ? "flex" : "none" }} name={mycard}>
+        <p>{mycard}</p>
+      </SelectCard>
       <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
         {["X", "Y"].map((item) => (
           <GameCard
@@ -190,7 +188,6 @@ export default function Game() {
 const InGame = styled.div`
   height: 100%;
   padding: 20px;
-  background-color: #e0dede;
   text-align: center;
 `;
 
@@ -211,15 +208,41 @@ const Header = styled.ul`
   }
 `;
 
-const GameItems = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 20px 0;
-`;
-
 const Cards = styled.label`
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 90%;
+`;
+
+const cardAnim = keyframes`
+  0%{
+    transform: translate(-50%, 50%);
+  }
+  100%{
+    transform: translate(-50%, 0%);
+  }
+`;
+
+const SelectCard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+
+  width: 2.5em;
+  height: 4em;
+  border-radius: 10px;
+  background-color: ${(props) => (props.name === "X" ? "#c3e8fb" : "#ffb7b7")};
+  box-shadow: #c1d0fb 2px 2px 1px 1px;
+  font-size: 48px;
+  color: #343a40;
+
+  animation: ${cardAnim} 1s forwards;
 `;
 
 const Footer = styled.ul`

@@ -45,9 +45,11 @@ export default function WaitingRoom() {
   }, []);
 
   const handleReady = () => {
-    if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
-      setIsReady(!isReady);
-      getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
+    if (team !== 0) {
+      if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
+        setIsReady(!isReady);
+        getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
+      }
     }
   };
 
@@ -109,7 +111,6 @@ const Loading = styled.div`
 const Waiting = styled.div`
   height: 100%;
   padding: 40px;
-  background-color: #e0dede;
   text-align: center;
 `;
 

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ReactRouterPropTypes from "react-router-prop-types";
-import logo from "../../assets/xy-logo.png";
-import poster from "../../assets/xy-bg.png";
+import poster from "../../assets/xy-bg2.png";
 
 export default function Home({ history }) {
   const handleClick = () => {
@@ -13,9 +12,6 @@ export default function Home({ history }) {
     <Wrapper>
       <GameIntro>
         <div>
-          <h1>
-            <Logo src={logo} alt="logo" />
-          </h1>
           <Content>
             <p className="game-intro">Win as much as you can</p>
             <Poster src={poster} alt="game-poster" />
@@ -64,17 +60,21 @@ const GameIntro = styled.div`
 `;
 
 const Content = styled.div`
-  width: 80%;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   img {
-    width: 100%;
+    width: 30%;
+    @media screen and (max-width: 1000px) {
+      width: 55%;
+      transition: 0.1s;
+    }
+    @media screen and (max-width: 600px) {
+      width: 90%;
+      transition: 0.1s;
+    }
   }
-`;
-
-const Logo = styled.img`
-  width: 3em;
-  margin-right: 15px;
-  border-radius: 10px;
 `;
 
 const Button = styled.button`
@@ -88,8 +88,7 @@ const Button = styled.button`
   color: #fff;
   outline: 0;
 
-  &:hover,
-  :active {
+  &:active {
     color: #f2aeae;
   }
 `;
