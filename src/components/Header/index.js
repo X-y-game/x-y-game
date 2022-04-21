@@ -23,9 +23,9 @@ export default function Header({ title, channel, roomId }) {
 }
 
 const Title = styled.h2`
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #000;
+  margin: 50px 0 50px;
+  padding-bottom: 70px;
+  border-bottom: 1px solid #343a40;
   text-align: center;
   font-size: 2em;
 `;
