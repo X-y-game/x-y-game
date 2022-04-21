@@ -53,9 +53,13 @@ const CheckPassWard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   position: absolute;
   top: 50%;
-  width: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 25%;
   padding: 20px;
   border-radius: 5px;
   background-color: #c1d0fb;
@@ -67,6 +71,14 @@ const CheckPassWard = styled.div`
     border: 1px solid #eee;
     border-radius: 5px;
   }
+  @media screen and (max-width: 1350px) {
+    width: 45%;
+    transition: 0.1s;
+  }
+  @media screen and (max-width: 700px) {
+    width: 95%;
+    transition: 0.1s;
+  }
 `;
 
 const EnterButton = styled.button`
@@ -76,9 +88,6 @@ const EnterButton = styled.button`
   font-weight: bold;
   color: #fff;
   background-color: #252940;
-  &:hover {
-    background-color: #54628c;
-  }
 `;
 
 const Message = styled.p`
