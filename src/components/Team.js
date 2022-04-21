@@ -15,12 +15,10 @@ export default function Team({ id, setTeam, title }) {
 
   return (
     <TeamContainer>
-      <div>
-        <TeamCard id={id} name="team" hidden />
-        <TeamName onClick={handleClickTeam} htmlFor={id}>
-          {title}
-        </TeamName>
-      </div>
+      <TeamCard id={id} name="team" hidden />
+      <TeamName onClick={handleClickTeam} htmlFor={id}>
+        <p>{title}</p>
+      </TeamName>
     </TeamContainer>
   );
 }
@@ -32,15 +30,15 @@ const TeamContainer = styled.div`
 
 const TeamName = styled.label`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100px;
   height: 100px;
-  padding: 20px;
   margin: 5px;
   background-color: #ececec;
   border-radius: 10px;
-  font-size: 12px;
-  text-align: center;
+  font-size: 1.5em;
+  box-shadow: #d3d3d3 2px 2px 1px 1px;
   cursor: pointer;
 `;
 
