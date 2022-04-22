@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";

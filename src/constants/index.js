@@ -1,2 +1,2 @@
-const SERVER_URL = "https://x-ygames.herokuapp.com";
+const SERVER_URL = "http://localhost:8000";
 export default SERVER_URL;

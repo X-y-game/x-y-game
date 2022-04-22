@@ -12,7 +12,7 @@ export function getCurrentScore(score, round, team) {
   let teamScore = 0;
   if (score) {
     for (let r = 0; r < round; r += 1) {
-      teamScore += score[r][team.slice(4) - 1];
+      teamScore += score[r][team - 1];
     }
   }
   return teamScore;
@@ -35,18 +35,15 @@ export function sumScores(scores) {
 }
 
 export function checkSpecialRound(round) {
-  switch (round + 1) {
+  switch (round) {
     case 5:
-      window.alert("5라운드에서는 점수의 가중치가 3배 입니다!");
-      break;
+      return "5라운드에서는 점수의 가중치가 3배 입니다!";
     case 8:
-      window.alert("8라운드에서는 점수의 가중치가 5배 입니다!!");
-      break;
+      return "8라운드에서는 점수의 가중치가 5배 입니다!!";
     case 10:
-      window.alert("10라운드에서는 점수의 가중치가 10배 입니다!!!");
-      break;
+      return "10라운드에서는 점수의 가중치가 10배 입니다!!!";
     default:
-      break;
+      return null;
   }
 }
 

@@ -7,7 +7,6 @@ import Modal from "../../components/Modal";
 import {
   getSocket,
   emitJoinTeam,
-  getMiddleResult,
   getCurrentScore,
   sumScores,
   sumResults,
@@ -18,19 +17,19 @@ import {
 export default function Game() {
   const history = useHistory();
   const location = useLocation();
-  const teamInfo = location.pathname.split(":")[1].split("-");
-  const [channelId, roomId, team] = teamInfo.slice(0, 3);
-  const roomName = `${channelId}-${roomId}`;
-  const [currentRound, setCurrentRound] = useState(Number(teamInfo[3]));
+  const roomName = location.pathname.split(":")[1];
+  const team = localStorage.getItem("team");
+  const [currentRound, setCurrentRound] = useState(0);
 
   const [mycard, setMycard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [resultBoard, setResultBoard] = useState();
-  const [roundScore, setRoundScore] = useState();
+  const [roundScore, setRoundScore] = useState(0);
   const [scoreBoard, setScoreBoard] = useState();
   const [roundDone, setRoundDone] = useState(false);
   const [currentTeamScore, setCurrentScore] = useState(0);
+
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
@@ -38,10 +37,14 @@ export default function Game() {
   const [totalResult, setTotalResult] = useState({});
 
   useEffect(() => {
-    setIsChecked(false);
-    setRoundDone(false);
-    setIsSubmitted(false);
+    if (team === null) {
+      history.push("/");
+    }
+
     emitJoinTeam(roomName);
+    getSocket.on("cur_round", (curRound) => {
+      setCurrentRound(curRound);
+    });
     getSocket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
     });
@@ -49,61 +52,6 @@ export default function Game() {
       setScoreBoard(currentScore);
     });
 
-    return () => {
-      getSocket.off("join");
-    };
-  }, []);
-
-  useEffect(() => {
-    setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
-    if (resultBoard && roundScore) {
-      if (roundDone) {
-        setIsCurrentModal(false);
-        setIsBoardModal(true);
-      }
-    }
-  }, [resultBoard, scoreBoard, roundDone]);
-
-  const handleNext = () => {
-    if (roundDone) {
-      setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
-      if (currentRound === 10) {
-        const totalScores = sumScores(scoreBoard);
-        const totalResults = sumResults(scoreBoard);
-        const teamData = { results: totalResults, scores: totalScores };
-        const tableData = makeData(teamData);
-        setTotalResult(tableData);
-        setIsFinishedResult(true);
-        setIsBoardModal(true);
-        return;
-      }
-      setIsSubmitted(false);
-      setRoundDone(false);
-      setMycard("");
-      setCurrentRound(currentRound + 1);
-      checkSpecialRound(currentRound);
-      history.push(`/game/:${roomName}-${team}-${currentRound + 1}`);
-    }
-  };
-
-  const handleToggleRule = () => {
-    setIsRuleModal(!isRuleModal);
-    setIsBoardModal(isBoardModal && false);
-  };
-
-  const handleCurrentBoard = () => {
-    setIsCurrentModal(true);
-    setIsBoardModal(!isBoardModal);
-    setIsRuleModal(isRuleModal && false);
-    if (scoreBoard && resultBoard) {
-      getMiddleResult(scoreBoard.slice(0, currentRound), resultBoard.slice(0, currentRound), currentRound);
-    }
-  };
-
-  const handleSubmit = () => {
-    setIsSubmitted(true);
-    setIsChecked(false);
-    getSocket.emit("select_card", roomName, team, currentRound, mycard);
     getSocket.on("show_round_score", (currentScore) => {
       setRoundScore(currentScore);
       setRoundDone(true);
@@ -114,12 +62,63 @@ export default function Game() {
     getSocket.on("show_select", (allSelect) => {
       setResultBoard(allSelect);
     });
+
+    getSocket.on("openModal", () => {
+      setIsCurrentModal(false);
+      setIsBoardModal(true);
+      setIsSubmitted(false);
+      setRoundDone(false);
+      setMycard("");
+    });
+
+    return () => {
+      getSocket.off("join");
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsBoardModal(false);
+  }, [currentRound]);
+
+  useEffect(() => {
+    setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
+  }, [scoreBoard]);
+
+  useEffect(() => {
+    if (roundDone) {
+      if (currentRound === 10) {
+        const totalScores = sumScores(scoreBoard);
+        const totalResults = sumResults(scoreBoard);
+        const teamData = { results: totalResults, scores: totalScores };
+        const tableData = makeData(teamData);
+        setTotalResult(tableData);
+        setIsFinishedResult(true);
+        setIsBoardModal(true);
+      }
+    }
+  }, [resultBoard, scoreBoard, roundDone]);
+
+  const handleToggleRule = () => {
+    setIsRuleModal(!isRuleModal);
+    setIsBoardModal(isBoardModal && false);
+  };
+
+  const handleCurrentBoard = () => {
+    setIsCurrentModal(true);
+    setIsBoardModal(!isBoardModal);
+    setIsRuleModal(isRuleModal && false);
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    setIsChecked(false);
+    getSocket.emit("select_card", roomName, team, currentRound, mycard);
   };
 
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
-      {isBoardModal && resultBoard ? (
+      {isBoardModal && resultBoard && (
         <Modal
           handleToggleBoard={handleCurrentBoard}
           isCurrentResult={isCurrentModal}
@@ -131,11 +130,9 @@ export default function Game() {
           round={currentRound}
           totalResult={totalResult}
         />
-      ) : (
-        ""
       )}
       <Header>
-        <li>{team}</li>
+        <li>Team{team}</li>
         <li>Round {currentRound}</li>
         <li>
           <span
@@ -151,10 +148,11 @@ export default function Game() {
           </span>
         </li>
       </Header>
+      <Rule>{checkSpecialRound(currentRound)}</Rule>
       <SelectCard style={{ display: isSubmitted ? "flex" : "none" }} name={mycard}>
         <p>{mycard}</p>
       </SelectCard>
-      <WrapCardsLable>
+      <WrapCardsLabel>
         <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
           {["X", "Y"].map((item) => (
             <GameCard
@@ -167,16 +165,12 @@ export default function Game() {
             />
           ))}
         </Cards>
-      </WrapCardsLable>
+      </WrapCardsLabel>
 
       <Footer>
         <li>현재 점수 : {currentTeamScore}</li>
         <li>
-          {isSubmitted ? (
-            <button type="button" onClick={handleNext}>
-              {roundDone ? "다음으로" : "대기중"}
-            </button>
-          ) : (
+          {!isSubmitted && (
             <button type="submit" disabled={!mycard} onClick={handleSubmit}>
               제출하기
             </button>
@@ -210,7 +204,12 @@ const Header = styled.ul`
   }
 `;
 
-const WrapCardsLable = styled.div`
+const Rule = styled.article`
+  margin-top: 10px;
+  color: brown;
+`;
+
+const WrapCardsLabel = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;

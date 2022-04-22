@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import Team from "../../components/Team";
@@ -11,7 +11,8 @@ export default function WaitingRoom() {
   const [team, setTeam] = useState(0);
   const [canStart, setCanStart] = useState(false);
   const [teamList, setTeamList] = useState([]);
-  const [currentRound, setCurrentRound] = useState(1);
+
+  const currentRound = useRef(0);
 
   const history = useHistory();
   const location = useLocation();
@@ -25,30 +26,36 @@ export default function WaitingRoom() {
   const [roomTitle, roomDBID] = roomDataInfo.split("-");
 
   const handleStart = () => {
-    history.push(`/game/:${roomName}-team${team}-${currentRound}`);
+    history.push(`/game/:${roomName}`);
   };
 
   useEffect(async () => {
+    localStorage.removeItem("team");
     setTeamList(await getTeams(roomDBID));
     emitJoinTeam(roomName);
-    getSocket.on("cur_round", (round) => {
-      setCurrentRound(round);
+    getSocket.on("cur_round", (curRound) => {
+      currentRound.current = curRound;
     });
     getSocket.on("can_start", (isStart) => {
       setCanStart(isStart);
     });
-
+    getSocket.on("setGame", () => {
+      handleStart();
+    });
     return () => {
       getSocket.off("join");
-      getSocket.off("can_start");
     };
   }, []);
 
   const handleReady = () => {
     if (team !== 0) {
       if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
+        localStorage.setItem("team", team);
         setIsReady(!isReady);
         getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
+        if (currentRound.current > 0) {
+          handleStart();
+        }
       }
     }
   };
@@ -83,7 +90,7 @@ export default function WaitingRoom() {
         {canStart ? (
           <div>
             <p>모든 팀의 선택이 완료되었습니다</p>
-            <p>게임을 시작해봅시다</p>
+            <p>게임이 잠시후 시작됩니다</p>
           </div>
         ) : (
           <div>
@@ -95,9 +102,6 @@ export default function WaitingRoom() {
           </div>
         )}
       </div>
-      <StartBtn style={{ display: isReady && canStart ? "inline-block" : "none" }} onClick={handleStart}>
-        게임 시작
-      </StartBtn>
     </Waiting>
   );
 }
@@ -123,14 +127,6 @@ const Teams = styled.label`
 const Button = styled.button`
   padding: 10px;
   margin-bottom: 30px;
-  border: 2px solid #f2aeae;
-  border-radius: 10px;
-  background-color: #e0dede;
-`;
-
-const StartBtn = styled.button`
-  padding: 10px;
-  margin: 20px;
   border: 2px solid #f2aeae;
   border-radius: 10px;
   background-color: #e0dede;
