@@ -12,7 +12,7 @@ export default function TeamResult({ team, cardXY, point }) {
           {cardXY}
         </SelectCard>
       </RotateContainer>
-      <p>{point > 0 ? `+${point}` : point}</p>
+      <RoundScoreText>{point > 0 ? `+${point}` : point}</RoundScoreText>
     </WrapCard>
   );
 }
@@ -78,6 +78,10 @@ const RotateAnimFront = keyframes`
   transform: rotateY(-180deg);
  }
 
+ 50%{
+  transform: rotateY(-180deg);
+ }
+
  100%{
   transform: rotateY(0);
  }
@@ -87,9 +91,23 @@ const RotateAnimBack = keyframes`
  0%{
   transform: rotateY(0);
  }
-
+ 50%{
+  transform: rotateY(0);
+ }
  100%{
   transform: rotateY(180deg);
+ }
+`;
+
+const OpenScoreAnim = keyframes`
+ 0%{
+   opacity: 0;
+ }
+ 99%{
+  opacity: 0;
+ }
+ 100%{
+   opacity: 1;
  }
 `;
 
@@ -113,6 +131,10 @@ const RotateContainer = styled.div`
     transform: rotateY(0);
     animation: ${RotateAnimBack} 2s forwards;
   }
+`;
+
+const RoundScoreText = styled.p`
+  animation: ${OpenScoreAnim} 1.8s forwards;
 `;
 
 TeamResult.propTypes = {

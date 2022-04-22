@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import GameItem from "../../components/Ingame/GameItem";
 import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
@@ -155,18 +154,21 @@ export default function Game() {
       <SelectCard style={{ display: isSubmitted ? "flex" : "none" }} name={mycard}>
         <p>{mycard}</p>
       </SelectCard>
-      <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
-        {["X", "Y"].map((item) => (
-          <GameCard
-            key={`card_${item}`}
-            card={item}
-            setIsSubmitted={setIsSubmitted}
-            setMycard={setMycard}
-            setIsChecked={setIsChecked}
-            isChecked={isChecked}
-          />
-        ))}
-      </Cards>
+      <WrapCardsLable>
+        <Cards style={{ display: isSubmitted ? "none" : "flex" }}>
+          {["X", "Y"].map((item) => (
+            <GameCard
+              key={`card_${item}`}
+              card={item}
+              setIsSubmitted={setIsSubmitted}
+              setMycard={setMycard}
+              setIsChecked={setIsChecked}
+              isChecked={isChecked}
+            />
+          ))}
+        </Cards>
+      </WrapCardsLable>
+
       <Footer>
         <li>현재 점수 : {currentTeamScore}</li>
         <li>
@@ -208,11 +210,17 @@ const Header = styled.ul`
   }
 `;
 
+const WrapCardsLable = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Cards = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90%;
 `;
 
 const cardAnim = keyframes`

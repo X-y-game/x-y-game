@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import TeamResult from "./teamResult";
 import CurrentResult from "../CurrentResult";
 import Result from "../Result/Container";
@@ -71,11 +71,6 @@ const ModalDiv = styled.div`
   background-color: #54628c;
   text-align: center;
   z-index: 10;
-
-  p {
-    font-size: 1.2em;
-    font-weight: bold;
-  }
   button {
     position: absolute;
   }
@@ -83,6 +78,7 @@ const ModalDiv = styled.div`
 
 const TextResult = styled.p`
   color: #fff;
+  font-size: 2em;
 `;
 
 const WrapResult = styled.div`

@@ -100,9 +100,6 @@ const ModalDiv = styled.div`
   border-radius: 5px;
   background-color: #54628c;
   z-index: 10;
-  p {
-    font-weight: bold;
-  }
   @media screen and (min-width: 700px) {
     height: 60vh;
     justify-content: center;
@@ -113,7 +110,6 @@ const ModalDiv = styled.div`
 const ModalName = styled.p`
   margin-bottom: 50px;
   font-size: 1.5em;
-  font-weight: bold;
   color: #fff;
   @media screen and (min-width: 700px) {
     font-size: 2em;

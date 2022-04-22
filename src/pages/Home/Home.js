@@ -11,6 +11,7 @@ export default function Home({ history }) {
   return (
     <Wrapper>
       <GameIntro>
+        <h1>XY GAME</h1>
         <div>
           <Content>
             <p className="game-intro">Win as much as you can</p>
