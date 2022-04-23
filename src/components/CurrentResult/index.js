@@ -7,7 +7,7 @@ import CurrentData from "./currentData";
 export default function CurrentResult({ scoreData, selectData, round }) {
   const roundData = () => {
     const pushData = [];
-    for (let i = 0; i < round; i += 1) {
+    for (let i = 0; i < round - 1; i += 1) {
       pushData.push({
         id: i + 1,
         roundNum: i + 1,
