@@ -2,18 +2,25 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
 
-export default function TeamResult({ team, cardXY, point }) {
+export default function TeamResult({ team, cardXY, point, round, handleFinishedModal }) {
   return (
-    <WrapCard className="wrapCard">
-      <p>{team}팀</p>
-      <RotateContainer>
-        <BackCard className="back card">뒷 면</BackCard>
-        <SelectCard name={cardXY} className="front card">
-          {cardXY}
-        </SelectCard>
-      </RotateContainer>
-      <RoundScoreText>{point > 0 ? `+${point}` : point}</RoundScoreText>
-    </WrapCard>
+    <>
+      <WrapCard className="wrapCard">
+        <p>{team}팀</p>
+        <RotateContainer>
+          <BackCard className="back card">뒷 면</BackCard>
+          <SelectCard name={cardXY} className="front card">
+            {cardXY}
+          </SelectCard>
+        </RotateContainer>
+        <RoundScoreText>{point > 0 ? `+${point}` : point}</RoundScoreText>
+      </WrapCard>
+      {round >= 10 && (
+        <FinishResultButton type="button" onClick={handleFinishedModal}>
+          최종 결과 보기
+        </FinishResultButton>
+      )}
+    </>
   );
 }
 
@@ -137,8 +144,21 @@ const RoundScoreText = styled.p`
   animation: ${OpenScoreAnim} 1.8s forwards;
 `;
 
+const FinishResultButton = styled.button`
+  position: absolute;
+  bottom: 30px;
+
+  padding: 5px;
+  border-radius: 10px;
+  outline: 3px solid #c1d0fb;
+
+  font-size: 1.1em;
+`;
+
 TeamResult.propTypes = {
   team: PropTypes.number.isRequired,
   cardXY: PropTypes.string.isRequired,
   point: PropTypes.number.isRequired,
+  round: PropTypes.number.isRequired,
+  handleFinishedModal: PropTypes.func.isRequired,
 };

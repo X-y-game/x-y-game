@@ -16,6 +16,7 @@ export default function Modal({
   round,
   isFinishResult,
   totalResult,
+  handleFinishedModal,
 }) {
   const roundResultData = () => {
     const pushData = [];
@@ -46,7 +47,14 @@ export default function Modal({
             ) : (
               <WrapResult>
                 {roundResultData().map((data) => (
-                  <TeamResult key={`modal_${data.team}`} team={data.team} cardXY={data.cardXY} point={data.point} />
+                  <TeamResult
+                    key={`modal_${data.team}`}
+                    team={data.team}
+                    cardXY={data.cardXY}
+                    point={data.point}
+                    round={round}
+                    handleFinishedModal={handleFinishedModal}
+                  />
                 ))}
               </WrapResult>
             )}
@@ -84,7 +92,7 @@ const ModalDiv = styled.div`
   gap: 20px;
   width: 100%;
   margin: 0 auto;
-  padding: 15px;
+  padding: 15px 15px 80px 15px;
   border-radius: 5px;
   background-color: #54628c;
   text-align: center;
@@ -115,8 +123,8 @@ const WrapResult = styled.div`
 const FinishMessage = styled.p`
   position: relative;
   top: 50vh;
-  font-weight: bold;
   font-size: 20px;
+  color: #fff;
 `;
 
 const Dimmed = styled.div`
@@ -139,6 +147,7 @@ Modal.propTypes = {
   round: PropTypes.number,
   isFinishResult: PropTypes.bool,
   totalResult: PropTypes.objectOf(PropTypes.array),
+  handleFinishedModal: PropTypes.func,
 };
 
 Modal.defaultProps = {
@@ -151,4 +160,5 @@ Modal.defaultProps = {
   isFinishResult: false,
   round: 0,
   totalResult: [],
+  handleFinishedModal: () => {},
 };

@@ -92,8 +92,6 @@ export default function Game() {
         const teamData = { results: totalResults, scores: totalScores };
         const tableData = makeData(teamData);
         setTotalResult(tableData);
-        setIsFinishedResult(true);
-        setIsBoardModal(true);
       }
     }
   }, [resultBoard, scoreBoard, roundDone]);
@@ -115,6 +113,11 @@ export default function Game() {
     getSocket.emit("select_card", roomName, team, currentRound, mycard);
   };
 
+  const handleFinishedModal = () => {
+    setIsFinishedResult(true);
+    setIsBoardModal(true);
+  };
+
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
@@ -129,6 +132,7 @@ export default function Game() {
           selectBoard={resultBoard}
           round={currentRound}
           totalResult={totalResult}
+          handleFinishedModal={handleFinishedModal}
         />
       )}
       <Header>
