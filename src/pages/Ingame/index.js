@@ -43,7 +43,7 @@ export default function Game() {
 
     emitJoinTeam(roomName);
     getSocket.on("cur_round", (curRound) => {
-      setCurrentRound(curRound);
+      setCurrentRound(curRound[roomName]);
     });
     getSocket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
