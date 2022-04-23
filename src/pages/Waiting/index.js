@@ -34,13 +34,13 @@ export default function WaitingRoom() {
     setTeamList(await getTeams(roomDBID));
     emitJoinTeam(roomName);
     getSocket.on("cur_round", (curRound) => {
-      currentRound.current = curRound;
+      currentRound.current = curRound[roomName];
     });
     getSocket.on("can_start", (isStart) => {
       setCanStart(isStart);
     });
-    getSocket.on("setGame", () => {
-      handleStart();
+    getSocket.on("setGame", (startedRoom) => {
+      if (startedRoom === roomName) handleStart();
     });
     return () => {
       getSocket.off("join");
