@@ -11,7 +11,7 @@ export function getMiddleResult(result, score, round) {
 export function getCurrentScore(score, round, team) {
   let teamScore = 0;
   if (score) {
-    for (let r = 0; r < round; r += 1) {
+    for (let r = 0; r < round - 1; r += 1) {
       teamScore += score[r][team - 1];
     }
   }
