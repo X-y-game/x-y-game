@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const StyledScore = styled.span`
   color: #7988d9;
   font-size: 1.5rem;
-  padding: 0 3rem;
+  padding: 0 2.5rem;
   text-align: center;
 `;
 
