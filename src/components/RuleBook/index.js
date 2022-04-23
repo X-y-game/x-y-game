@@ -108,7 +108,6 @@ const ModalDiv = styled.div`
 `;
 
 const ModalName = styled.p`
-  margin-bottom: 50px;
   font-size: 1.5em;
   color: #fff;
   @media screen and (min-width: 700px) {

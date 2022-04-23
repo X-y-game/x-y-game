@@ -15,6 +15,7 @@ export default createGlobalStyle`
     height: 100%;
     background-color: #f5e4d6;
     font-family: 'Jua', sans-serif;
+    overflow: hidden;
   }
   a {
     text-decoration : none;
