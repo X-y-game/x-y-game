@@ -106,7 +106,7 @@ const RotateAnimBack = keyframes`
  }
 `;
 
-const OpenScoreAnim = keyframes`
+const OpenAnim = keyframes`
  0%{
    opacity: 0;
  }
@@ -141,7 +141,7 @@ const RotateContainer = styled.div`
 `;
 
 const RoundScoreText = styled.p`
-  animation: ${OpenScoreAnim} 1.8s forwards;
+  animation: ${OpenAnim} 1.8s forwards;
 `;
 
 const FinishResultButton = styled.button`
@@ -153,6 +153,7 @@ const FinishResultButton = styled.button`
   outline: 3px solid #c1d0fb;
 
   font-size: 1.1em;
+  animation: ${OpenAnim} 2s forwards;
 `;
 
 TeamResult.propTypes = {
