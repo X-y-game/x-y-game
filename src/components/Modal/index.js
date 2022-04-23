@@ -33,7 +33,13 @@ export default function Modal({
     <>
       {!isFinishResult ? (
         <>
-          <ModalDiv onClick={handleToggleBoard}>
+          <ModalDiv
+            onClick={() => {
+              if (isCurrentResult) {
+                handleToggleBoard();
+              }
+            }}
+          >
             <TextResult>{isCurrentResult ? "중간 결과" : "라운드 결과"}</TextResult>
             {isCurrentResult ? (
               <CurrentResult scoreData={scoreBoard} selectData={selectBoard} round={round} />
@@ -45,13 +51,24 @@ export default function Modal({
               </WrapResult>
             )}
           </ModalDiv>
-          <Dimmed onClick={handleToggleBoard}>dimmed</Dimmed>
+          <Dimmed
+            onClick={() => {
+              if (isCurrentResult) {
+                handleToggleBoard();
+              }
+            }}
+          >
+            dimmed
+          </Dimmed>
         </>
       ) : (
-        <ModalDiv>
-          <TextResult>최종결과</TextResult>
-          <Result tableData={totalResult} />
-        </ModalDiv>
+        <>
+          <ModalDiv>
+            <TextResult>최종결과</TextResult>
+            <Result tableData={totalResult} />
+          </ModalDiv>
+          <Dimmed>dimmed</Dimmed>
+        </>
       )}
       <FinishMessage>{isFinishResult ? "게임이 종료 되었습니다!" : ""}</FinishMessage>
     </>
@@ -109,6 +126,7 @@ const Dimmed = styled.div`
   width: 100%;
   height: 100%;
   font-size: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
 Modal.propTypes = {
