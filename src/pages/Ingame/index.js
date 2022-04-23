@@ -44,6 +44,7 @@ export default function Game() {
     emitJoinTeam(roomName);
     getSocket.on("cur_round", (curRound) => {
       setCurrentRound(curRound[roomName]);
+      setIsSubmitted(false);
     });
     getSocket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
@@ -66,7 +67,6 @@ export default function Game() {
     getSocket.on("openModal", () => {
       setIsCurrentModal(false);
       setIsBoardModal(true);
-      setIsSubmitted(false);
       setRoundDone(false);
       setMycard("");
     });
