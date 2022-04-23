@@ -108,11 +108,8 @@ const ModalDiv = styled.div`
 `;
 
 const ModalName = styled.p`
-  font-size: 1.5em;
+  font-size: 2em;
   color: #fff;
-  @media screen and (min-width: 700px) {
-    font-size: 2em;
-  }
 `;
 
 const Rule = styled.div`
