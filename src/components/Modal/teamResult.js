@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
+import CardBackground from "../../assets/cardback.png";
 
 export default function TeamResult({ team, cardXY, point, round, handleFinishedModal }) {
   return (
@@ -8,7 +9,9 @@ export default function TeamResult({ team, cardXY, point, round, handleFinishedM
       <WrapCard className="wrapCard">
         <p>{team}팀</p>
         <RotateContainer>
-          <BackCard className="back card">뒷 면</BackCard>
+          <BackCard className="back card">
+            <CardBackGround src={CardBackground} alt="card-back" />
+          </BackCard>
           <SelectCard name={cardXY} className="front card">
             {cardXY}
           </SelectCard>
@@ -56,6 +59,12 @@ const BackCard = styled.div`
     height: 3em;
     font-size: 4em;
   }
+`;
+
+const CardBackGround = styled.img`
+  position: absolute;
+  width: 150%;
+  height: 100%;
 `;
 
 const WrapCard = styled.div`
