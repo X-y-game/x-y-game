@@ -58,6 +58,14 @@ const GameIntro = styled.div`
     margin: 1.2em 0 1.5em 0;
     text-transform: uppercase;
   }
+
+  @media screen and (max-height: 600px) {
+    h1,
+    p {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -73,6 +81,10 @@ const Content = styled.div`
     }
     @media screen and (max-width: 600px) {
       width: 90%;
+      transition: 0.1s;
+    }
+    @media screen and (max-height: 600px) {
+      width: 30%;
       transition: 0.1s;
     }
   }

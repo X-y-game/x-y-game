@@ -189,6 +189,7 @@ const InGame = styled.div`
   height: 100%;
   padding: 20px;
   text-align: center;
+  overflow: hidden;
 `;
 
 const Header = styled.ul`
