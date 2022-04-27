@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";
@@ -8,6 +8,7 @@ export default function AdminPanelContainer({
   title,
   placeholder,
   data,
+  selected,
   onDelete,
   onHandleChange,
   onHandleClick,
@@ -28,7 +29,7 @@ export default function AdminPanelContainer({
   return (
     <Wrapper>
       <h2>{title}</h2>
-      {data && <AdminPanelList data={data} onDelete={onDelete} onDisplay={onHandleDisplay} />}
+      {data && <AdminPanelList data={data} onDelete={onDelete} onDisplay={onHandleDisplay} selected={selected} />}
 
       <input
         type="text"

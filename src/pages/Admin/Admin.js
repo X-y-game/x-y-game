@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -6,11 +7,11 @@ import AdminPanel from "../../components/AdminPanel";
 export default function Admin({
   channelName,
   roomName,
-  teamName,
   password,
   channels,
   rooms,
   teams,
+  selected,
   onHandleChange,
   onHandleKeyDown,
   onDisplayRooms,
@@ -29,6 +30,7 @@ export default function Admin({
           title="Channel List"
           placeholder="채널 생성하기 콤마로 맥스 인원을 정해주세요! 예시) 멋쟁이신사처럼,100"
           data={channels}
+          selected={selected}
           onDelete={onDeleteChannel}
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
@@ -45,6 +47,7 @@ export default function Admin({
           placeholder="룸 생성하기"
           data={rooms}
           name={roomName}
+          selected={selected}
           onHandleChange={onHandleChange}
           onHandleKeyDown={onHandleKeyDown}
           onDisplay={onDisplayTeams}
@@ -65,19 +68,11 @@ export default function Admin({
           title="Team List"
           placeholder="팀 생성하기"
           data={teams}
-          name={teamName}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
           onDelete={onDeleteTeam}
+          selected={selected}
         />
       ) : (
-        <AdminPanel
-          title="Team List"
-          placeholder="팀 생성하기"
-          name={teamName}
-          onHandleChange={onHandleChange}
-          onHandleKeyDown={onHandleKeyDown}
-        />
+        <AdminPanel title="Team List" placeholder="팀 생성하기" />
       )}
     </Container>
   );
@@ -86,7 +81,6 @@ export default function Admin({
 Admin.propTypes = {
   channelName: PropTypes.string.isRequired,
   roomName: PropTypes.string.isRequired,
-  teamName: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   channels: PropTypes.objectOf(PropTypes.arrayOf(Object)),
   rooms: PropTypes.objectOf(PropTypes.arrayOf(Object)),

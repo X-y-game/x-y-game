@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/prop-types */
 import React from "react";
 import styled from "styled-components";
 import Proptypes from "prop-types";
@@ -8,6 +8,7 @@ export default function AdminPanel({
   title,
   placeholder,
   data,
+  selected,
   onDelete,
   onHandleChange,
   onClick,
@@ -22,6 +23,7 @@ export default function AdminPanel({
         title={title}
         placeholder={placeholder}
         data={data}
+        selected={selected}
         onDelete={onDelete}
         onHandleChange={onHandleChange}
         onHandleClick={onClick}

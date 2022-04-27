@@ -1,9 +1,11 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/prop-types */
 import React from "react";
 import Proptypes from "prop-types";
+import styled from "styled-components";
 
-export default function AdminPanelList({ data, onDelete, onDisplay }) {
+export default function AdminPanelList({ data, onDelete, onDisplay, selected }) {
   let lists;
+
   const { channelLists, roomLists, teamLists } = data;
 
   if (channelLists) {
@@ -19,12 +21,13 @@ export default function AdminPanelList({ data, onDelete, onDisplay }) {
   }
 
   return (
-    <ul>
+    <List>
       {lists.map((channel) => {
         const { _id: id } = channel;
+
         return (
           <li key={id}>
-            <button type="button" onClick={() => onDisplay(id)}>
+            <button type="button" className={selected[id] ? "selected" : ""} onClick={() => onDisplay(id)}>
               {channel.title}
             </button>
 
@@ -34,9 +37,16 @@ export default function AdminPanelList({ data, onDelete, onDisplay }) {
           </li>
         );
       })}
-    </ul>
+    </List>
   );
 }
+
+const List = styled.ul`
+  .selected {
+    color: #fff;
+    background: #54628c;
+  }
+`;
 
 AdminPanelList.propTypes = {
   data: Proptypes.objectOf(Proptypes.array),
