@@ -17,12 +17,36 @@ export default function Manager() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(info);
-  }, [info]);
+  // useEffect(() => {
+  //   console.log(info);
+  // }, [info]);
+
+  const checkRoundMessage = (v) => {
+    switch (v + 1) {
+      case 1:
+        return "게임 시작하기";
+      case 11:
+        return "게임이 종료되었습니다";
+      default:
+        return `${v + 1}R 시작하기`;
+    }
+  };
+
+  const canGoNext = (v) => {
+    const curRound = info.curRound[v];
+    const curResult = info.results[v];
+    return !curResult[curRound - 1].includes("");
+    // return true; // 테스트용
+  };
 
   const handleNextRound = (e) => {
-    getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
+    if (info.curRound[e.target.value] >= 10) {
+      alert("더이상 진행할 라운드가 없습니다.");
+    } else if (canGoNext(e.target.value)) {
+      getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
+    } else {
+      alert("라운드가 완료되지 않았습니다.");
+    }
     return () => {
       getSocket.disconnect();
     };
@@ -36,10 +60,40 @@ export default function Manager() {
   };
 
   const handleModal = (e) => {
-    getSocket.emit("modal", e.target.value);
+    if (canGoNext(e.target.value)) {
+      getSocket.emit("modal", e.target.value);
+    } else {
+      alert("라운드가 진행중입니다.");
+    }
     return () => {
       getSocket.disconnect();
     };
+  };
+
+  const calcScore = (scores, team) => {
+    let team1 = 0;
+    let team2 = 0;
+    let team3 = 0;
+    let team4 = 0;
+    scores.forEach((score) => {
+      team1 += score[0];
+      team2 += score[1];
+      team3 += score[2];
+      team4 += score[3];
+    });
+
+    switch (team) {
+      case 1:
+        return team1;
+      case 2:
+        return team2;
+      case 3:
+        return team3;
+      case 4:
+        return team4;
+      default:
+        return team1;
+    }
   };
 
   return (
@@ -76,12 +130,12 @@ export default function Manager() {
                     <td>{info?.results[v] ? info?.results[v][info.curRound[v] - 1] : null}</td>
                     <td>
                       <button type="button" onClick={handleModal} value={v}>
-                        {info.curRound[v]}R 결과
+                        {info.curRound[v] > 0 ? `${info.curRound[v]}R 결과 보기` : "대기"}
                       </button>
                     </td>
                     <td>
                       <button type="button" onClick={handleNextRound} value={v}>
-                        {info.curRound[v] === 10 ? "게임이 종료되었습니다." : `${info.curRound[v] + 1}R 시작하기`}
+                        {info && checkRoundMessage(info.curRound[v])}
                       </button>
                     </td>
                     <td>
@@ -145,6 +199,13 @@ export default function Manager() {
                                 </tr>
                               );
                             })}
+                            <tr>
+                              <td>총 점</td>
+                              <td>{calcScore(info.scores[v], 1)}</td>
+                              <td>{calcScore(info.scores[v], 2)}</td>
+                              <td>{calcScore(info.scores[v], 3)}</td>
+                              <td>{calcScore(info.scores[v], 4)}</td>
+                            </tr>
                           </tbody>
                         </table>
                       </details>
