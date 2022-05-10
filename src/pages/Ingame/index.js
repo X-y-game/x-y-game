@@ -78,11 +78,8 @@ export default function Game() {
 
   useEffect(() => {
     setIsBoardModal(false);
-  }, [currentRound]);
-
-  useEffect(() => {
     setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
-  }, [scoreBoard]);
+  }, [currentRound]);
 
   useEffect(() => {
     if (roundDone) {
@@ -95,6 +92,15 @@ export default function Game() {
       }
     }
   }, [resultBoard, scoreBoard, roundDone]);
+
+  useEffect(() => {
+    if (resultBoard) {
+      if (resultBoard[currentRound - 1][0] !== "") {
+        setMycard(resultBoard[currentRound - 1][0]);
+        setIsSubmitted(true);
+      }
+    }
+  }, [resultBoard]);
 
   const handleToggleRule = () => {
     setIsRuleModal(!isRuleModal);
