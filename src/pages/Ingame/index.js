@@ -95,8 +95,8 @@ export default function Game() {
 
   useEffect(() => {
     if (resultBoard) {
-      if (resultBoard[currentRound - 1][0] !== "") {
-        setMycard(resultBoard[currentRound - 1][0]);
+      if (resultBoard[currentRound - 1][team - 1] !== "") {
+        setMycard(resultBoard[currentRound - 1][team - 1]);
         setIsSubmitted(true);
       }
     }
