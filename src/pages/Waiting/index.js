@@ -5,6 +5,7 @@ import Team from "../../components/Team";
 import Header from "../../components/Header";
 import Spinner from "../../components/Spinner";
 import { getSocket, emitJoinTeam, getTeams } from "../../utils";
+import soundPlay from "../../utils/sound";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
@@ -26,6 +27,7 @@ export default function WaitingRoom() {
   const [roomTitle, roomDBID] = roomDataInfo.split("-");
 
   const handleStart = () => {
+    soundPlay("click");
     history.push(`/game/:${roomName}`);
   };
 
@@ -49,6 +51,7 @@ export default function WaitingRoom() {
 
   const handleReady = () => {
     if (team !== 0) {
+      soundPlay("click");
       if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
         localStorage.setItem("team", team);
         setIsReady(!isReady);

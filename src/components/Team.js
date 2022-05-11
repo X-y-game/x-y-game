@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import soundPlay from "../utils/sound";
 
 export default function Team({ id, setTeam, title }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -9,6 +10,7 @@ export default function Team({ id, setTeam, title }) {
   };
 
   const handleClickTeam = (e) => {
+    soundPlay("click");
     toggleIsSelected(e);
     setTeam(id);
   };

@@ -1,11 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import soundPlay from "../../utils/sound";
 
 export default function GoBackButton() {
   const history = useHistory();
 
   const handleClick = () => {
+    soundPlay("click");
     history.goBack();
   };
   return (
