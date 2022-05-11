@@ -33,16 +33,17 @@ export default function Manager() {
   };
 
   const canGoNext = (v) => {
-    const curRound = info.curRound[v];
-    const curResult = info.results[v];
-    // return !curResult[curRound - 1].includes("");
-    return true; // 테스트용
+    const curRound = info?.curRound[v];
+    const curResult = info?.results[v];
+    if (curResult) return !curResult[curRound - 1]?.includes("");
+    // return true; // 테스트용
+    return false;
   };
 
   const handleNextRound = (e) => {
     if (info.curRound[e.target.value] >= 10) {
       alert("더이상 진행할 라운드가 없습니다.");
-    } else if (canGoNext(e.target.value)) {
+    } else if (info.curRound[e.target.value] === 0 || canGoNext(e.target.value)) {
       getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
     } else {
       alert("라운드가 완료되지 않았습니다.");
