@@ -35,8 +35,8 @@ export default function Manager() {
   const canGoNext = (v) => {
     const curRound = info.curRound[v];
     const curResult = info.results[v];
-    return !curResult[curRound - 1].includes("");
-    // return true; // 테스트용
+    // return !curResult[curRound - 1].includes("");
+    return true; // 테스트용
   };
 
   const handleNextRound = (e) => {
@@ -75,7 +75,7 @@ export default function Manager() {
     let team2 = 0;
     let team3 = 0;
     let team4 = 0;
-    scores.forEach((score) => {
+    scores?.forEach((score) => {
       team1 += score[0];
       team2 += score[1];
       team3 += score[2];
