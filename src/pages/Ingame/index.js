@@ -88,6 +88,19 @@ export default function Game() {
   }, [currentRound]);
 
   useEffect(() => {
+    setCurrentScore(getCurrentScore(scoreBoard, currentRound, team));
+  }, [scoreBoard]);
+
+  useEffect(() => {
+    if (resultBoard) {
+      if (resultBoard[currentRound - 1][team - 1] !== "") {
+        setMycard(resultBoard[currentRound - 1][team - 1]);
+        setIsSubmitted(true);
+      }
+    }
+  }, [resultBoard]);
+
+  useEffect(() => {
     if (roundDone) {
       if (currentRound === 10) {
         const totalScores = sumScores(scoreBoard);
@@ -103,15 +116,6 @@ export default function Game() {
     if (isSubmitted) soundPlay("submit");
     else soundPlay("click");
   }, [mycard]);
-
-  useEffect(() => {
-    if (resultBoard) {
-      if (resultBoard[currentRound - 1][team - 1] !== "") {
-        setMycard(resultBoard[currentRound - 1][team - 1]);
-        setIsSubmitted(true);
-      }
-    }
-  }, [resultBoard]);
 
   const handleToggleRule = () => {
     setIsRuleModal(!isRuleModal);
