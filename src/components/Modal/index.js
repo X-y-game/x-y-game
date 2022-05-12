@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import TeamResult from "./teamResult";
 import CurrentResult from "../CurrentResult";
-import Result from "../Result/Container";
 
 export default function Modal({
   handleToggleBoard,
@@ -15,7 +14,6 @@ export default function Modal({
   selectBoard,
   round,
   isFinishResult,
-  totalResult,
   handleFinishedModal,
 }) {
   const roundResultData = () => {
@@ -43,7 +41,12 @@ export default function Modal({
           >
             <TextResult>{isCurrentResult ? "중간 결과" : "라운드 결과"}</TextResult>
             {isCurrentResult ? (
-              <CurrentResult scoreData={scoreBoard} selectData={selectBoard} round={round} />
+              <CurrentResult
+                scoreData={scoreBoard}
+                selectData={selectBoard}
+                round={round}
+                isFinishResult={isFinishResult}
+              />
             ) : (
               <WrapResult>
                 {roundResultData().map((data) => (
@@ -73,7 +76,12 @@ export default function Modal({
         <>
           <ModalDiv>
             <TextResult>최종결과</TextResult>
-            <Result tableData={totalResult} />
+            <CurrentResult
+              scoreData={scoreBoard}
+              selectData={selectBoard}
+              round={round}
+              isFinishResult={isFinishResult}
+            />
           </ModalDiv>
           <Dimmed>dimmed</Dimmed>
         </>
@@ -85,7 +93,7 @@ export default function Modal({
 
 const ModalDiv = styled.div`
   position: absolute;
-  top: 10vh;
+  top: 5vh;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -146,7 +154,6 @@ Modal.propTypes = {
   isCurrentResult: PropTypes.bool,
   round: PropTypes.number,
   isFinishResult: PropTypes.bool,
-  totalResult: PropTypes.objectOf(PropTypes.array),
   handleFinishedModal: PropTypes.func,
 };
 
@@ -159,6 +166,5 @@ Modal.defaultProps = {
   isCurrentResult: true,
   isFinishResult: false,
   round: 0,
-  totalResult: [],
   handleFinishedModal: () => {},
 };
