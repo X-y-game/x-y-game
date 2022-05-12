@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import ReactRouterPropTypes from "react-router-prop-types";
 import poster from "../../assets/xy-bg2.png";
+import soundPlay from "../../utils/sound";
 
 export default function Home({ history }) {
   const handleClick = () => {
+    soundPlay("click");
     history.push("/channel");
   };
 

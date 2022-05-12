@@ -13,6 +13,7 @@ import {
   makeData,
   checkSpecialRound,
 } from "../../utils";
+import soundPlay from "../../utils/sound";
 
 export default function Game() {
   const history = useHistory();
@@ -48,11 +49,11 @@ export default function Game() {
     });
     getSocket.on("cur_result", (currentResult) => {
       setResultBoard(currentResult);
+      if (resultBoard) setMycard(resultBoard[currentRound - 1][team - 1]);
     });
     getSocket.on("cur_score", (currentScore) => {
       setScoreBoard(currentScore);
     });
-
     getSocket.on("show_round_score", (currentScore) => {
       setRoundScore(currentScore);
       setRoundDone(true);
@@ -63,8 +64,13 @@ export default function Game() {
     getSocket.on("show_select", (allSelect) => {
       setResultBoard(allSelect);
     });
-
+    getSocket.on("room_info", (roomInfo) => {
+      setCurrentRound(roomInfo.roomCurRound);
+      setResultBoard(roomInfo.roomResult);
+      setScoreBoard(roomInfo.roomScore);
+    });
     getSocket.on("openModal", () => {
+      soundPlay("result");
       setIsCurrentModal(false);
       setIsBoardModal(true);
       setRoundDone(false);
@@ -94,6 +100,11 @@ export default function Game() {
   }, [resultBoard, scoreBoard, roundDone]);
 
   useEffect(() => {
+    if (isSubmitted) soundPlay("submit");
+    else soundPlay("click");
+  }, [mycard]);
+
+  useEffect(() => {
     if (resultBoard) {
       if (resultBoard[currentRound - 1][team - 1] !== "") {
         setMycard(resultBoard[currentRound - 1][team - 1]);
@@ -114,6 +125,7 @@ export default function Game() {
   };
 
   const handleSubmit = () => {
+    soundPlay("submit");
     setIsSubmitted(true);
     setIsChecked(false);
     getSocket.emit("select_card", roomName, team, currentRound, mycard);

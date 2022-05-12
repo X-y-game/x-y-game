@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import soundPlay from "../../utils/sound";
 
 export default function CheckPw({ passWord, index, channelId, title, handleClick }) {
   const [wrongPw, setWrongPw] = useState(true);
@@ -9,6 +10,7 @@ export default function CheckPw({ passWord, index, channelId, title, handleClick
   const history = useHistory();
 
   const checkPw = () => {
+    soundPlay("click");
     if (passWord !== inputText) {
       setWrongPw(false);
       setInputText("");
