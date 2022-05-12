@@ -149,7 +149,6 @@ export default function Game() {
           scoreBoard={scoreBoard}
           selectBoard={resultBoard}
           round={currentRound}
-          totalResult={totalResult}
           handleFinishedModal={handleFinishedModal}
         />
       )}
