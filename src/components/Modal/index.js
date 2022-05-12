@@ -100,7 +100,7 @@ const ModalDiv = styled.div`
   gap: 20px;
   width: 100%;
   margin: 0 auto;
-  padding: 15px 15px 80px 15px;
+  padding: 15px 0 80px 0;
   border-radius: 5px;
   background-color: #54628c;
   text-align: center;
@@ -148,7 +148,7 @@ const Dimmed = styled.div`
 Modal.propTypes = {
   handleToggleBoard: PropTypes.func,
   selectCard: PropTypes.arrayOf(PropTypes.string),
-  roundScore: PropTypes.arrayOf(PropTypes.number),
+  roundScore: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
   scoreBoard: PropTypes.arrayOf(PropTypes.array),
   selectBoard: PropTypes.arrayOf(PropTypes.array),
   isCurrentResult: PropTypes.bool,

@@ -11,6 +11,7 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
     let two = 0;
     let three = 0;
     let four = 0;
+    const total = 0;
     if (!isFinishResult) {
       for (let i = 0; i < round - 1; i += 1) {
         pushData.push({
@@ -24,6 +25,7 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
           teamTwoScore: scoreData[i][1],
           teamThreeScore: scoreData[i][2],
           teamFourScore: scoreData[i][3],
+          roundTotal: scoreData[i][0] + scoreData[i][1] + scoreData[i][2] + scoreData[i][3],
         });
       }
     } else {
@@ -43,10 +45,12 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
           teamTwoScore: scoreData[i][1],
           teamThreeScore: scoreData[i][2],
           teamFourScore: scoreData[i][3],
+          roundTotal: scoreData[i][0] + scoreData[i][1] + scoreData[i][2] + scoreData[i][3],
           teamOneTotal: one,
           teamTwoTotal: two,
           teamThreeTotal: three,
           teamFourTotal: four,
+          total: one + two + three + four,
         });
       }
     }
@@ -60,6 +64,11 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
         <p>2팀</p>
         <p>3팀</p>
         <p>4팀</p>
+        <p>
+          라운드
+          <br />
+          합계
+        </p>
       </TeamNumber>
 
       {roundData().map((it) => (
@@ -74,6 +83,7 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
           teamTwoScore={it.teamTwoScore}
           teamThreeScore={it.teamThreeScore}
           teamFourScore={it.teamFourScore}
+          roundTotal={it.roundTotal}
         />
       ))}
       <hr />
@@ -85,6 +95,7 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
             <p>{roundData()[9].teamTwoTotal}</p>
             <p>{roundData()[9].teamThreeTotal}</p>
             <p>{roundData()[9].teamFourTotal}</p>
+            <TotalScoreText name={roundData()[9].total > 0 ? "승" : "패"}>{roundData()[9].total}</TotalScoreText>
           </TotalScore>
         </TotalWrap>
       )}
@@ -112,9 +123,11 @@ const WrapResult = styled.div`
 
 const TeamNumber = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 80%;
-  margin-left: 11%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2.7em;
+  margin-left: 10px;
 `;
 
 const TotalWrap = styled.div`
@@ -127,12 +140,17 @@ const TotalScore = styled.div`
   align-items: center;
   width: 100%;
   height: 3vh;
-  margin: 10px;
+  margin: 7px 7px 7px 10px;
   padding: 0 1px;
 `;
 
 const TotalText = styled.p`
   width: 35px;
+`;
+
+const TotalScoreText = styled.p`
+  padding: 2px 7px;
+  background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
 `;
 
 CurrentResult.propTypes = {
