@@ -65,7 +65,7 @@ export function sumResults(roundData) {
   const results = [];
   let resultsObj = {};
 
-  roundData.forEach((round) => {
+  roundData?.forEach((round) => {
     resultsObj = checkRoundResult(teamObj, round);
   });
 
