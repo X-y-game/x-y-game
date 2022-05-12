@@ -186,6 +186,7 @@ export default function Manager() {
                               <td>2팀</td>
                               <td>3팀</td>
                               <td>4팀</td>
+                              <td>라운드 합계</td>
                             </tr>
                           </thead>
                           <tbody>
@@ -197,6 +198,7 @@ export default function Manager() {
                                   <td>{s[1]}</td>
                                   <td>{s[2]}</td>
                                   <td>{s[3]}</td>
+                                  <td>{s[0] + s[1] + s[2] + s[3]}</td>
                                 </tr>
                               );
                             })}
@@ -206,6 +208,12 @@ export default function Manager() {
                               <td>{calcScore(info.scores[v], 2)}</td>
                               <td>{calcScore(info.scores[v], 3)}</td>
                               <td>{calcScore(info.scores[v], 4)}</td>
+                              <td>
+                                {calcScore(info.scores[v], 1) +
+                                  calcScore(info.scores[v], 2) +
+                                  calcScore(info.scores[v], 3) +
+                                  calcScore(info.scores[v], 4)}
+                              </td>
                             </tr>
                           </tbody>
                         </table>
