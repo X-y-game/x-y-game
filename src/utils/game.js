@@ -24,7 +24,7 @@ export function sumScores(scores) {
   let team3 = 0;
   let team4 = 0;
 
-  scores.forEach((round) => {
+  scores?.forEach((round) => {
     team1 += round[0];
     team2 += round[1];
     team3 += round[2];
