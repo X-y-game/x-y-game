@@ -168,7 +168,11 @@ const FinishResultButton = styled.button`
 TeamResult.propTypes = {
   team: PropTypes.number.isRequired,
   cardXY: PropTypes.string.isRequired,
-  point: PropTypes.number.isRequired,
+  point: PropTypes.number,
   round: PropTypes.number.isRequired,
   handleFinishedModal: PropTypes.func.isRequired,
+};
+
+TeamResult.defaultProps = {
+  point: 0,
 };

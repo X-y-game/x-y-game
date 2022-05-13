@@ -12,26 +12,36 @@ export default function CurrentData({
   teamTwoScore,
   teamThreeScore,
   teamFourScore,
+  roundTotal,
 }) {
   return (
     <WrapRound>
       <p>{roundNum}R</p>
       <CheckCard name={teamOneScore < 0 ? "패" : "승"}>
         <span>{teamOneCardXY}</span>
-        <span>{teamOneScore === 0 ? "?" : teamOneScore}</span>
+        <Score name={Math.abs(teamOneScore) >= 1000 ? "천이상" : "천이하"}>
+          {teamOneScore === 0 ? "?" : teamOneScore}
+        </Score>
       </CheckCard>
       <CheckCard name={teamTwoScore < 0 ? "패" : "승"}>
         <span>{teamTwoCardXY}</span>
-        <span>{teamTwoScore === 0 ? "?" : teamTwoScore}</span>
+        <Score name={Math.abs(teamTwoScore) >= 1000 ? "천이상" : "천이하"}>
+          {teamTwoScore === 0 ? "?" : teamTwoScore}
+        </Score>
       </CheckCard>
       <CheckCard name={teamThreeScore < 0 ? "패" : "승"}>
         <span>{teamThreeCardXY}</span>
-        <span>{teamThreeScore === 0 ? "?" : teamThreeScore}</span>
+        <Score name={Math.abs(teamThreeScore) >= 1000 ? "천이상" : "천이하"}>
+          {teamThreeScore === 0 ? "?" : teamThreeScore}
+        </Score>
       </CheckCard>
       <CheckCard name={teamFourScore < 0 ? "패" : "승"}>
         <span>{teamFourCardXY}</span>
-        <span>{teamFourScore === 0 ? "?" : teamFourScore}</span>
+        <Score name={Math.abs(teamFourScore) >= 1000 ? "천이상" : "천이하"}>
+          {teamFourScore === 0 ? "?" : teamFourScore}
+        </Score>
       </CheckCard>
+      <CheckCard name={roundTotal < 0 ? "패" : "승"}>{roundTotal}</CheckCard>
     </WrapRound>
   );
 }
@@ -43,11 +53,12 @@ const WrapRound = styled.div`
 
 const CheckCard = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px;
   align-items: center;
   width: 100%;
   height: 3vh;
-  margin: 10px;
+  margin: 5px;
   padding: 0 1px;
   background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 1em;
@@ -60,6 +71,11 @@ const CheckCard = styled.div`
   }
 `;
 
+const Score = styled.span`
+  margin-top: ${(props) => (props.name === "천이상" ? "4px" : "")};
+  font-size: ${(props) => (props.name === "천이상" ? "0.8em" : "1em")};
+`;
+
 CurrentData.propTypes = {
   roundNum: PropTypes.number.isRequired,
   teamOneCardXY: PropTypes.string.isRequired,
@@ -70,4 +86,5 @@ CurrentData.propTypes = {
   teamTwoScore: PropTypes.number.isRequired,
   teamThreeScore: PropTypes.number.isRequired,
   teamFourScore: PropTypes.number.isRequired,
+  roundTotal: PropTypes.number.isRequired,
 };
