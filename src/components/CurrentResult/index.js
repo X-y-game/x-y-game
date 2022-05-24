@@ -11,7 +11,6 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
     let two = 0;
     let three = 0;
     let four = 0;
-    const total = 0;
     if (!isFinishResult) {
       for (let i = 0; i < round - 1; i += 1) {
         pushData.push({
@@ -60,6 +59,7 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
   return (
     <WrapResult>
       <TeamNumber>
+        <p />
         <p>1팀</p>
         <p>2팀</p>
         <p>3팀</p>
@@ -71,31 +71,33 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
         </p>
       </TeamNumber>
 
-      {roundData().map((it) => (
-        <CurrentData
-          key={it.id}
-          roundNum={it.roundNum}
-          teamOneCardXY={it.teamOneCardXY}
-          teamTwoCardXY={it.teamTwoCardXY}
-          teamThreeCardXY={it.teamThreeCardXY}
-          teamFourCardXY={it.teamFourCardXY}
-          teamOneScore={it.teamOneScore}
-          teamTwoScore={it.teamTwoScore}
-          teamThreeScore={it.teamThreeScore}
-          teamFourScore={it.teamFourScore}
-          roundTotal={it.roundTotal}
-        />
-      ))}
+      <tr>
+        {roundData().map((it) => (
+          <CurrentData
+            key={it.id}
+            roundNum={it.roundNum}
+            teamOneCardXY={it.teamOneCardXY}
+            teamTwoCardXY={it.teamTwoCardXY}
+            teamThreeCardXY={it.teamThreeCardXY}
+            teamFourCardXY={it.teamFourCardXY}
+            teamOneScore={it.teamOneScore}
+            teamTwoScore={it.teamTwoScore}
+            teamThreeScore={it.teamThreeScore}
+            teamFourScore={it.teamFourScore}
+            roundTotal={it.roundTotal}
+          />
+        ))}
+      </tr>
       <hr />
       {isFinishResult && (
         <TotalWrap>
-          <TotalText>총점</TotalText>
           <TotalScore>
+            <p>결과</p>
             <p>{roundData()[9].teamOneTotal}</p>
             <p>{roundData()[9].teamTwoTotal}</p>
             <p>{roundData()[9].teamThreeTotal}</p>
             <p>{roundData()[9].teamFourTotal}</p>
-            <TotalScoreText name={roundData()[9].total > 0 ? "승" : "패"}>{roundData()[9].total}</TotalScoreText>
+            <p>{roundData()[9].total}</p>
           </TotalScore>
         </TotalWrap>
       )}
@@ -106,12 +108,14 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
 const WrapResult = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
   margin-top: 5px;
-  padding: 5px;
+  padding-right: 5px;
   border-radius: 5px;
   background-color: #c1d0fb;
+  text-align: center;
+
   p {
+    width: 100%;
     font-size: 1em;
     font-weight: bold;
   }
@@ -123,34 +127,24 @@ const WrapResult = styled.div`
 
 const TeamNumber = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  gap: 2.7em;
-  margin-left: 10px;
+  padding: 3px;
 `;
 
 const TotalWrap = styled.div`
   display: flex;
   align-items: center;
+  text-align: center;
 `;
-const TotalScore = styled.div`
+const TotalScore = styled.p`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 3vh;
-  margin: 7px 7px 7px 10px;
-  padding: 0 1px;
-`;
-
-const TotalText = styled.p`
-  width: 35px;
-`;
-
-const TotalScoreText = styled.p`
-  padding: 2px 7px;
-  background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
+  p {
+    background-color: white;
+  }
 `;
 
 CurrentResult.propTypes = {

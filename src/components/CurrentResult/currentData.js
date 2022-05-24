@@ -46,20 +46,19 @@ export default function CurrentData({
   );
 }
 
-const WrapRound = styled.div`
+const WrapRound = styled.p`
   display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
-const CheckCard = styled.div`
+const CheckCard = styled.p`
   display: flex;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 3vh;
-  margin: 5px;
-  padding: 0 1px;
+  margin: 1px;
   background-color: ${(props) => (props.name === "승" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 1em;
   font-weight: bold;

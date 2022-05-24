@@ -140,6 +140,13 @@ export default function Game() {
     setIsBoardModal(true);
   };
 
+  const reSubmit = () => {
+    soundPlay("click");
+    setIsSubmitted(false);
+    setIsChecked(false);
+    getSocket.emit("select_card", roomName, team, currentRound, "");
+  };
+
   return (
     <InGame>
       {isRuleModal && <RuleBook handleClick={handleToggleRule} />}
@@ -195,9 +202,13 @@ export default function Game() {
       <Footer>
         <li>현재 점수 : {currentTeamScore}</li>
         <li>
-          {!isSubmitted && (
+          {!isSubmitted ? (
             <button type="submit" disabled={!mycard} onClick={handleSubmit}>
               제출하기
+            </button>
+          ) : (
+            <button type="submit" disabled={!mycard} onClick={reSubmit}>
+              다시 제출하기
             </button>
           )}
         </li>

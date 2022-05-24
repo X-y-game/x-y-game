@@ -6,6 +6,7 @@ import { getSocket } from "../../utils/socket";
 export default function Manager() {
   const [channels, setChannels] = useState(null);
   const [info, setInfo] = useState(null);
+  const roundInfo = {};
 
   useEffect(() => {
     getChannels(setChannels);
@@ -36,18 +37,24 @@ export default function Manager() {
     const curRound = info?.curRound[v];
     const curResult = info?.results[v];
     if (curResult) return !curResult[curRound - 1]?.includes("");
-    // return true; // 테스트용
     return false;
+    // return true; // 테스트용
   };
 
   const handleNextRound = (e) => {
-    if (info.curRound[e.target.value] >= 10) {
+    getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
+
+    if (!roundInfo[e.target.value] && info.curRound[e.target.value] !== 0) {
+      alert("라운드 결과를 먼저 보여주세요");
+    } else if (info.curRound[e.target.value] >= 10) {
       alert("더이상 진행할 라운드가 없습니다.");
     } else if (info.curRound[e.target.value] === 0 || canGoNext(e.target.value)) {
       getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
     } else {
       alert("라운드가 완료되지 않았습니다.");
     }
+    roundInfo[e.target.value] = false;
+
     return () => {
       getSocket.disconnect();
     };
@@ -63,6 +70,7 @@ export default function Manager() {
   const handleModal = (e) => {
     if (canGoNext(e.target.value)) {
       getSocket.emit("modal", e.target.value);
+      roundInfo[e.target.value] = true;
     } else {
       alert("라운드가 진행중입니다.");
     }
