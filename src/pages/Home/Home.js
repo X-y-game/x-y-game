@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ReactRouterPropTypes from "react-router-prop-types";
-import poster from "../../assets/xy-bg2.png";
+import poster from "../../assets/logo.png";
 import soundPlay from "../../utils/sound";
 
 export default function Home({ history }) {
@@ -13,10 +13,8 @@ export default function Home({ history }) {
   return (
     <Wrapper>
       <GameIntro>
-        <h1>XY GAME</h1>
         <div>
           <Content>
-            <p className="game-intro">Win as much as you can</p>
             <Poster src={poster} alt="game-poster" />
           </Content>
         </div>
