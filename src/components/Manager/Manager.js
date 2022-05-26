@@ -42,8 +42,6 @@ export default function Manager() {
   };
 
   const handleNextRound = (e) => {
-    getSocket.emit("control", { roomName: e.target.value, round: info.curRound[e.target.value] + 1 });
-
     if (!roundInfo[e.target.value] && info.curRound[e.target.value] !== 0) {
       alert("라운드 결과를 먼저 보여주세요");
     } else if (info.curRound[e.target.value] >= 10) {
