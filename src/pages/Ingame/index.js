@@ -95,7 +95,10 @@ export default function Game() {
     if (resultBoard) {
       if (resultBoard[currentRound - 1][team - 1] !== "") {
         setMycard(resultBoard[currentRound - 1][team - 1]);
-        setIsSubmitted(true);
+        if (resultBoard[currentRound - 1][team - 1] !== "") setIsSubmitted(true);
+      } else {
+        setMycard("");
+        setIsSubmitted(false);
       }
     }
   }, [resultBoard]);
@@ -140,10 +143,11 @@ export default function Game() {
     setIsBoardModal(true);
   };
 
-  const reSubmit = () => {
+  const handleResubmit = () => {
     soundPlay("click");
     setIsSubmitted(false);
     setIsChecked(false);
+    setMycard("");
     getSocket.emit("select_card", roomName, team, currentRound, "");
   };
 
@@ -207,7 +211,7 @@ export default function Game() {
               제출하기
             </button>
           ) : (
-            <button type="submit" disabled={!mycard} onClick={reSubmit}>
+            <button type="submit" disabled={!mycard} onClick={handleResubmit}>
               다시 제출하기
             </button>
           )}
