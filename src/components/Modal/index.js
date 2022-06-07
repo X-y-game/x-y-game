@@ -93,14 +93,15 @@ export default function Modal({
 
 const ModalDiv = styled.div`
   position: absolute;
-  top: 5vh;
+  top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   margin: 0 auto;
-  padding: 15px 0 80px 0;
+  padding: 1em;
   border-radius: 5px;
   background-color: #54628c;
   text-align: center;

@@ -28,11 +28,10 @@ export default function WaitingRoom() {
 
   const handleStart = () => {
     soundPlay("click");
-    history.push(`/game/:${roomName}`);
+    history.push(`/game/info?room=${roomName}&team=${team}`);
   };
 
   useEffect(async () => {
-    localStorage.removeItem("team");
     setTeamList(await getTeams(roomDBID));
     emitJoinTeam(roomName);
     getSocket.on("cur_round", (curRound) => {
@@ -53,8 +52,8 @@ export default function WaitingRoom() {
     if (team !== 0) {
       soundPlay("click");
       if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
-        localStorage.setItem("team", team);
         setIsReady(!isReady);
+        setTeam(team);
         getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
         if (currentRound.current > 0) {
           handleStart();

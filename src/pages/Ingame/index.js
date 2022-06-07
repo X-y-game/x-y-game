@@ -18,8 +18,9 @@ import soundPlay from "../../utils/sound";
 export default function Game() {
   const history = useHistory();
   const location = useLocation();
-  const roomName = location.pathname.split(":")[1];
-  const team = localStorage.getItem("team");
+  const URLSearch = new URLSearchParams(location.search);
+  const roomName = URLSearch.get("room");
+  const team = URLSearch.get("team");
   const [currentRound, setCurrentRound] = useState(0);
 
   const [mycard, setMycard] = useState("");
