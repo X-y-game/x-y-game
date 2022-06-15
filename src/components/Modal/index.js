@@ -95,20 +95,15 @@ const ModalDiv = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  gap: 1em;
   width: 100vw;
   height: 100vh;
-  margin: 0 auto;
   padding: 1em;
+  overflow: hidden;
   border-radius: 5px;
   background-color: #54628c;
   text-align: center;
   z-index: 10;
-  button {
-    position: absolute;
-  }
 `;
 
 const TextResult = styled.p`
@@ -122,11 +117,11 @@ const WrapResult = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   gap: 20px;
-  @media screen and (min-width: 600px) {
+  padding: 3em;
+  /* @media screen and (min-width: 600px) {
     height: 60vh;
-  }
+  } */
 `;
 
 const FinishMessage = styled.p`
@@ -140,8 +135,8 @@ const Dimmed = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   font-size: 0;
   background-color: rgba(0, 0, 0, 0.7);
 `;
