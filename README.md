@@ -90,7 +90,3 @@ DB_URL=<YOUR_MONGODB_ATLAS_URL>
 <img src="./previews/최종 결과.gif" style="width: 50%;">
 <img src="./previews/최종 결과.png" style="width: 50%;">
 <img src="./previews/최종 결과(매니저).png" style="width: 50%;">
-
-## Release Note
-
-V1.0 First Release
