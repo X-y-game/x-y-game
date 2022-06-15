@@ -9,7 +9,7 @@ import soundPlay from "../../utils/sound";
 
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
-  const [team, setTeam] = useState(0);
+  const [team, setTeam] = useState();
   const [canStart, setCanStart] = useState(false);
   const [teamList, setTeamList] = useState([]);
 
@@ -28,7 +28,7 @@ export default function WaitingRoom() {
 
   const handleStart = () => {
     soundPlay("click");
-    history.push(`/game/info?room=${roomName}&team=${team}`);
+    history.push(`/game/info?room=${roomName}&team=${localStorage.getItem("team")}`);
   };
 
   useEffect(async () => {
@@ -41,7 +41,10 @@ export default function WaitingRoom() {
       setCanStart(isStart);
     });
     getSocket.on("setGame", (startedRoom) => {
-      if (startedRoom === roomName) handleStart();
+      if (startedRoom === roomName) {
+        setCanStart(true);
+        handleStart();
+      }
     });
     return () => {
       getSocket.off("join");
@@ -49,11 +52,12 @@ export default function WaitingRoom() {
   }, []);
 
   const handleReady = () => {
-    if (team !== 0) {
+    if (team) {
       soundPlay("click");
       if (window.confirm(`${team}팀으로 결정하시겠습니까?`)) {
         setIsReady(!isReady);
         setTeam(team);
+        localStorage.setItem("team", team);
         getSocket.emit("select_team", channelIndex, roomIndex, roomName, team);
         if (currentRound.current > 0) {
           handleStart();
@@ -89,20 +93,10 @@ export default function WaitingRoom() {
           {team}팀을 선택했습니다
         </strong>
 
-        {canStart ? (
-          <div>
-            <p>모든 팀의 선택이 완료되었습니다</p>
-            <p>게임이 잠시후 시작됩니다</p>
-          </div>
-        ) : (
-          <div>
-            <p>다른 팀의 접속을 기다리는 중입니다</p>
-            <p>잠시만 기다려주세요</p>
-            <Loading>
-              <Spinner />
-            </Loading>
-          </div>
-        )}
+        <p>잠시만 기다려주세요</p>
+        <Loading>
+          <Spinner />
+        </Loading>
       </div>
     </Waiting>
   );
