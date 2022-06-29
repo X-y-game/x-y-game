@@ -118,7 +118,7 @@ const WrapResult = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 3em;
+  padding: 1em 5em 10em 5em;
   /* @media screen and (min-width: 600px) {
     height: 60vh;
   } */

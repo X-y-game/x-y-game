@@ -108,6 +108,8 @@ export default function CurrentResult({ scoreData, selectData, round, isFinishRe
 const WrapResult = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
   margin-top: 5px;
   padding-right: 5px;
   border-radius: 5px;
@@ -116,8 +118,9 @@ const WrapResult = styled.div`
 
   p {
     width: 100%;
-    font-size: 1em;
-    font-weight: bold;
+    height: 100%;
+    font-size: 1rem;
+    padding: 0.3rem;
   }
   @media screen and (min-width: 600px) {
     width: 60%;

@@ -4,15 +4,7 @@ import styled, { keyframes } from "styled-components";
 import GameCard from "../../components/Ingame/GameCard";
 import RuleBook from "../../components/RuleBook";
 import Modal from "../../components/Modal";
-import {
-  getSocket,
-  emitJoinTeam,
-  getCurrentScore,
-  sumScores,
-  sumResults,
-  makeData,
-  checkSpecialRound,
-} from "../../utils";
+import { getSocket, emitJoinTeam, getCurrentScore, checkSpecialRound } from "../../utils";
 import soundPlay from "../../utils/sound";
 
 export default function Game() {
@@ -24,19 +16,17 @@ export default function Game() {
   const [currentRound, setCurrentRound] = useState(0);
 
   const [mycard, setMycard] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(URLSearch.get("submitted"));
   const [isChecked, setIsChecked] = useState(false);
   const [resultBoard, setResultBoard] = useState();
   const [roundScore, setRoundScore] = useState(0);
   const [scoreBoard, setScoreBoard] = useState();
-  const [roundDone, setRoundDone] = useState(false);
   const [currentTeamScore, setCurrentScore] = useState(0);
 
   const [isRuleModal, setIsRuleModal] = useState(false);
   const [isBoardModal, setIsBoardModal] = useState(false);
   const [isCurrentModal, setIsCurrentModal] = useState(false);
   const [isFinishedResult, setIsFinishedResult] = useState(false);
-  const [totalResult, setTotalResult] = useState({});
 
   useEffect(() => {
     if (team === null) {
@@ -57,7 +47,6 @@ export default function Game() {
     });
     getSocket.on("show_round_score", (currentScore) => {
       setRoundScore(currentScore);
-      setRoundDone(true);
     });
     getSocket.on("show_score", (allScore) => {
       setScoreBoard(allScore);
@@ -74,7 +63,6 @@ export default function Game() {
       soundPlay("result");
       setIsCurrentModal(false);
       setIsBoardModal(true);
-      setRoundDone(false);
       setMycard("");
     });
 
@@ -105,21 +93,13 @@ export default function Game() {
   }, [resultBoard]);
 
   useEffect(() => {
-    if (roundDone) {
-      if (currentRound === 10) {
-        const totalScores = sumScores(scoreBoard);
-        const totalResults = sumResults(scoreBoard);
-        const teamData = { results: totalResults, scores: totalScores };
-        const tableData = makeData(teamData);
-        setTotalResult(tableData);
-      }
-    }
-  }, [resultBoard, scoreBoard, roundDone]);
-
-  useEffect(() => {
     if (isSubmitted) soundPlay("submit");
     else soundPlay("click");
   }, [mycard]);
+
+  useEffect(() => {
+    history.push(`/game/info?room=${roomName}&team=${team}&submitted=${isSubmitted}`);
+  }, [isSubmitted]);
 
   const handleToggleRule = () => {
     setIsRuleModal(!isRuleModal);
@@ -252,7 +232,7 @@ const Rule = styled.article`
 `;
 
 const WrapCardsLabel = styled.div`
-  height: 100%;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -269,7 +249,7 @@ const cardAnim = keyframes`
     transform: translate(-50%, 50%);
   }
   100%{
-    transform: translate(-50%, 0%);
+    transform: translate(-50%, 20%);
   }
 `;
 
@@ -279,12 +259,12 @@ const SelectCard = styled.div`
   align-items: center;
 
   position: absolute;
-  bottom: 50%;
-  left: 50%;
+  bottom: 50vh;
+  left: 50vw;
   transform: translate(-50%, 50%);
 
   width: 2.5em;
-  height: 4em;
+  height: 3em;
   border-radius: 10px;
   background-color: ${(props) => (props.name === "X" ? "#c3e8fb" : "#ffb7b7")};
   box-shadow: #c1d0fb 2px 2px 1px 1px;
@@ -300,7 +280,7 @@ const Footer = styled.ul`
   align-items: center;
   position: absolute;
   left: 0vw;
-  bottom: 10%;
+  bottom: 5vh;
   width: 100vw;
   padding: 10px;
   font-weight: 500;

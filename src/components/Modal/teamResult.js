@@ -32,7 +32,7 @@ const SelectCard = styled.div`
   justify-content: center;
   align-items: center;
   width: 2.5em;
-  height: 4em;
+  height: 3em;
   background-color: ${(props) => (props.name === "X" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 2em;
   border-radius: 5px;
@@ -63,8 +63,8 @@ const BackCard = styled.div`
 
 const CardBackGround = styled.img`
   position: absolute;
-  width: 150%;
-  height: 100%;
+  width: 150vw;
+  height: 80vh;
 `;
 
 const WrapCard = styled.div`
@@ -72,9 +72,8 @@ const WrapCard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  width: 40%;
-  height: 100%;
+  width: 30%;
+  height: 30vh;
   p {
     color: #fff;
   }
@@ -155,7 +154,7 @@ const RoundScoreText = styled.p`
 
 const FinishResultButton = styled.button`
   position: absolute;
-  bottom: 30px;
+  bottom: 1rem;
 
   padding: 5px;
   border-radius: 10px;

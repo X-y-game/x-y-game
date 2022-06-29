@@ -38,7 +38,6 @@ export default function Manager() {
     const curResult = info?.results[v];
     if (curResult) return !curResult[curRound - 1]?.includes("");
     return false;
-    // return true; // 테스트용
   };
 
   const handleNextRound = (e) => {
@@ -134,7 +133,30 @@ export default function Manager() {
                       })}
                     </td>
                     <td>{info.curRound[v]}R</td>
-                    <td>{info?.results[v] ? info?.results[v][info.curRound[v] - 1] : null}</td>
+                    <td>
+                      <ul>
+                        <li>
+                          {info?.results[v] && info?.results[v][info.curRound[v] - 1][0]
+                            ? info?.results[v][info.curRound[v] - 1][0]
+                            : "?"}
+                        </li>
+                        <li>
+                          {info?.results[v] && info?.results[v][info.curRound[v] - 1][1]
+                            ? info?.results[v][info.curRound[v] - 1][1]
+                            : "?"}
+                        </li>
+                        <li>
+                          {info?.results[v] && info?.results[v][info.curRound[v] - 1][2]
+                            ? info?.results[v][info.curRound[v] - 1][2]
+                            : "?"}
+                        </li>
+                        <li>
+                          {info?.results[v] && info?.results[v][info.curRound[v] - 1][3]
+                            ? info?.results[v][info.curRound[v] - 1][3]
+                            : "?"}
+                        </li>
+                      </ul>
+                    </td>
                     <td>
                       <button type="button" onClick={handleModal} value={v}>
                         {info.curRound[v] > 0 ? `${info.curRound[v]}R 결과 보기` : "대기"}
@@ -152,77 +174,74 @@ export default function Manager() {
                     </td>
                   </tr>
                   <tr key={`tr2_${v}`}>
-                    <td colSpan="4">
+                    <td colSpan="8">
                       <details>
-                        <summary>카드 선택 정보 펼쳐보기</summary>
-                        <table>
-                          <thead>
-                            <tr>
-                              <td>라운드</td>
-                              <td>1팀</td>
-                              <td>2팀</td>
-                              <td>3팀</td>
-                              <td>4팀</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {info.results[v]?.map((r, i) => {
-                              return (
-                                <tr>
-                                  <td>{i + 1}</td>
-                                  <td>{r[0]}</td>
-                                  <td>{r[1]}</td>
-                                  <td>{r[2]}</td>
-                                  <td>{r[3]}</td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </details>
-                    </td>
-                    <td colSpan="4">
-                      <details>
-                        <summary>라운드 별 점수 펼쳐보기</summary>
-                        <table>
-                          <thead>
-                            <tr>
-                              <td>라운드</td>
-                              <td>1팀</td>
-                              <td>2팀</td>
-                              <td>3팀</td>
-                              <td>4팀</td>
-                              <td>라운드 합계</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {info.scores[v]?.map((s, i) => {
-                              return (
-                                <tr>
-                                  <td>{i + 1}</td>
-                                  <td>{s[0]}</td>
-                                  <td>{s[1]}</td>
-                                  <td>{s[2]}</td>
-                                  <td>{s[3]}</td>
-                                  <td>{s[0] + s[1] + s[2] + s[3]}</td>
-                                </tr>
-                              );
-                            })}
-                            <tr>
-                              <td>총 점</td>
-                              <td>{calcScore(info.scores[v], 1)}</td>
-                              <td>{calcScore(info.scores[v], 2)}</td>
-                              <td>{calcScore(info.scores[v], 3)}</td>
-                              <td>{calcScore(info.scores[v], 4)}</td>
-                              <td>
-                                {calcScore(info.scores[v], 1) +
-                                  calcScore(info.scores[v], 2) +
-                                  calcScore(info.scores[v], 3) +
-                                  calcScore(info.scores[v], 4)}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <summary>게임 상세 정보</summary>
+                        <div>
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>라운드</td>
+                                <td>1팀</td>
+                                <td>2팀</td>
+                                <td>3팀</td>
+                                <td>4팀</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {info.results[v]?.map((r, i) => {
+                                return (
+                                  <tr>
+                                    <td>{i + 1}</td>
+                                    <td>{r[0]}</td>
+                                    <td>{r[1]}</td>
+                                    <td>{r[2]}</td>
+                                    <td>{r[3]}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                          <table>
+                            <thead>
+                              <tr>
+                                <td>라운드</td>
+                                <td>1팀</td>
+                                <td>2팀</td>
+                                <td>3팀</td>
+                                <td>4팀</td>
+                                <td>라운드 합계</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {info.scores[v]?.map((s, i) => {
+                                return (
+                                  <tr>
+                                    <td>{i + 1}</td>
+                                    <td>{s[0]}</td>
+                                    <td>{s[1]}</td>
+                                    <td>{s[2]}</td>
+                                    <td>{s[3]}</td>
+                                    <td>{s[0] + s[1] + s[2] + s[3]}</td>
+                                  </tr>
+                                );
+                              })}
+                              <tr>
+                                <td>총 점</td>
+                                <td>{calcScore(info.scores[v], 1)}</td>
+                                <td>{calcScore(info.scores[v], 2)}</td>
+                                <td>{calcScore(info.scores[v], 3)}</td>
+                                <td>{calcScore(info.scores[v], 4)}</td>
+                                <td>
+                                  {calcScore(info.scores[v], 1) +
+                                    calcScore(info.scores[v], 2) +
+                                    calcScore(info.scores[v], 3) +
+                                    calcScore(info.scores[v], 4)}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </details>
                     </td>
                   </tr>
@@ -237,16 +256,21 @@ export default function Manager() {
 
 const Controller = styled.article`
   padding: 10px;
+  font-size: 1.5rem;
   table {
     padding: 10px;
     margin: 0 auto;
     background-color: #f2f2f2;
     table > thead {
-      font-size: 14px;
+      font-size: 1.6rem;
       background-color: #999999;
       tbody {
-        font-size: 9px;
       }
+    }
+    details > div {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
     }
   }
   thead {
@@ -257,5 +281,10 @@ const Controller = styled.article`
     padding: 2px;
     border: 1px solid #090909;
     background-color: pink;
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
   }
 `;

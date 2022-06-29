@@ -10,7 +10,6 @@ import soundPlay from "../../utils/sound";
 export default function WaitingRoom() {
   const [isReady, setIsReady] = useState(false);
   const [team, setTeam] = useState();
-  const [canStart, setCanStart] = useState(false);
   const [teamList, setTeamList] = useState([]);
 
   const currentRound = useRef(0);
@@ -28,7 +27,7 @@ export default function WaitingRoom() {
 
   const handleStart = () => {
     soundPlay("click");
-    history.push(`/game/info?room=${roomName}&team=${localStorage.getItem("team")}`);
+    history.push(`/game/info?room=${roomName}&team=${localStorage.getItem("team")}&submitted=false`);
   };
 
   useEffect(async () => {
@@ -37,12 +36,8 @@ export default function WaitingRoom() {
     getSocket.on("cur_round", (curRound) => {
       currentRound.current = curRound[roomName];
     });
-    getSocket.on("can_start", (isStart) => {
-      setCanStart(isStart);
-    });
     getSocket.on("setGame", (startedRoom) => {
       if (startedRoom === roomName) {
-        setCanStart(true);
         handleStart();
       }
     });
