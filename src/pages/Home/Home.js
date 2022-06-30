@@ -74,19 +74,7 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   img {
-    width: 30%;
-    @media screen and (max-width: 1000px) {
-      width: 55%;
-      transition: 0.1s;
-    }
-    @media screen and (max-width: 600px) {
-      width: 90%;
-      transition: 0.1s;
-    }
-    @media screen and (max-height: 600px) {
-      width: 30%;
-      transition: 0.1s;
-    }
+    width: 60%;
   }
 `;
 

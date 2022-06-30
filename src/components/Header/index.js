@@ -11,10 +11,10 @@ export default function Header({ title, channel, roomId }) {
     <Title>
       <GoBackButton />
       {location.pathname.includes("channel/") ? (
-        <Infodata>{channel}</Infodata>
+        <Infodata>{channel} 채널</Infodata>
       ) : (
         <Infodata>
-          <Infodata>{roomId}</Infodata>
+          <Infodata>{roomId} 룸</Infodata>
         </Infodata>
       )}
       {title}
@@ -23,15 +23,15 @@ export default function Header({ title, channel, roomId }) {
 }
 
 const Title = styled.h2`
-  margin: 50px 0 50px;
-  padding-bottom: 70px;
+  margin: 1rem 0;
+  padding-bottom: 2rem;
   border-bottom: 1px solid #343a40;
   text-align: center;
-  font-size: 2em;
+  font-size: 2rem;
 `;
 
 const Infodata = styled.header`
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   font-size: 0.5em;
 `;
 

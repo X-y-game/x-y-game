@@ -31,15 +31,16 @@ const SelectCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.5em;
-  height: 3em;
+  width: 6rem;
+  height: 8rem;
+  margin: 0.5rem;
   background-color: ${(props) => (props.name === "X" ? "#c3e8fb" : "#ffb7b7")};
   font-size: 2em;
   border-radius: 5px;
-  @media screen and (min-width: 600px) {
-    width: 2em;
-    height: 3em;
-    font-size: 4em;
+  @media screen and (max-height: 520px) {
+    width: 4rem;
+    height: 6rem;
+    font-size: 2rem;
   }
 `;
 
@@ -63,8 +64,8 @@ const BackCard = styled.div`
 
 const CardBackGround = styled.img`
   position: absolute;
-  width: 150vw;
-  height: 80vh;
+  width: 150%;
+  height: 100%;
 `;
 
 const WrapCard = styled.div`

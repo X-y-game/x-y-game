@@ -204,7 +204,7 @@ export default function Game() {
 
 const InGame = styled.div`
   height: 100%;
-  padding: 20px;
+  padding: 3rem 2rem;
   text-align: center;
   overflow: hidden;
 `;
@@ -280,7 +280,7 @@ const Footer = styled.ul`
   align-items: center;
   position: absolute;
   left: 0vw;
-  bottom: 5vh;
+  bottom: 3rem;
   width: 100vw;
   padding: 10px;
   font-weight: 500;
