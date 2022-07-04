@@ -34,13 +34,19 @@ const CardLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.5em;
-  height: 4em;
+  width: 10rem;
+  height: 12rem;
   margin: 10px;
   border-radius: 10px;
   background-color: #fbf2f2;
   font-size: 48px;
   color: #343a40;
+
+  @media screen and (max-height: 520px) {
+    width: 8rem;
+    height: 10rem;
+    font-size: 2rem;
+  }
 `;
 
 const Card = styled.input.attrs({ type: "radio" })`

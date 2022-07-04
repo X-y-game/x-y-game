@@ -19,8 +19,8 @@ export default function GoBackButton() {
 
 const BackButton = styled.button`
   position: absolute;
-  left: 2px;
-  top: 6vh;
+  left: 5vw;
+  top: 10vh;
   margin-top: -35px;
   border-top: 10px solid transparent;
   border-right: 20px solid #252940;
